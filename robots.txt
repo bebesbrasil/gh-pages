@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://bebesbrasil.com.br/sitemap.xml
