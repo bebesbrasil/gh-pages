@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema para um Aniversário masculino - Bebês Brasil</title>
+    <meta name="description" content="Imagine a emoção de celebrar um aniversário masculino com um tema que capture perfeitamente seus interesses e paixões. Você quer tornar esta ocasião memorável e">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/criancas/" style="color:#ffffff;">Crianças</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Tema para um Aniversário masculino</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Imagine a emoção de celebrar um aniversário masculino com um tema que capture perfeitamente seus interesses e paixões. Você quer tornar esta ocasião memorável e</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2024-07-22" style="color: var(--text-muted);">
+                        22/07/2024 00:13
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/Tema-para-um-aniversario-masculino.webp" alt="Tema para um Aniversário masculino">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Imagine a emoção de celebrar um <strong>aniversário masculino</strong> com um tema que capture perfeitamente seus <strong>interesses e paixões</strong>. Você quer tornar esta ocasião memorável e personalizada apenas para ele. Desde entusiastas de esportes até aventureiros, existem várias opções disponíveis para criar uma <strong>experiência inesquecível</strong> que ele realmente irá apreciar. Não perca a chance de explorar essas ideias emocionantes e elevar a celebração do aniversário a um novo patamar.</p>
+<h2>Festa Esportiva</h2>
+<p>Prepare-se para marcar muitos pontos com uma celebração de aniversário temática de <strong>Esportes Extravagante</strong> para o cara especial da sua vida! Mergulhe no mundo dos esportes transformando seu <strong>espaço de festa</strong> em um <strong>paraíso para amantes de esportes</strong>. Monte o cenário com decorações apresentando as equipes de esportes favoritas dele ou as cores preferidas. Balões, faixas e utensílios de mesa podem ser personalizados para mostrar a paixão dele pelos esportes.</p>
+<p>Planeje atividades que irão fazer com que todos se movimentem e se envolvam. Organize um <strong>mini torneio esportivo</strong> com jogos como basquete, futebol ou até mesmo uma partida amigável de futebol americano. Você também pode organizar uma <strong>competição de perguntas sobre esportes</strong> para testar o conhecimento de todos. Não se esqueça de ter prêmios para os vencedores para adicionar um elemento extra de diversão e competição à celebração.</p>
+<p>Para a comida, pense em <strong>favoritos de estádio</strong> como cachorros-quentes, nachos e pipoca. Você também pode montar um <strong>bar de nachos DIY</strong> ou uma estação de pipoca para os convidados personalizarem seus lanches. E, é claro, nenhuma festa de esportes está completa sem um <strong>bolo ou cupcakes temáticos</strong> para satisfazer a vontade de doces de todos.</p>
+<p>Prepare-se para celebrar com estilo com um Esportes Extravagante que fará com que o aniversário dele seja inesquecível!</p>
+<h2>Festa de Jogos Retrô</h2>
+<p>Transforme a sua festa de aniversário em uma viagem ao passado com o tema <strong>Festa de Jogos Retrô</strong>. Mergulhe na nostalgia dos <strong>clássicos videogames</strong> como Super Mario, Pac-Man e Tetris. Monte diferentes <strong>estações de jogos com consoles retrô</strong> como o NES, Sega Genesis e Atari para os seus convidados se divertirem.</p>
+<p>Decore o local com <strong>arte pixelada</strong>, pôsteres antigos de jogos e balões coloridos para criar uma atmosfera retrô vibrante. Incentive a competição amigável organizando <strong>torneios de jogos com prêmios</strong> para os vencedores. Sirva <strong>petiscos temáticos retrô</strong> como pipoca, pretzels e refrigerante em garrafas de vidro vintage para manter todos energizados para os jogos.</p>
+<p>Você também pode montar um <strong>photobooth caseiro com adereços</strong> inspirados em personagens icônicos de videogames para criar memórias divertidas. Para adicionar um nível extra de emoção, considere organizar uma <strong>sessão de perguntas e respostas sobre jogos retrô</strong> para testar o conhecimento de todos sobre a história dos videogames.</p>
+<p>Não se esqueça de preparar sacolas de lembrancinhas com pequenos itens temáticos retrô de videogames como brindes para os seus convidados levarem para casa. Com o tema Festa de Jogos Retrô, a sua festa de aniversário será um sucesso entre os gamers e entusiastas da nostalgia.</p>
+<h2>Aventureiro</h2>
+<p>Leve a sua celebração de aniversário a novas alturas ao abraçar a emoção do tema <strong>Aventureiro</strong>. Mergulhe em um dia cheio de ação, repleto de emoção e exploração. Comece enviando convites que se assemelham a <strong>mapas do tesouro</strong>, despertando a curiosidade e estabelecendo o tom para a aventura que está por vir. Incentive os convidados a se vestirem como seus exploradores ou aventureiros favoritos, adicionando à experiência imersiva.</p>
+<p>Organize atividades aventureiras, como uma <strong>caça ao tesouro</strong> com pistas escondidas que levam a um prêmio especial de aniversário. Crie uma <strong>área de acampamento</strong> para aqueles que desejam passar a noite sob as estrelas, completa com uma fogueira e uma sessão de contação de histórias. Sirva lanches que alimentem o <strong>espírito de aventura</strong>, como mix de trilhas, barras de energia e cupcakes temáticos.</p>
+<p>Decore o espaço da festa com elementos inspirados na <strong>natureza selvagem</strong> - pense em mapas, bússolas e folhagens artificiais para criar uma sensação de wilderness. Toque músicas aventureiras ao fundo para manter a energia alta e a excitação palpável.</p>
+<p>Com o tema Aventureiro, a sua celebração de aniversário com certeza será uma <strong>jornada épica</strong> que você e seus convidados nunca esquecerão.</p>
+<h2>Sofisticado Soiree</h2>
+<p>Para uma celebração de aniversário refinada e elegante, considere hospedar uma <strong>Soirée Sofisticada</strong> que exala charme e graça. Opte por uma paleta de cores elegante como preto e dourado ou azul marinho e prata para definir o tom. Envie convites que sugiram o <strong>evento requintado</strong> que está por vir, incentivando os convidados a <strong>vestir-se com elegância</strong>. Escolha um local sofisticado como um lounge no terraço, um restaurante chique ou um espaço de eventos elegante para elevar o ambiente.</p>
+<p>Ao planejar o menu, concentre-se em <strong>petiscos elegantes</strong>, queijos artesanais e uma seleção de vinhos finos ou coquetéis artesanais. Considere contratar uma banda de jazz ao vivo ou um quarteto clássico para fornecer entretenimento sofisticado ao longo da noite. Para adicionar um toque pessoal, crie <strong>lembranças personalizadas</strong> como taças de vinho com monograma ou chaveiros gravados para os convidados levarem para casa.</p>
+<p>Por fim, não se esqueça de criar uma <strong>playlist refinada</strong> que complemente a atmosfera e incentive os convidados a se misturarem e dançarem.</p>
+<h2>Churrasco e Festa das Cervejas</h2>
+<p>Considere organizar um <strong>"Churrasco Relaxado com Cervejas"</strong> para uma celebração casual e agradável de aniversário masculino. Acenda a churrasqueira, abra algumas cervejas geladas e reúna seus amigos para uma noite divertida e descontraída. Estabeleça o clima com alguns <strong>pratos clássicos de churrasco</strong> como suculentos hambúrgueres, salsichas grelhadas e frango barbecue picante. Não se esqueça dos acompanhamentos - salada de repolho, milho cozido e salada de batata são complementos perfeitos para o prato principal.</p>
+<p>Crie um <strong>ambiente aconchegante ao ar livre</strong> com <strong>luzes de cordas</strong>, assentos confortáveis e uma mesa rústica de madeira para a comida e bebidas. Toque uma <strong>música animada</strong> ao fundo para manter o clima animado. Incentive os convidados a trazerem suas cervejas artesanais favoritas para compartilhar, criando uma seleção diversificada para todos desfrutarem.</p>
+<p>Para entretenimento, monte <strong>jogos de gramado</strong> como cornhole ou ferraduras para competição amigável. Conforme o sol se põe, reúna-se ao redor de uma <strong>fogueira para assar marshmallows</strong> e compartilhar histórias.</p>
+<p>Um Churrasco Relaxado com Cervejas é a maneira perfeita de celebrar um aniversário masculino de forma descontraída e memorável.</p>
+<h2>Loucura de Noite de Cinema</h2>
+<p>Prepare-se para mergulhar em uma noite de <strong>emoção cinematográfica</strong> com o <strong>Cinema da Noite Louca</strong>! Pegue sua pipoca, diminua as luzes e fique confortável para uma <strong>maratona de filmes inesquecível</strong>.</p>
+<p>Seja você fã de blockbusters cheios de ação, comédias românticas tocantes ou thrillers arrepiantes, há algo para todos nesta extravagância de cinema.</p>
+<p>Comece criando uma <strong>atmosfera aconchegante</strong> com cobertores, almofadas e luzinhas para ambientar a experiência perfeita de assistir a filmes. Escolha uma seleção de filmes que atendam aos gostos diversificados de seus convidados, garantindo que haja algo para manter todos entretidos durante a noite.</p>
+<p>Considere montar um <strong>bar de pipoca DIY</strong> com uma variedade de coberturas como caramelo, queijo e chocolate para uma experiência de lanche divertida e interativa.</p>
+<p>Não se esqueça de fornecer <strong>bebidas revigorantes</strong> e doces para manter todos satisfeitos durante a maratona de filmes.</p>
+<h2>Perguntas Frequentes</h2>
+<h3>Quais são algumas ideias populares de presentes para uma festa de aniversário masculina?</h3>
+<p>Para uma festa de aniversário masculina, considere ideias de presentes populares como gadgets de tecnologia, acessórios estilosos, itens relacionados a hobbies ou cartões-presente. Adapte o presente aos interesses dele para um presente atencioso que mostra que você se importa.</p>
+<h3>Como posso incorporar um tema nas decorações da festa?</h3>
+<p>Imagine suas decorações como uma tela em branco esperando por uma obra-prima. Comece escolhendo um tema que reflita os interesses ou hobbies da pessoa aniversariante. Incorpore cores, padrões e adereços que representem o tema para um visual coeso.</p>
+<h3>Há Algumas Atividades Divertidas Adequadas para uma Celebração de Aniversário Masculino?</h3>
+<p>Para uma celebração de aniversário masculina, considere atividades como jogos esportivos, um churrasco ou um torneio de pôquer. Mantenha o ambiente descontraído e agradável com música e boa companhia. Adapte as atividades aos interesses da pessoa aniversariante para um evento memorável.</p>
+<h3>Quais são algumas maneiras únicas de personalizar as lembrancinhas da festa?</h3>
+<p>Para personalizar lembrancinhas de festa, considere personalizar itens com os nomes ou iniciais dos convidados. Adicionar adesivos, fitas ou tags temáticas também pode tornar as lembrancinhas únicas. Doces personalizados como balas ou mini garrafinhas adicionam um toque especial.</p>
+<h3>Como posso criar uma experiência memorável para os convidados na festa?</h3>
+<p>Para criar uma experiência memorável para seus convidados na festa, concentre-se em atividades interativas, toques personalizados e detalhes pensativos. Envolver seus convidados com jogos, música e uma atmosfera acolhedora para garantir uma celebração divertida.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

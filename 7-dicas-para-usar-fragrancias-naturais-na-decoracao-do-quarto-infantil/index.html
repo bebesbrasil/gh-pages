@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7 Dicas para usar fragrâncias naturais na decoração do quarto infantil - Bebês Brasil</title>
+    <meta name="description" content="Descubra 7 dicas para usar fragrâncias naturais e criar um quarto infantil aconchegante, saudável e cheio de charme. Aproveite já!">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/uncategorized/" style="color:#ffffff;">Outros</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">7 Dicas para usar fragrâncias naturais na decoração do quarto infantil</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Descubra 7 dicas para usar fragrâncias naturais e criar um quarto infantil aconchegante, saudável e cheio de charme. Aproveite já!</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2026-04-16" style="color: var(--text-muted);">
+                        16/04/2026 00:00
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/7-dicas-para-usar-fragrancias-naturais-na-decoracao-do-quarto-infantil.jpg" alt="7 Dicas para usar fragrâncias naturais na decoração do quarto infantil">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Criar um ambiente acolhedor, tranquilo e saud&aacute;vel no <strong>quarto infantil</strong> &eacute; essencial para o bem-estar das crian&ccedil;as. Al&eacute;m da escolha de m&oacute;veis, cores e ilumina&ccedil;&atilde;o, o uso de <strong>fragr&acirc;ncias naturais</strong> pode transformar o espa&ccedil;o, tornando-o mais convidativo e relaxante.</p>
+<p>Diferente dos aromatizantes artificiais, as ess&ecirc;ncias naturais oferecem benef&iacute;cios tanto para a sa&uacute;de quanto para o conforto emocional dos pequenos, ajudando a promover o sono e melhorar o humor.</p>
+<p>A seguir, apresentamos <strong>7 dicas excelentes</strong> para incorporar fragr&acirc;ncias naturais na decora&ccedil;&atilde;o do quarto infantil, valorizando a harmonia do espa&ccedil;o e a seguran&ccedil;a dos pequenos.</p>
+<h2>1. Escolha Ess&ecirc;ncias Suaves E Seguras Para Crian&ccedil;as</h2>
+<p>Ao optar por fragr&acirc;ncias naturais, &eacute; fundamental considerar a <strong>seguran&ccedil;a</strong> das crian&ccedil;as. Muitas ess&ecirc;ncias podem ser muito fortes ou at&eacute; mesmo irritantes para o sistema respirat&oacute;rio sens&iacute;vel dos pequenos. Portanto, priorize aromas suaves e conhecidos por seus efeitos calmantes, como lavanda, camomila ou baunilha.</p>
+<h3>Aromas recomendados para o quarto infantil:</h3>
+<p>- <strong>Lavanda</strong>: acalma e ajuda a melhorar a qualidade do sono.</p>
+<p>- <strong>Camomila</strong>: promove relaxamento e reduz a ansiedade.</p>
+<p>- <strong>Baunilha</strong>: cria um ambiente acolhedor e confort&aacute;vel.</p>
+<p>Evite fragr&acirc;ncias muito intensas ou que possam desencadear alergias, sempre observando a rea&ccedil;&atilde;o da crian&ccedil;a &agrave;s ess&ecirc;ncias utilizadas.</p>
+<h2>2. Use Sach&ecirc;s E Almofadas Arom&aacute;ticas Para Decorar</h2>
+<p>Uma forma pr&aacute;tica e charmosa de adicionar fragr&acirc;ncias naturais ao quarto &eacute; usando <strong>sach&ecirc;s arom&aacute;ticos</strong> e <strong>almofadas perfumadas</strong>. Eles podem ser posicionados em gavetas, prateleiras, ber&ccedil;os ou cadeiras, proporcionando um aroma sutil e cont&iacute;nuo.</p>
+<h3>Vantagens dos sach&ecirc;s e almofadas arom&aacute;ticas:</h3>
+<p>- F&aacute;cil reposi&ccedil;&atilde;o e manuten&ccedil;&atilde;o.</p>
+<p>- Decora&ccedil;&atilde;o delicada e personalizada.</p>
+<p>- Libera&ccedil;&atilde;o gradual da fragr&acirc;ncia, sem exageros.</p>
+<p>Para preparar sach&ecirc;s, basta colocar ervas secas ou flores perfumadas dentro de pequenos saquinhos de tecido. Algumas boas op&ccedil;&otilde;es de ervas s&atilde;o lavanda, alecrim e camomila.</p>
+<h2>3. Aposte Em Difusores Naturais Com &Oacute;leos Essenciais</h2>
+<p>Os <strong>difusores de &oacute;leos essenciais</strong> s&atilde;o uma alternativa elegante para aromatizar o quarto, combinando design e funcionalidade. Escolha modelos silenciosos e com temporizadores para que o aroma n&atilde;o fique constante, evitando a satura&ccedil;&atilde;o do ambiente.</p>
+<h3>Como usar difusores com seguran&ccedil;a:</h3>
+<p>- Utilize apenas &oacute;leos essenciais puros e espec&iacute;ficos para crian&ccedil;as.</p>
+<p>- Dilua os &oacute;leos em &aacute;gua, respeitando a dosagem recomendada.</p>
+<p>- Evite o uso pr&oacute;ximo ao ber&ccedil;o ou &aacute;reas onde a crian&ccedil;a passe muito tempo.</p>
+<p>O <a href="https://cheirobomloja.com.br/fragrancias/alecrim-blanc.html" target="_blank" rel="noopener">cheiro de alecrim</a>, por exemplo, &eacute; revigorante e pode ser usado em pequenas quantidades para estimular a concentra&ccedil;&atilde;o e a disposi&ccedil;&atilde;o durante o dia.</p>
+<h2>4. Incorpore Plantas Arom&aacute;ticas No Quarto</h2>
+<p>Plantas naturais n&atilde;o s&oacute; purificam o ar como tamb&eacute;m liberam aromas suaves que complementam a decora&ccedil;&atilde;o. Plantas como hortel&atilde;, manjeric&atilde;o e lavanda s&atilde;o &oacute;timas op&ccedil;&otilde;es para o <strong>quarto infantil</strong>, desde que posicionadas em locais seguros, fora do alcance das crian&ccedil;as.</p>
+<h3>Benef&iacute;cios das plantas arom&aacute;ticas:</h3>
+<p>- Melhoram a qualidade do ar, reduzindo toxinas.</p>
+<p>- Criam conex&atilde;o com a natureza, estimulando o aprendizado.</p>
+<p>- Oferecem aromas naturais sem risco de produtos qu&iacute;micos.</p>
+<p>Al&eacute;m disso, cuidar das plantas pode ser uma atividade divertida e educativa para os pequenos.</p>
+<h2>5. Utilize Velas Arom&aacute;ticas Naturais Com Cuidado</h2>
+<p>Velas feitas com cera natural, como a de soja ou abelha, e com ess&ecirc;ncias naturais podem ser usadas para criar um ambiente acolhedor durante momentos especiais, como a hora da leitura ou antes de dormir. Entretanto, o uso deve ser sempre acompanhado por um adulto e por per&iacute;odos curtos para garantir a seguran&ccedil;a.</p>
+<h3>Dicas para o uso de velas arom&aacute;ticas:</h3>
+<p>- Prefira sempre velas sem corantes e com fragr&acirc;ncias naturais.</p>
+<p>- Nunca deixe a vela acesa sem supervis&atilde;o.</p>
+<p>- Apague a vela antes que a crian&ccedil;a entre no quarto.</p>
+<p>Velas naturais tamb&eacute;m contribuem para a decora&ccedil;&atilde;o, com formatos e cores que combinam com o estilo do ambiente.</p>
+<h2>6. Fa&ccedil;a Misturas Personalizadas De Ervas Secas Para Aromatizar</h2>
+<p>Criar suas pr&oacute;prias misturas de ervas secas &eacute; uma maneira criativa e econ&ocirc;mica de personalizar a fragr&acirc;ncia do quarto infantil. Combine ervas como lavanda, camomila, e folhas de eucalipto para obter aromas &uacute;nicos e agrad&aacute;veis.</p>
+<h3>Como preparar misturas arom&aacute;ticas:</h3>
+<p>- Seque as ervas em local arejado e protegido da luz direta.</p>
+<p>- Misture as ervas em propor&ccedil;&otilde;es que agradem ao olfato sem exageros.</p>
+<p>- Disponha a mistura em potes abertos, cestos ou saquinhos de tecido.</p>
+<p>Essa t&eacute;cnica tamb&eacute;m permite ajustar a intensidade da fragr&acirc;ncia de acordo com a necessidade do momento.</p>
+<h2>7. Crie Rotinas Arom&aacute;ticas Para O Sono E O Relaxamento</h2>
+<p>O uso de fragr&acirc;ncias naturais pode ser integrado &agrave;s rotinas di&aacute;rias, ajudando a sinalizar para a crian&ccedil;a que &eacute; hora de desacelerar e preparar-se para o sono. Perfumar o quarto com ess&ecirc;ncias relaxantes pouco antes de dormir pode criar uma associa&ccedil;&atilde;o positiva, facilitando o descanso.</p>
+<h3>Exemplos de rotinas arom&aacute;ticas:</h3>
+<p>- Pulverizar um spray natural com lavanda no travesseiro.</p>
+<p>- Acender um difusor com &oacute;leo essencial de camomila durante a leitura.</p>
+<p>- Colocar uma almofada arom&aacute;tica com ervas relaxantes perto da cama.</p>
+<p>Essas pr&aacute;ticas auxiliam no desenvolvimento de bons h&aacute;bitos de sono e promovem um ambiente emocionalmente equilibrado.</p>
+<p>---</p>
+<h2>Considera&ccedil;&otilde;es Finais Sobre O Uso De Fragr&acirc;ncias Naturais No Quarto Infantil</h2>
+<p>O uso de <strong>fragr&acirc;ncias naturais</strong> na decora&ccedil;&atilde;o do quarto infantil &eacute; uma excelente forma de unir beleza, funcionalidade e bem-estar. Ao escolher ess&ecirc;ncias suaves, seguras e adequadas ao universo das crian&ccedil;as, &eacute; poss&iacute;vel criar um espa&ccedil;o que estimula o relaxamento, a concentra&ccedil;&atilde;o e o conforto.</p>
+<p>Al&eacute;m disso, incorporar elementos naturais como plantas, sach&ecirc;s e misturas de ervas contribui para uma decora&ccedil;&atilde;o mais sustent&aacute;vel e personalizada, promovendo um contato maior das crian&ccedil;as com a natureza desde cedo.</p>
+<p>Lembre-se sempre de observar as rea&ccedil;&otilde;es da crian&ccedil;a diante das ess&ecirc;ncias escolhidas, garantindo que o ambiente seja um ref&uacute;gio de tranquilidade e sa&uacute;de para toda a fam&iacute;lia.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vestido de Batizado: Tradições e Significados por Trás das Roupas para Este Momento Especial - Bebês Brasil</title>
+    <meta name="description" content="
+O vestido de batizado é muito mais do que uma simples peça de roupa; é um símbolo carregado de tradição e significado. Este traje especial representa a pureza ">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/bebes/" style="color:#ffffff;">Bebês</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Vestido de Batizado: Tradições e Significados por Trás das Roupas para Este Momento Especial</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">
+O vestido de batizado é muito mais do que uma simples peça de roupa; é um símbolo carregado de tradição e significado. Este traje especial representa a pureza </p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2024-08-29" style="color: var(--text-muted);">
+                        29/08/2024 13:42
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/roupa-batizado.jpg" alt="Vestido de Batizado: Tradições e Significados por Trás das Roupas para Este Momento Especial">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p><!-- wp:paragraph --></p>
+<p>O vestido de batizado é muito mais do que uma simples peça de roupa; é um símbolo carregado de tradição e significado. Este traje especial representa a pureza e o novo começo, tecendo uma narrativa silenciosa, mas poderosa.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Cada detalhe, do tecido à cor, carrega consigo séculos de tradição e espiritualidade. A escolha deste vestido é um ato de reverência, unindo o passado ao presente em um momento de profunda significância.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Desvendar os códigos ocultos nesta vestimenta é embarcar em uma jornada fascinante através da história e da fé, onde cada costura conta uma história de renovação e esperança.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>A História do Vestido de Batizado</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Historicamente, a tradição de usar roupas especiais para o batizado remonta aos primeiros dias do cristianismo. Nos primórdios, as pessoas eram batizadas em rios ou fontes, vestindo suas roupas cotidianas, que se tornavam símbolos de purificação ao serem imersas na água.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Com o tempo, a prática evoluiu para a utilização de vestes brancas, que simbolizam a nova vida e a transformação espiritual que ocorre durante o batismo. Essa evolução reflete não apenas mudanças nas práticas religiosas, mas também na moda e nas expectativas sociais em relação ao que as crianças devem vestir em ocasiões especiais.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Nos dias de hoje, embora o vestido branco continue sendo a escolha predominante, há uma maior flexibilidade em relação às cores e estilos. Muitas famílias optam por vestidos em tons claros, como creme, rosa-claro ou azul-bebê, que ainda mantêm a essência de pureza e inocência, mas adicionam um toque pessoal e contemporâneo.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Essa mudança demonstra como as tradições podem ser adaptadas para atender às preferências modernas, permitindo que as famílias expressem sua individualidade enquanto ainda honram a importância do sacramento.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>Significados e Simbolismos por Trás do Vestido</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>O <a href="https://www.petitpapillon.com.br/batizado/vestido-de-batizado" target="_blank" rel="noreferrer noopener">vestido batizado</a> carrega um profundo simbolismo dentro da tradição cristã, especialmente no contexto do batismo católico. </p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>A escolha do vestido, geralmente em tons de branco, representa a <em>pureza</em>, a <em>inocência</em> e a <em>nova vida</em> que o batizado simboliza. Essa cor é tradicionalmente associada à ideia de que a criança está sendo purificada do pecado original e se unindo à comunidade cristã.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Assim, o vestido não é apenas uma peça de vestuário, mas um símbolo da aliança entre a criança e Deus, marcando o início de sua jornada espiritual. Além do simbolismo da cor, o vestido de batizado também pode incluir detalhes que reforçam essa conexão espiritual. Elementos como cruzes, peixes e outros símbolos cristãos frequentemente adornam as vestes, acrescentando um significado adicional à roupa.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Esses detalhes não apenas embelezam a peça, mas também servem como lembretes visuais da fé que a criança está prestes a receber. O vestido, portanto, torna-se um elo entre a tradição religiosa e a celebração da vida, refletindo a importância do sacramento na vida da criança e da família.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>O Vestido como Herança Familiar</strong></p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Outro aspecto significativo da <a href="https://www.petitpapillon.com.br/batizado" target="_blank" rel="noreferrer noopener">roupa de batizado</a> é seu papel como um item de herança familiar. Muitas famílias escolhem manter o vestido de batizado em boas condições para que possa ser usado por irmãos, primos ou outras crianças da família em suas respectivas cerimônias. </p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Essa prática não apenas reforça os laços familiares, mas também adiciona uma camada de significado emocional ao vestido, transformando-o em um símbolo de união e continuidade. Cada batizado se torna uma nova oportunidade de celebrar a história e a fé da família, com o vestido servindo como um elo tangível entre gerações.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>A ideia de passar o vestido de batizado de uma geração para outra reflete a importância do sacramento na vida da família. Cada criança que usa o vestido não apenas se conecta com sua própria história, mas também com a história de seus antepassados, criando um sentimento de pertencimento e identidade.&nbsp;&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>Tradições de Diversas Culturas</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3 class="wp-block-heading">Cultura Muçulmana</h3>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Na cultura muçulmana, não há uma tradição específica de vestido de batizado, pois o batismo não é um sacramento reconhecido no Islã. Em vez disso, a cerimônia de nomeação do <a href="http://bebesbrasil.com.br/">bebê</a>, conhecida como <em>Aqiqah</em>, é celebrada entre o 7º e o 14º dia após o nascimento.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Durante essa cerimônia, o bebê é nomeado e seu cabelo é cortado, simbolizando sua entrada na comunidade muçulmana. Embora não haja um vestido especial para essa ocasião, as famílias muçulmanas geralmente vestem seus bebês com roupas bonitas e tradicionais, como <em>Kaftans</em> ou <em>Dishdasha</em>, para marcar a importância do evento.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3 class="wp-block-heading">Cultura Judaica</h3>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>No judaísmo, a cerimônia de nomeação do menino é conhecida como <em>Brit Milah</em> (Aliança da Circuncisão) e ocorre no 8º dia após o nascimento.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Durante essa cerimônia, o bebê é circuncidado e recebe seu nome. Para as meninas, a cerimônia de nomeação geralmente acontece durante uma leitura da Torá na sinagoga, alguns dias após o nascimento.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Embora não haja uma tradição específica de vestido de batizado, as famílias judaicas vestem seus bebês com roupas bonitas e tradicionais, como <em>Kippah</em> (chapéu) para os meninos e <em>Shabbat</em> (vestido de Shabat) para as meninas, para marcar a importância da cerimônia.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3 class="wp-block-heading">Cultura Africana</h3>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Nas culturas africanas tradicionais, a nomeação do bebê é um evento muito importante, marcado por cerimônias e rituais únicos em cada povo. Por exemplo, entre os povos Batooro, Banyoro, Bataku, Batagwenda e Banyabindi de Uganda, existe o ritual <em>Empaako</em>, no qual os anciãos da comunidade dão ao bebê um nome especial.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Apesar de não haver uma tradição específica de vestido de batizado, as famílias africanas geralmente vestem seus bebês com roupas bonitas e tradicionais, como <em>Kente</em> (tecido tradicional de Ghana) ou <em>Dashiki</em> (blusa tradicional da Nigéria), para marcar a importância da cerimônia.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3 class="wp-block-heading">Cultura Hindu</h3>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Na cultura hindu, o <em>Namkarana</em> (cerimônia de nomeação) é realizado entre o 11º e o 41º dia após o nascimento, dependendo da região. Durante essa cerimônia, o bebê recebe seu nome e é apresentado à comunidade.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Embora não haja uma tradição específica de vestido de batizado, as famílias hindus geralmente vestem seus bebês com roupas bonitas e tradicionais, como <em>Kurta</em> (camisa longa) ou <em>Saree</em> (vestido tradicional), para marcar a importância da cerimônia.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>Cuidados e Manutenção do Vestido após o Batizado</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Após o batizado, recomenda-se que o vestido seja lavado o mais rápido possível. Entretanto, deve-se tomar cuidado com o tipo de limpeza a ser realizada. Muitos <strong>vestidos de batizado</strong> são confeccionados com tecidos delicados, que exigem cuidados especiais.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>A partir deste ponto, a limpeza a seco é uma opção ideal, pois ajuda a remover manchas sem danificar o tecido.&nbsp;&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Quando o vestido for removido após a cerimônia, deve-se colocá-lo em um local limpo e seco. Isso evita que sujeira adicional se acumule ou que o tecido fique exposto à umidade, o que pode causar mofo.&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>O vestido deve ser pendurado em um cabide acolchoado, se possível, para evitar marcas indesejadas. Outra opção é colocá-lo em uma caixa de armazenamento livre de ácido, ideal para a preservação a longo prazo.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Depois de limpo e seco, o vestido deve ser cuidadosamente dobrado. O ideal é utilizar papel seda entre as camadas do vestido para evitar que o tecido grude ou se amasse. Isso preserva a textura e o formato original da peça.&nbsp;&nbsp;</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Em relação ao armazenamento, deve-se também considerar o ambiente em que a caixa com o vestido será colocada. Se as condições de umidade forem altas, pode haver necessidade de desumidificadores ou pacotes de sílica, que ajudam a absorver a umidade do ar e proteger a roupa. Por outro lado, para evitar ações excessivas de traças ou insetos, pode-se utilizar sprays repelentes de insetos, desde que não sejam agressivos aos tecidos da roupa.</p>
+<p>
+<!-- /wp:paragraph --></p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shampoo De Bebê: O Que Levar Em Conta Na Hora De Escolher - Bebês Brasil</title>
+    <meta name="description" content="
+Quando se trata de escolher um xampu para bebês, é preciso levar em conta vários fatores importantes que podem afetar a pele delicada do seu filho. Não se trat">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/criancas/" style="color:#ffffff;">Crianças</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Shampoo De Bebê: O Que Levar Em Conta Na Hora De Escolher</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">
+Quando se trata de escolher um xampu para bebês, é preciso levar em conta vários fatores importantes que podem afetar a pele delicada do seu filho. Não se trat</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-02-09" style="color: var(--text-muted);">
+                        09/02/2025 13:08
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/Shampoo-De-Bebe-1.jpg" alt="Shampoo De Bebê: O Que Levar Em Conta Na Hora De Escolher">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p><!-- wp:paragraph --></p>
+<p>Quando se trata de escolher um xampu para bebês, é preciso levar em conta vários fatores importantes que podem afetar a pele delicada do seu filho. Não se trata apenas da marca; trata-se de entender os ingredientes, o equilíbrio do pH e as necessidades específicas. Você pode pensar que todos os xampus são iguais, mas isso não poderia estar mais longe da verdade. Então, o que você realmente deve procurar para garantir uma experiência de banho suave e segura? Vamos investigar o essencial.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Entendendo a Pele Sensível Do Bebê</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Quando você se torna pai ou mãe, entender a pele sensível do bebê é essencial para assegurar seu conforto e saúde. A pele do seu pequeno é mais fina e delicada do que a sua, tornando-a propensa a irritações e alergias.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Por isso, escolher produtos adequados é importante. Ao selecionar um shampoo, leve em conta que ele deve ser hipoalergênico e livre de substâncias agressivas. Evite fragrâncias fortes e corantes, pois esses podem causar reações indesejadas.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Além do mais, procure fórmulas que mantenham a hidratação natural da pele. Testar o produto em uma pequena área da pele pode ajudar a assegurar que ele seja seguro. Lembre-se de que o conforto do seu bebê deve sempre ser a sua prioridade.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Ingredientes a serem evitados</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Ao escolher um shampoo para o seu bebê, é fundamental prestar atenção aos ingredientes que você deve evitar.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Fique longe de sulfatos, que podem ressecar a pele delicada e os cabelos finos. Parabenos, frequentemente usados como conservantes, também são problemáticos, pois podem causar irritações. Fragrâncias artificiais são outra armadilha; elas podem desencadear alergias e desconforto. Ademais, evite colorantes sintéticos, que não trazem benefícios e podem irritar a pele.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Outro ingrediente a evitar é o álcool, que pode ser agressivo e ressecante. Finalmente, escolha produtos sem ftalatos, já que sua segurança é questionável. Sempre opte por fórmulas suaves e naturais para assegurar a saúde e o bem-estar do seu pequeno.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">A Importância Do Ph Neutro</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>A escolha de um <a href="https://shampooseestilo.com/">shampoo com pH neutro</a> é crucial para assegurar a saúde do couro cabeludo e dos cabelos do seu bebê.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>O pH neutro, que gira em torno de 7, ajuda a manter a barreira protetora natural da pele. Isso é especialmente importante, pois o couro cabeludo do seu bebê é delicado e mais suscetível a irritações. Usar produtos com pH inadequado pode causar ressecamento, coceira e até alergias.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Além do mais, um shampoo com pH neutro limpa suavemente, sem remover os óleos naturais essenciais. Ao escolher, sempre verifique o rótulo e priorize opções que respeitem essa faixa de pH. Com isso, você garante que os cabelos e a pele do seu pequeno fiquem saudáveis e bem cuidados.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:image {"id":272,"sizeSlug":"large","linkDestination":"none"} --></p>
+<figure class="wp-block-image size-large"><img src="/static/uploads/Shampoo-De-Bebe-1024x1024.jpg" alt="" class="wp-image-272"/></figure>
+<p>
+<!-- /wp:image --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Fórmulas Hipoalergênicas</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Escolher fórmulas hipoalergênicas é outra etapa importante na seleção do shampoo ideal para o seu bebê. Esses produtos são desenvolvidos para minimizar o risco de reações alérgicas, tornando-os uma escolha segura para peles sensíveis. Ao optar por um shampoo hipoalergênico, você garante que ingredientes irritantes e alérgicos sejam evitados, proporcionando um banho mais tranquilo.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Verifique sempre se o produto possui testes dermatológicos que comprovem sua segurança. Ademais, observe a lista de ingredientes e evite aqueles que são conhecidos por causar irritações. Um shampoo hipoalergênico não só protege a pele delicada do seu filho, mas também facilita a hora do banho, tornando-a uma experiência agradável e sem preocupações.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Produtos Sem Fragrância</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Optar por produtos sem fragrância é uma excelente maneira de proteger a pele sensível do seu bebê. Fragrâncias artificiais podem causar irritações e reações alérgicas, especialmente em recém-nascidos e crianças pequenas.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Ao escolher shampoos sem perfume, você minimiza esses riscos e garante que a limpeza do cabelo do seu filho seja suave e segura. Além do mais, esses produtos costumam ser formulados com ingredientes mais simples e naturais, o que é uma ótima vantagem para a saúde da pele.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Fique atento aos rótulos e busque opções que enfatizem ser livres de fragrâncias. Isso não só ajuda a evitar problemas, mas também proporciona um banho mais tranquilo e agradável para você e seu bebê. Mantenha a rotina de cuidados simples e segura!</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Testes dermatológicos e oftalmológicos</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Procurar por shampoos que passaram por testes dermatológicos e oftalmológicos é uma etapa importante na escolha do produto certo para o seu bebê. Esses testes garantem que o shampoo é seguro para a pele sensível e os olhos delicados do seu pequeno. Produtos que foram submetidos a essas avaliações geralmente apresentam menos riscos de reações alérgicas e irritações.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Ademais, eles tendem a ser formulados com ingredientes mais suaves, que não agridem a pele ou os olhos. Ao optar por shampoos testados, você proporciona uma experiência mais tranquila durante o banho, evitando desconfortos. Sempre verifique os rótulos e procure certificações que indiquem esses testes. Isso é fundamental para manter a saúde e o bem-estar do seu bebê.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Opções Naturais E Orgânicas</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Shampoos naturais e orgânicos têm ganhado destaque na rotina de cuidados com os bebês, oferecendo uma alternativa suave e segura.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Ao escolher um shampoo, você deve procurar por ingredientes como aloe vera, camomila e óleos essenciais, que são conhecidos por suas propriedades calmantes e nutritivas. Esses produtos são livres de sulfatos e parabenos, reduzindo o risco de irritações na pele sensível do seu pequeno.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Ademais, muitos shampoos orgânicos são feitos com ingredientes de origem sustentável, o que é uma vantagem para o meio ambiente. Lembre-se de sempre ler os rótulos e verificar a certificação orgânica. Optar por esse tipo de shampoo pode proporcionar uma limpeza eficaz sem agredir a pele do bebê, garantindo um banho mais saudável e seguro.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Necessidades Específicas De Cada Faixa Etária</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Ao considerar shampoos naturais e orgânicos, é importante lembrar que as necessidades dos bebês variam conforme a faixa etária. Para recém-nascidos, escolha um shampoo ultra suave, sem fragrâncias e aditivos, já que a pele deles é extremamente sensível.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>À medida que seu bebê cresce, por volta dos 6 meses, você pode optar por produtos que contenham ingredientes hidratantes, ajudando a lidar com o couro cabeludo seco. Para crianças maiores, entre 2 e 5 anos, considere fórmulas que combatam a oleosidade e promovam brilho, uma vez que os cabelos e o couro cabeludo se desenvolvem.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Ademais, sempre verifique se o produto é livre de sulfatos e parabenos, promovendo uma limpeza segura e eficaz para cada fase do crescimento.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Dicas Para a Aplicação Segura Do Shampoo</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Embora aplicar shampoo possa parecer uma tarefa simples, seguir algumas dicas de segurança pode tornar o processo mais fácil e confortável para seu bebê.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Primeiro, escolha um local seguro, como a pia ou o banheiro, onde você possa manter seu bebê seguro. Use uma toalha para apoiar a cabeça dele e evitar escorregões. Quando aplicar o shampoo, comece pelo topo da cabeça e espalhe suavemente, evitando os olhos. Se o shampoo entrar em contato com os olhos, enxágue imediatamente com água limpa.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Ademais, mantenha tudo que você precisa à mão, para não deixar seu bebê sozinho. Fique atento às reações da pele e, se notar irritação, troque de produto. Assim, você garante um banho tranquilo e seguro!</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Conclusao</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Ao escolher um xampu para bebês, sempre priorize a pele sensível do seu filho. Procure fórmulas hipoalergênicas, livres de produtos químicos agressivos, com pH neutro para manter a pele saudável. Opte por produtos sem fragrâncias sintéticas e considere opções naturais que incluam ingredientes calmantes. Lembre-se de verificar se há testes dermatológicos e oftalmológicos para garantir a segurança. Ao prestar atenção a esses detalhes, você pode criar uma experiência de banho suave e agradável para o seu bebê, mantendo a pele dele feliz e protegida.</p>
+<p>
+<!-- /wp:paragraph --></p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

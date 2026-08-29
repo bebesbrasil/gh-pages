@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dicas para aproveitar Veneza com crianças: diversão garantida - Bebês Brasil</title>
+    <meta name="description" content="Descubra dicas imperdíveis para curtir Veneza com crianças e garantir diversão e momentos inesquecíveis em família!">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/educacao/" style="color:#ffffff;">Educação</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Dicas para aproveitar Veneza com crianças: diversão garantida</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Descubra dicas imperdíveis para curtir Veneza com crianças e garantir diversão e momentos inesquecíveis em família!</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2026-06-02" style="color: var(--text-muted);">
+                        02/06/2026 00:00
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/dicas-para-aproveitar-veneza-com-criancas-diversao-garantida.jpg" alt="Dicas para aproveitar Veneza com crianças: diversão garantida">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Viajar para Veneza com crian&ccedil;as pode ser uma experi&ecirc;ncia incr&iacute;vel e cheia de encantos. A cidade italiana, famosa por seus canais, pontes e arquitetura &uacute;nica, oferece muito mais do que paisagens rom&acirc;nticas para casais &mdash; &eacute; um destino repleto de atividades que encantam os pequenos. Para garantir que toda a fam&iacute;lia aproveite ao m&aacute;ximo, &eacute; essencial planejar passeios que unam divers&atilde;o, aprendizado e conforto. A seguir, confira&nbsp;<a href="https://siganaviagem.com/europa/italia/veneza/o-que-fazer-em-veneza/" target="_blank" rel="noopener"><strong>O Que Fazer Em Veneza</strong></a>, com dicas valiosas para curtir Veneza com crian&ccedil;as de forma pr&aacute;tica e inesquec&iacute;vel.</p>
+<h2>Por Que Escolher Veneza Para Viajar Com Crian&ccedil;as?</h2>
+<p>Veneza possui um charme singular que encanta pessoas de todas as idades. Para as crian&ccedil;as, a cidade &eacute; como um cen&aacute;rio de conto de fadas, com suas g&ocirc;ndolas deslizando pelos canais e ruas estreitas que parecem labirintos m&aacute;gicos. Al&eacute;m disso, a atmosfera tranquila, a aus&ecirc;ncia de carros e a possibilidade de caminhar ou andar de barco tornam o passeio mais seguro e agrad&aacute;vel para as fam&iacute;lias.</p>
+<p>Outro ponto positivo &eacute; a variedade de atra&ccedil;&otilde;es culturais e recreativas que incentivam a curiosidade dos pequenos. Museus interativos, parques e eventos tem&aacute;ticos s&atilde;o &oacute;timas op&ccedil;&otilde;es para manter o interesse das crian&ccedil;as durante a viagem.</p>
+<h2>Como Preparar A Viagem Para Veneza Com Crian&ccedil;as</h2>
+<h3>Escolha da hospedagem</h3>
+<p>Optar por uma acomoda&ccedil;&atilde;o estrat&eacute;gica &eacute; fundamental para facilitar os deslocamentos e evitar cansa&ccedil;o excessivo. Hot&eacute;is e apartamentos localizados pr&oacute;ximos &agrave; <strong>Piazza San Marco</strong> ou &agrave; <strong>esta&ccedil;&atilde;o Santa Lucia</strong> s&atilde;o ideais, pois permitem acesso r&aacute;pido aos principais pontos tur&iacute;sticos e aos transportes p&uacute;blicos aqu&aacute;ticos, como os vaporetos.</p>
+<p>Al&eacute;m disso, verifique se o local oferece facilidades para crian&ccedil;as, como ber&ccedil;os, &aacute;reas de lazer ou cozinha equipada, para garantir mais conforto durante a estadia.</p>
+<h3>Planejamento do roteiro</h3>
+<p>Montar um roteiro equilibrado &eacute; essencial para que as crian&ccedil;as aproveitem sem ficarem sobrecarregadas. Intercalar passeios culturais com momentos de descanso, paradas para lanche e atividades recreativas ajuda a manter o entusiasmo.</p>
+<p>Aproveite a manh&atilde; para visitar atra&ccedil;&otilde;es mais movimentadas e reserve o per&iacute;odo da tarde para espa&ccedil;os ao ar livre, como parques ou passeios de barco, que permitem que os pequenos gastem energia e se divirtam.</p>
+<h3>Cuidados com alimenta&ccedil;&atilde;o</h3>
+<p>Veneza oferece uma culin&aacute;ria rica e diversificada, mas pode ser que as crian&ccedil;as sejam mais seletivas. Levar alguns lanchinhos na mochila e identificar restaurantes com op&ccedil;&otilde;es de pratos infantis ajuda a evitar imprevistos.</p>
+<p>Vale a pena experimentar as pizzas, massas e gelatos, que costumam agradar o paladar dos pequenos. Restaurantes com ambiente descontra&iacute;do e menus especiais para crian&ccedil;as garantem uma experi&ecirc;ncia agrad&aacute;vel para toda a fam&iacute;lia.</p>
+<h2>Atividades Imperd&iacute;veis Para Crian&ccedil;as Em Veneza</h2>
+<h3>Passeio de g&ocirc;ndola: uma aventura &uacute;nica</h3>
+<p>Um dos passeios mais emblem&aacute;ticos da cidade &eacute; o trajeto de g&ocirc;ndola pelos canais. Para as crian&ccedil;as, essa experi&ecirc;ncia &eacute; como entrar em um barco m&aacute;gico que desliza suavemente por entre pontes e constru&ccedil;&otilde;es hist&oacute;ricas.</p>
+<p>Al&eacute;m de ser uma atividade divertida, o passeio oferece uma vista privilegiada da cidade, despertando o interesse dos pequenos pela arquitetura e pela hist&oacute;ria local. &Eacute; importante lembrar que o passeio pode ser caro, ent&atilde;o vale a pena negociar o tempo e o roteiro com os gondoleiros.</p>
+<h3>Visita ao Museu da Marinha e da Navega&ccedil;&atilde;o</h3>
+<p>O <strong>Museu da Marinha e da Navega&ccedil;&atilde;o</strong> &eacute; uma &oacute;tima op&ccedil;&atilde;o para crian&ccedil;as que gostam de barcos e aventuras mar&iacute;timas. Com exposi&ccedil;&otilde;es interativas e modelos de embarca&ccedil;&otilde;es, o museu apresenta de maneira l&uacute;dica a import&acirc;ncia dos canais e da navega&ccedil;&atilde;o para Veneza.</p>
+<p>As crian&ccedil;as podem aprender sobre a constru&ccedil;&atilde;o das embarca&ccedil;&otilde;es e a vida dos marinheiros de forma envolvente, tornando o passeio educativo e divertido.</p>
+<h3>Descobrir a Pra&ccedil;a San Marco e a Bas&iacute;lica</h3>
+<p>A <strong>Piazza San Marco</strong> &eacute; o cora&ccedil;&atilde;o de Veneza e um lugar fascinante para as crian&ccedil;as correrem e observarem os pombos que habitam a pra&ccedil;a. A impon&ecirc;ncia da <strong>Bas&iacute;lica de S&atilde;o Marcos</strong> desperta a curiosidade com seus mosaicos coloridos e detalhes arquitet&ocirc;nicos.</p>
+<p>Al&eacute;m disso, subir na Torre do Rel&oacute;gio oferece uma vista panor&acirc;mica da cidade, o que pode ser uma experi&ecirc;ncia emocionante para os pequenos aventureiros.</p>
+<h3>Passeio de vaporetto pelos canais</h3>
+<p>O <strong>vaporetto</strong> &eacute; o transporte p&uacute;blico aqu&aacute;tico que percorre os principais canais de Veneza. Andar de vaporetto &eacute; uma atividade que agrada bastante as crian&ccedil;as, pois permite que elas vejam a cidade de um &acirc;ngulo diferente, enquanto se sentem como verdadeiros navegadores.</p>
+<p>Escolha rotas que passem por pontos tur&iacute;sticos interessantes e aproveite para fazer paradas estrat&eacute;gicas em bairros menos movimentados, proporcionando momentos de tranquilidade.</p>
+<h3>Visitar a Ilha de Murano e suas f&aacute;bricas de vidro</h3>
+<p>A curta viagem at&eacute; a Ilha de Murano &eacute; uma excelente op&ccedil;&atilde;o para uma excurs&atilde;o em fam&iacute;lia. Conhecida mundialmente pela produ&ccedil;&atilde;o de vidro art&iacute;stico, a ilha oferece a oportunidade de assistir a demonstra&ccedil;&otilde;es ao vivo da fabrica&ccedil;&atilde;o do vidro.</p>
+<p>As crian&ccedil;as ficam encantadas ao ver o processo de transforma&ccedil;&atilde;o do material em pe&ccedil;as coloridas e delicadas. Al&eacute;m disso, Murano &eacute; uma ilha tranquila, com ruas charmosas e restaurantes acolhedores.</p>
+<h3>Brincar no Giardini della Biennale</h3>
+<p>O <strong>Giardini della Biennale</strong> &eacute; um parque p&uacute;blico que oferece espa&ccedil;os verdes ideais para as crian&ccedil;as correrem e brincarem ap&oacute;s um dia de passeios. O local tamb&eacute;m &eacute; sede de exposi&ccedil;&otilde;es de arte contempor&acirc;nea, o que pode ser interessante para os pequenos que gostam de atividades culturais.</p>
+<p>H&aacute; &aacute;reas de lazer e bancos para descanso, tornando o parque um ponto de parada perfeito para recarregar as energias.</p>
+<h2>Dicas Pr&aacute;ticas Para Viajar Com Crian&ccedil;as Em Veneza</h2>
+<h3>Evite hor&aacute;rios de pico</h3>
+<p>Veneza pode ficar bastante cheia, especialmente durante a alta temporada. Para evitar filas e multid&otilde;es, planeje visitas a atra&ccedil;&otilde;es tur&iacute;sticas logo pela manh&atilde; ou no final da tarde.</p>
+<p>Isso ajuda a reduzir o estresse dos pequenos e permite que a fam&iacute;lia aproveite os passeios com mais tranquilidade.</p>
+<h3>Use cal&ccedil;ados confort&aacute;veis</h3>
+<p>As ruas de Veneza s&atilde;o feitas de pedras irregulares e h&aacute; muitas pontes com degraus. Usar cal&ccedil;ados confort&aacute;veis e antiderrapantes &eacute; fundamental para garantir seguran&ccedil;a e conforto para as crian&ccedil;as e adultos.</p>
+<p>Leve tamb&eacute;m capas de chuva ou guarda-chuvas, pois o clima pode ser inst&aacute;vel.</p>
+<h3>Tenha sempre &aacute;gua e lanches &agrave; m&atilde;o</h3>
+<p>Manter as crian&ccedil;as hidratadas e alimentadas durante os passeios evita desconfortos e crises de cansa&ccedil;o. Carregue uma garrafinha de &aacute;gua e pequenos lanches para momentos em que n&atilde;o seja poss&iacute;vel parar para refei&ccedil;&otilde;es completas.</p>
+<h3>Prepare-se para andar bastante</h3>
+<p>Veneza &eacute; uma cidade para ser apreciada a p&eacute;, e as crian&ccedil;as precisam estar preparadas para caminhar longas dist&acirc;ncias. Para os menores, um carrinho pode ser &uacute;til, mas atente-se &agrave;s escadas e pontes, onde ser&aacute; necess&aacute;rio carreg&aacute;-lo.</p>
+<h3>Cuide da seguran&ccedil;a</h3>
+<p>Apesar de ser uma cidade segura, os canais exigem aten&ccedil;&atilde;o redobrada com crian&ccedil;as pequenas. Mantenha os pequenos sempre perto e evite que corram pr&oacute;ximo &agrave;s &aacute;guas.</p>
+<h3>Aproveite eventos infantis e oficinas</h3>
+<p>Durante o ano, Veneza oferece eventos culturais e oficinas voltadas para crian&ccedil;as, como aulas de m&aacute;scaras venezianas e atividades de conta&ccedil;&atilde;o de hist&oacute;rias. Fique atento &agrave; programa&ccedil;&atilde;o local para incluir essas experi&ecirc;ncias no roteiro.</p>
+<h2>Gastronomia Que Agrada As Crian&ccedil;as</h2>
+<p>A culin&aacute;ria veneziana &eacute; rica e saborosa, mas para os pequenos, pratos simples costumam fazer sucesso. Pizzas finas, massas com molhos leves e o famoso gelato italiano s&atilde;o escolhas certeiras para agradar ao paladar infantil.</p>
+<p>Muitos restaurantes oferecem menus infantis e espa&ccedil;os dedicados para fam&iacute;lias, o que torna as refei&ccedil;&otilde;es momentos tranquilos e prazerosos.</p>
+<h2>O Que Fazer Em Veneza: Sugest&otilde;es Para Toda A Fam&iacute;lia</h2>
+<p>Entre as in&uacute;meras op&ccedil;&otilde;es, algumas se destacam para garantir que a viagem seja divertida e inesquec&iacute;vel para as crian&ccedil;as:</p>
+<p>- <strong>Passeio de g&ocirc;ndola</strong> para sentir a magia dos canais.</p>
+<p>- Visita ao <strong>Museu da Marinha e da Navega&ccedil;&atilde;o</strong> para aprender de forma interativa.</p>
+<p>- Explorar a <strong>Pra&ccedil;a San Marco</strong> e sua bas&iacute;lica imponente.</p>
+<p>- Andar de <strong>vaporetto</strong> para descobrir a cidade a partir da &aacute;gua.</p>
+<p>- Excurs&atilde;o &agrave; <strong>Ilha de Murano</strong> para ver a arte do vidro.</p>
+<p>- Brincar e descansar nos <strong>Giardini della Biennale</strong>.</p>
+<p>Essas experi&ecirc;ncias equilibram lazer e cultura, garantindo divers&atilde;o para todas as idades.</p>
+<h2>Conclus&atilde;o</h2>
+<p>Veneza &eacute; um destino encantador que pode se transformar em um verdadeiro parque de divers&otilde;es para as crian&ccedil;as, desde que o planejamento seja cuidadoso e as atividades escolhidas com aten&ccedil;&atilde;o &agrave;s necessidades dos pequenos. Com as dicas certas, toda a fam&iacute;lia pode vivenciar momentos m&aacute;gicos, descobrindo a hist&oacute;ria, a arte e a beleza desta cidade &uacute;nica.</p>
+<p>Aproveitar cada canto de Veneza com crian&ccedil;as &eacute; criar mem&oacute;rias inesquec&iacute;veis, onde divers&atilde;o e aprendizado caminham juntos em meio aos canais e pontes que fazem desse lugar um cen&aacute;rio de sonhos para todas as idades.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

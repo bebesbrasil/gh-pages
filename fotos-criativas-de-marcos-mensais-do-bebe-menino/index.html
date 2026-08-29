@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fotos Criativas de Marcos Mensais do Bebê Menino - Bebês Brasil</title>
+    <meta name="description" content="Se você está preocupado em ficar sem ideias frescas para imortalizar os marcos mensais do seu bebê do sexo masculino de uma maneira criativa, não se preocupe. D">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/bebes/" style="color:#ffffff;">Bebês</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Fotos Criativas de Marcos Mensais do Bebê Menino</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Se você está preocupado em ficar sem ideias frescas para imortalizar os marcos mensais do seu bebê do sexo masculino de uma maneira criativa, não se preocupe. D</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2024-07-22" style="color: var(--text-muted);">
+                        22/07/2024 00:12
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/Fotos-Criativas-de-Marcos-Mensais-do-Bebe-Menino.jpg" alt="Fotos Criativas de Marcos Mensais do Bebê Menino">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Se você está preocupado em ficar sem ideias frescas para imortalizar os marcos mensais do seu bebê do sexo masculino de uma maneira criativa, não se preocupe. Descobrir novos temas envolventes para comemorar cada marco pode dar nova vida à sua coleção de fotos. De aventuras encantadoras ao ar livre a cantinhos de berçário cheios de fantasia, as possibilidades são infinitas. Essas fotos fascinantes não apenas documentam o crescimento do seu bebê, mas também fornecem uma linha do tempo visual de momentos preciosos que você vai apreciar para sempre. Então, por que não explorar o maravilhoso mundo dos ensaios fotográficos criativos de bebês para capturar esses momentos fugazes de uma maneira verdadeiramente memorável?</p>
+<h2>Aventuras ao Ar Livre</h2>
+<p>Prepare-se para explorar a natureza com o seu pequeno à medida que ele atinge os seus marcos mensais! Levar o seu bebê para fora pode ser uma maneira maravilhosa de estimular os seus sentidos e incentivar o seu desenvolvimento. Conforme ele cresce, você notará que ele está mais consciente do seu entorno e demonstrando interesse por novas visões e sons.</p>
+<p>Seja sentindo a brisa no rosto, ouvindo os pássaros cantar ou observando as folhas se mexendo ao vento, cada aventura ao ar livre será uma nova experiência de aprendizado para ele.</p>
+<p>Introduzir o seu bebê à natureza desde cedo também pode ajudar a cultivar um amor pelo ar livre à medida que ele cresce. Você pode começar com atividades simples, como dar um passeio no parque, fazer um piquenique no quintal ou simplesmente sentar do lado de fora e observar o mundo ao seu redor.</p>
+<p>Essas experiências não só beneficiarão o desenvolvimento do seu bebê, mas também criarão momentos especiais de ligação entre vocês dois. Então, pegue uma manta, faça um lanche e saia para criar memórias duradouras com o seu pequeno explorador!</p>
+<h2>Cantinhos da Creche</h2>
+<p>À medida que o seu bebê cresce e explora o exterior, é hora de criar cantinhos aconchegantes e convidativos no berçário para descanso e brincadeira. Estes cantos especiais no quarto do seu bebê servem como refúgios seguros tanto para relaxamento quanto para aventuras imaginativas.</p>
+<p>Comece selecionando uma cadeira de balanço confortável ou poltrona para aquelas mamadas noturnas ou carinhosos abraços. Adicione um tapete macio e felpudo para criar uma área de brincadeira quente e convidativa onde o seu pequenino possa engatinhar e brincar.</p>
+<p>Considere incorporar uma estante com livros de capa dura coloridos para sessões interativas de contação de histórias. Um conjunto de mesa e cadeira pequeno e resistente pode fornecer um espaço designado para artes e artesanato conforme o seu bebê cresce. Decore as paredes com impressões ou adesivos lúdicos para estimular os sentidos visuais do seu bebê e despertar a criatividade.</p>
+<p>Não se esqueça de incluir um berço ou moisés aconchegante com roupas de cama macias para sestas tranquilas. Personalize o cantinho do berçário com o nome ou iniciais do seu bebê na parede para um toque de calor e familiaridade.</p>
+<p>Com esses toques atenciosos, o seu cantinho no berçário se tornará um espaço querido para o vínculo e o tempo de brincadeira com o seu bebê em crescimento.</p>
+<h2>Surpresas sazonais</h2>
+<p>Decorar o seu <strong>cantinho do berçário</strong> com <strong>surpresas sazonais</strong> pode adicionar um toque de fantasia e festividade ao espaço do seu bebê. Incorporar elementos como adesivos de parede temáticos sazonais, mobiles ou roupa de cama pode facilmente transformar a atmosfera do quarto.</p>
+<p>Durante os meses mais quentes, opte por <strong>cores vibrantes e frescas</strong> como azuis e verdes pastel para criar uma sensação leve e arejada. Considere pendurar lanternas de papel ou usar arranjos florais para trazer a essência da primavera para dentro de casa.</p>
+<p>À medida que o tempo esfria, troque por <strong>tecidos aconchegantes</strong> como mantas de tricô ou lençóis de flanela em tons de outono quentes como laranja queimado ou vermelho profundo. Adicionar <strong>pequenos toques sazonais</strong> como uma pequena abóbora ou um guirlanda de flocos de neve pode causar um grande impacto sem sobrecarregar o quarto.</p>
+<p>Lembre-se de <strong>priorizar a segurança</strong> ao decorar, garantindo que toda a decoração sazonal esteja firmemente fixada e fora do alcance do seu pequeno. Ao incorporar surpresas sazonais no seu cantinho do berçário, você pode criar um espaço encantador e sempre em mudança para o seu bebê desfrutar.</p>
+<h2>Travessuras Animais</h2>
+<p>Transforme o quarto do seu bebê em um espaço lúdico e divertido com <strong>animais em ação</strong> como tema. Incorpore <strong>estampas de animais adoráveis</strong>, como elefantes fofos, macaquinhos sapecas e leões amigáveis, na decoração. Pendure <strong>móbiles coloridos</strong> com uma variedade de animais acima do berço para cativar a atenção do seu pequeno.</p>
+<p>Introduza <strong>bichinhos de pelúcia</strong> de todas as formas e tamanhos por todo o quarto para criar uma atmosfera aconchegante e convidativa. Uma girafa de pelúcia no canto ou um coelhinho fofo na cadeira de balanço podem adicionar um toque de charme ao espaço. Considere um <strong>tapete de tema animal lúdico</strong> para unir o ambiente e proporcionar um local macio para o tempo de brincadeira.</p>
+<p>Para um toque pessoal, decore as paredes com <strong>arte de animais emoldurada</strong> ou adesivos. Escolha ilustrações vibrantes de animais em poses divertidas para estimular a imaginação do seu bebê. Além disso, selecione conjuntos de roupa de cama com designs de animais fofinhos para completar o visual e tornar a hora de dormir ainda mais divertida.</p>
+<h2>Espectáculo Desportivo</h2>
+<p>Prepare-se para capturar o seu pequeno atleta em ação!</p>
+<p>Poses de bebê atléticas, <strong>Adereços temáticos esportivos</strong> e <strong>Ambientes cheios de ação</strong> farão das suas fotos de bebê um verdadeiro sucesso.</p>
+<p>Mostre o espírito esportivo do seu pequeno campeão com essas ideias divertidas e dinâmicas.</p>
+<h3>Poses de bebê atlético</h3>
+<p>Explore poses de bebê atléticas divertidas e envolventes em nossa seção <strong>Espectáculo Desportivo</strong> para incentivar o desenvolvimento físico do seu pequeno. Prepare-se para capturar momentos adoráveis do seu bebê em poses cheias de ação que mostram o seu potencial atlético em crescimento.</p>
+<p>Estimule a força e coordenação do seu bebê com poses como a '<strong>Mini Ginasta</strong>', onde o seu pequeno pode se esticar e alcançar as estrelas.</p>
+<p>Experimente a pose do '<strong>Pequeno Craque de Futebol</strong>', onde o seu bebê pode chutar uma bola macia, promovendo os músculos das pernas e coordenação.</p>
+<p>Para uma abordagem mais divertida, tente a pose do '<strong>Pequeno Profissional de Basquetebol</strong>', onde o seu bebê pode segurar uma bola de basquetebol pequena e praticar a coordenação olho-mão.</p>
+<p>A pose do '<strong>Pequeno Nadador</strong>' é perfeita para os bebês de água, permitindo que eles flutuem de costas com suporte, promovendo o amor por atividades aquáticas.</p>
+<p>Lembre-se sempre de priorizar a segurança e conforto do seu bebê durante essas poses.</p>
+<p>Com essas poses atléticas para bebês, você pode capturar momentos preciosos do desenvolvimento físico do seu pequeno enquanto cria <strong>memórias duradouras</strong>.</p>
+<h3>Requisitos com tema desportivo</h3>
+<p>Aprimore as poses esportivas do seu bebê com uma variedade de adereços temáticos esportivos em nossa seção <strong>Esporte Espetacular</strong>. Eleve o ensaio fotográfico do seu pequeno incorporando adereços como <strong>mini bolas de basquete</strong>, capacetes de futebol americano, luvas de beisebol ou bolas de futebol. Esses adereços podem adicionar um toque de emoção e brincadeira às fotos de <strong>marcos mensais do seu bebê</strong>.</p>
+<p>Considere vestir seu bebê com <strong>camisetas esportivas pequenas</strong> ou roupas atléticas para complementar os adereços temáticos esportivos. Essa combinação pode criar imagens adoráveis e memoráveis que capturam o entusiasmo esportivo do seu bebê.</p>
+<p>Você também pode usar <strong>equipamentos esportivos</strong> como raquetes de tênis, tacos de golfe ou luvas de boxe para aprimorar o tema geral e adicionar um toque único às fotos.</p>
+<p>Para um toque <strong>personalizado</strong>, inclua adereços relacionados ao seu time esportivo favorito ou evento esportivo. Seja um mini troféu de campeonato ou uma bandeira de pennant, esses adereços podem destacar o espírito esportivo da sua família e tornar o ensaio fotográfico ainda mais especial.</p>
+<p>Deixe seu bebê mostrar seu lado esportivo com esses adereços temáticos esportivos divertidos e envolventes.</p>
+<h3>Ambientes repletos de ação</h3>
+<p>Mergulhe o seu bebê em cenários dinâmicos e envolventes com temática esportiva para capturar momentos inesquecíveis na nossa seção <strong>Esportes Espetaculares</strong>. Seja em uma <strong>pequena quadra de basquete</strong> com uma cesta do tamanho deles ou em um mini campo de futebol completo com traves, essas <strong>montagens cheias de ação</strong> vão adicionar empolgação às fotos dos <strong>marcos mensais do seu bebê</strong>.</p>
+<p>Crie o cenário com adereços como <strong>equipamentos esportivos em miniatura</strong> - pense em pequenos tacos de beisebol, capacetes de futebol americano ou bolas de futebol. Vista o seu pequeno atleta com adoráveis <strong>roupas temáticas de esporte</strong> para completar o visual.</p>
+<p>Capture o seu bebê driblando uma bola de basquete, chutando uma bola de futebol ou dando tacadas com um taco de golfe em fotos cheias de ação que mostram o <strong>talento esportivo em desenvolvimento</strong>.</p>
+<p>Para um toque mais criativo, considere incorporar cenários ou murais com tema esportivo. Você também pode usar adereços como pompons, dedos de espuma ou flâmulas para aprimorar a atmosfera esportiva.</p>
+<p>Com o cenário e os adereços certos, você pode criar fotos que celebram o amor do seu bebê pelos esportes e que se tornarão lembranças memoráveis dos marcos mensais.</p>
+<h2>Diversão gastronômica</h2>
+<p>Aos seis meses de idade do seu bebê, introduza uma variedade de sabores e texturas em sua dieta para incentivar hábitos alimentares saudáveis. Comece oferecendo frutas <strong>amassadas</strong> como maçãs, <strong>bananas</strong> e peras. Essas opções não são apenas saborosas, mas também ricas em <strong>vitaminas e minerais essenciais</strong> para o crescimento do seu pequeno. Vegetais como batata doce, <strong>cenouras</strong> e ervilhas são ótimas adições às refeições, fornecendo fibra e nutrientes.</p>
+<p>Experimente diferentes combinações de ingredientes para criar novos sabores emocionantes para o seu bebê desfrutar. Considere misturar frutas com iogurte ou misturar legumes juntos para criar purês coloridos. Lembre-se de introduzir novos alimentos um de cada vez para <strong>monitorar possíveis alergias</strong>.</p>
+<p>Estimule os sentidos do seu bebê permitindo que eles toquem e <strong>explorem diferentes texturas</strong>, desde purês cremosos até legumes cozidos macios. Incentive a auto-alimentação oferecendo pequenos pedaços de comida fáceis de segurar para que eles possam experimentar de forma independente. Tornar as refeições divertidas e interativas pode ajudar a promover uma relação positiva com a comida desde cedo.</p>
+<h2>Perguntas Frequentes</h2>
+<h3>Como posso envolver os irmãos na sessão de fotos do primeiro aniversário do bebê?</h3>
+<p>Para envolver os irmãos na sessão de fotos do primeiro aniversário do bebê, faça com que eles segurem as mãos do bebê, criem uma pirâmide humana ou assoprem bolhas juntos. Incentive interações naturais e sorrisos genuínos para fotos emocionantes.</p>
+<h3>Existem algumas dicas de segurança a considerar ao tirar fotos ao ar livre?</h3>
+<p>Ao tirar fotos ao ar livre, sempre priorize a segurança. Esteja atento a possíveis perigos como terreno irregular ou luz solar intensa. Mantenha seus modelos hidratados e protegidos dos elementos. Lembre-se, uma sessão de fotos segura é uma sessão bem-sucedida.</p>
+<h3>Quais são alguns temas únicos para uma sessão de fotos do primeiro aniversário de um menino?</h3>
+<p>Para a sessão de fotos de primeiro aniversário de um menino, considere temas como 'selvagem', 'pequeno explorador' ou 'brinquedos vintage'. Esses conceitos únicos podem adicionar um toque especial às fotos e criar memórias duradouras para a sua família.</p>
+<h3>Posso incluir animais de estimação na sessão de fotos do primeiro aniversário de um menino?</h3>
+<p>Sim, você pode incluir animais de estimação na sessão de fotos para o primeiro aniversário de um menino. Isso pode adicionar um elemento doce e brincalhão às fotos, criando memórias preciosas para os próximos anos. Apenas garanta a segurança e o conforto tanto do bebê quanto dos animais de estimação.</p>
+<h3>Como posso incorporar elementos culturais ou tradicionais na sessão de fotos?</h3>
+<p>Para infundir elementos culturais ou tradicionais na sessão de fotos, considere incorporar adereços ou trajes simbólicos. Abraçar a sua herança através de cores, padrões ou objetos que tenham significado. Deixe que esses elementos contem uma história e adicionem profundidade às suas fotografias.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

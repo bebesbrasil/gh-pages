@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema Mensal Mickey - Bebês Brasil</title>
+    <meta name="description" content="Voc&#234; pode ter ouvido falar do Mickey do Tema Mensal&#044; uma iniciativa criativa que d&#225; nova vida ao ic&#244;nico personagem a cada m&#234;s. N&#227;">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/atividades/" style="color:#ffffff;">Atividades</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Tema Mensal Mickey</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Voc&#234; pode ter ouvido falar do Mickey do Tema Mensal&#044; uma iniciativa criativa que d&#225; nova vida ao ic&#244;nico personagem a cada m&#234;s. N&#227;</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2024-08-04" style="color: var(--text-muted);">
+                        04/08/2024 23:13
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+
+        
+
+        <div class="post-content">
+            <p>Voc&#234; pode ter ouvido falar do <strong>Mickey do Tema Mensal</strong>&#044; uma iniciativa criativa que d&#225; nova vida ao ic&#244;nico personagem a cada m&#234;s. N&#227;o se trata apenas de nostalgia&#059; &#233; uma oportunidade para f&#227;s como voc&#234; se envolverem em <strong>eventos &#250;nicos</strong> e conseguir <strong>mercadorias exclusivas</strong>. Imagine participar de uma ca&#231;a ao tesouro tem&#225;tica ou de uma festa dan&#231;ante que celebra o legado do Mickey. Mas h&#225; mais nessa iniciativa do que aparenta&#8212;o que acontece quando voc&#234; explora maneiras de incorporar o Mickey em sua vida di&#225;ria&#063;</p>
+<h2>Vis&#227;o Geral do Tema Mensal Mickey</h2>
+<p>Tema Mensal Mickey traz um conceito fresco e envolvente para os f&#227;s da Disney&#044; oferecendo uma experi&#234;ncia &#250;nica que muda a cada m&#234;s.</p>
+<p>Voc&#234; descobrir&#225; como essa iniciativa captura a ess&#234;ncia da <strong>magia da Disney</strong>&#044; criando uma atmosfera vibrante que faz voc&#234; voltar sempre para mais. Cada m&#234;s apresenta um <strong>novo tema</strong>&#044; permitindo que voc&#234; explore diferentes aspectos da rica narrativa da Disney.</p>
+<p>Ao se imergir nas ofertas mensais&#044; voc&#234; encontrar&#225; <strong>eventos exclusivos</strong>&#044; atividades e experi&#234;ncias adaptadas ao tema. Seja celebrando um <strong>personagem cl&#225;ssico</strong> ou mergulhando em um filme querido&#044; sempre h&#225; algo especial aguardando por voc&#234;.</p>
+<p>Voc&#234; notar&#225; que cada tema convida voc&#234; a participar ativamente&#044; tornando sua visita mais do que uma experi&#234;ncia passiva.</p>
+<p>Voc&#234; pode esperar surpresas a cada esquina&#044; seja <strong>decora&#231;&#245;es tem&#225;ticas</strong>&#044; oportunidades &#250;nicas para fotos ou <strong>performances envolventes</strong>. Esta iniciativa n&#227;o s&#243; aprimora sua visita&#044; mas tamb&#233;m promove um senso de comunidade entre os entusiastas da Disney.</p>
+<p>Voc&#234; compartilhar&#225; sua empolga&#231;&#227;o e experi&#234;ncias&#044; criando <strong>mem&#243;rias duradouras</strong> juntos. Ent&#227;o&#044; &#224; medida que cada m&#234;s chega&#044; prepare-se para abra&#231;ar a magia do <strong>Tema Mensal Mickey</strong> e descobrir quais surpresas encantadoras o aguardam&#033;</p>
+<h2>Destaques Mensais de Mercadorias</h2>
+<p>A cada m&#234;s&#044; voc&#234; encontrar&#225; <strong>mercadorias exclusivas</strong> que complementam perfeitamente o tema&#044; oferecendo itens &#250;nicos que voc&#234; n&#227;o vai querer perder.</p>
+<p>A cole&#231;&#227;o deste m&#234;s apresenta uma fant&#225;stica variedade de <strong>produtos tem&#225;ticos do Mickey</strong> que atendem a f&#227;s de todas as idades. Voc&#234; pode adquirir <strong>roupas de edi&#231;&#227;o limitada</strong>&#044; incluindo camisetas e moletons&#044; adornados com designs ic&#244;nicos do Mickey que fazem uma declara&#231;&#227;o ousada.</p>
+<p>N&#227;o se esque&#231;a de conferir os <strong>acess&#243;rios ador&#225;veis</strong>&#044; como chaveiros&#044; pins e bon&#233;s&#044; que adicionam um toque divertido ao seu estilo di&#225;rio. Se voc&#234; est&#225; procurando embelezar sua casa&#044; vai adorar a <strong>decora&#231;&#227;o tem&#225;tica para o lar</strong>&#044; desde almofadas aconchegantes at&#233; artes de parede vibrantes que celebram o charme do Mickey.</p>
+<p>Para colecionadores&#044; as <strong>figurinhas exclusivas</strong> e os brinquedos de pel&#250;cia s&#227;o itens indispens&#225;veis. Esses produtos n&#227;o apenas capturam o esp&#237;rito brincalh&#227;o do Mickey&#044; mas tamb&#233;m servem como &#243;timos iniciadores de conversa. E lembre-se&#044; as quantidades s&#227;o limitadas&#044; ent&#227;o voc&#234; vai querer agir r&#225;pido para garantir seus favoritos.</p>
+<p>Por fim&#044; fique atento &#224;s <strong>ofertas surpresa</strong> e pacotes que oferecem <strong>&#243;timo valor</strong>. Com tanto para explorar&#044; voc&#234; definitivamente vai querer se imergir na sele&#231;&#227;o de mercadorias deste m&#234;s e encontrar algo especial para levar para casa&#033;</p>
+<h2>Eventos e Atividades Especiais</h2>
+<p>Prepare-se para uma programa&#231;&#227;o de eventos e atividades especiais empolgantes que trazem a magia do Mickey &#224; vida neste m&#234;s&#033;</p>
+<p>Primeiro&#044; voc&#234; n&#227;o vai querer perder a <strong>ca&#231;a ao tesouro tem&#225;tica do Mickey</strong>. Re&#250;na seus amigos e familiares&#044; pegue seu mapa e parta em uma miss&#227;o para encontrar os <strong>Mickeys escondidos</strong> espalhados pelo parque. &#201; uma maneira divertida de explorar e criar mem&#243;rias juntos&#033;</p>
+<p>Em seguida&#044; participe da <strong>festa de dan&#231;a do Mickey</strong> que acontece todos os s&#225;bados. Voc&#234; pode mostrar seus melhores passos ao lado de personagens queridos enquanto aproveita <strong>m&#250;sicas energ&#233;ticas</strong> que far&#227;o todos sorrirem. Esta &#233; uma &#243;tima oportunidade para conhecer outros f&#227;s e fazer novos amigos&#033;</p>
+<p>Se voc&#234; est&#225; se sentindo criativo&#044; n&#227;o perca os <strong>workshops de artesanato</strong> que ser&#227;o realizados ao longo do m&#234;s. Voc&#234; criar&#225; suas pr&#243;prias <strong>pe&#231;as de arte inspiradas no Mickey</strong> para levar para casa&#044; adicionando um toque pessoal &#224; sua cole&#231;&#227;o.</p>
+<p>Por fim&#044; marque no seu calend&#225;rio o desfile especial &#8220;Mickey Atrav&#233;s das Eras&#8221;&#044; com carros aleg&#243;ricos que celebram os momentos ic&#244;nicos do Mickey. Testemunhe a magia enquanto <strong>acena para seus personagens favoritos</strong>.</p>
+<p>Esses eventos e atividades certamente adicionar&#227;o alegria extra ao seu m&#234;s&#044; ent&#227;o n&#227;o deixe que eles passem despercebidos&#033;</p>
+<h2>Ideias de Decora&#231;&#227;o para Casa</h2>
+<p>Transformar seu espa&#231;o com decora&#231;&#227;o inspirada no Mickey pode trazer um toque de capricho e nostalgia para sua casa. Seja voc&#234; um f&#227; de longa data ou apenas procurando por acentos divertidos&#044; h&#225; muitas maneiras de incorporar o Mickey na sua decora&#231;&#227;o.</p>
+<p>Comece adicionando alguns elementos-chave que podem instantaneamente elevar seu espa&#231;o. Aqui est&#227;o algumas ideias para voc&#234; come&#231;ar&#058;</p>
+<ul>
+<li><strong>Arte de Parede do Mickey</strong>&#058; Pendure impress&#245;es ou artes em tela apresentando o Mickey e seus amigos para criar um ponto focal vibrante em qualquer c&#244;modo.</li>
+<li><strong>Almofadas Tem&#225;ticas</strong>&#058; Use almofadas adornadas com motivos do Mickey para adicionar cor e conforto ao seu sof&#225; ou cama.</li>
+<li><strong>Figuras de Personagens</strong>&#058; Coloque figuras em prateleiras ou mesas de centro para um toque l&#250;dico que desperta conversas.</li>
+<li><strong>Decora&#231;&#227;o com Orelhas do Mickey</strong>&#058; Incorpore orelhas decorativas do Mickey em lugares inesperados&#044; como na sua parede ou como parte de uma guirlanda.</li>
+</ul>
+<p>Com essas ideias&#044; voc&#234; pode infundir facilmente sua casa com a magia do Mickey&#044; fazendo com que cada dia pare&#231;a um pouco mais especial.</p>
+<h2>Como se Envolver</h2>
+<p>Participar da divers&#227;o de <strong>eventos tem&#225;ticos do Mickey</strong> e comunidades traz um senso de <strong>camaradagem e empolga&#231;&#227;o</strong> para f&#227;s de todas as idades. Para se envolver&#044; comece participando de eventos locais tem&#225;ticos do Mickey&#044; como festas ou encontros. Pesquise online por hor&#225;rios e locais&#044; e n&#227;o hesite em convidar amigos para se juntarem&#033;</p>
+<p>Voc&#234; tamb&#233;m pode ingressar em <strong>grupos de m&#237;dia social</strong> dedicados aos f&#227;s do Mickey Mouse. Essas plataformas oferecem uma oportunidade para compartilhar seu amor pelo Mickey&#044; trocar ideias e se conectar com outros que compartilham sua paix&#227;o. Participar de discuss&#245;es e compartilhar suas pr&#243;prias experi&#234;ncias enriquecer&#225; seu envolvimento.</p>
+<p>Considere se voluntariar para <strong>institui&#231;&#245;es de caridade relacionadas ao Mickey</strong> ou organiza&#231;&#245;es. Muitas iniciativas focam em crian&#231;as e fam&#237;lias&#044; criando <strong>experi&#234;ncias m&#225;gicas</strong> que est&#227;o alinhadas com o esp&#237;rito do Mickey. Seu tempo e esfor&#231;o podem fazer um impacto significativo enquanto voc&#234; conhece outros f&#227;s.</p>
+<p>Por fim&#044; explore <strong>mercadorias e artesanato tem&#225;ticos</strong>. Criar seus pr&#243;prios itens inspirados no Mickey&#044; seja decora&#231;&#245;es feitas &#224; m&#227;o ou roupas personalizadas&#044; n&#227;o apenas enriquece sua cole&#231;&#227;o pessoal&#044; mas tamb&#233;m desperta criatividade e conversa&#231;&#227;o com os outros.</p>
+<h2>Perguntas Frequentes</h2>
+<h3>Quais faixas et&#225;rias podem participar dos eventos tem&#225;ticos mensais do Mickey&#063;</h3>
+<p>Voc&#234; pode esperar que v&#225;rios grupos et&#225;rios participem de eventos tem&#225;ticos mensais. Normalmente&#044; crian&#231;as de beb&#234;s a pr&#233;-adolescentes participam ativamente&#044; enquanto os pais costumam se juntar para criar uma atmosfera divertida e familiar que todos apreciam.</p>
+<h3>Existem recursos online para artesanato mensal com temas do Mickey&#063;</h3>
+<p>Voc&#234; sabia que quase 70&#037; das fam&#237;lias recorrem a recursos online para ideias de artesanato&#063; Voc&#234; pode encontrar v&#225;rios sites e grupos nas redes sociais que oferecem artes criativas&#044; tutoriais e inspira&#231;&#227;o adaptados para os projetos do seu tema mensal.</p>
+<h3>Como posso sugerir novos temas para os pr&#243;ximos meses&#063;</h3>
+<p>Voc&#234; pode sugerir novos temas reunindo ideias de amigos&#044; pesquisando tend&#234;ncias ou usando enquetes nas redes sociais. Compartilhe suas sugest&#245;es com os organizadores por meio de e-mail ou formul&#225;rios online&#044; garantindo que sua voz seja ouvida nos meses futuros&#033;</p>
+<h3>H&#225; uma taxa de ades&#227;o para o Mickey do Tema Mensal&#063;</h3>
+<p>Quando se trata de taxas de associa&#231;&#227;o&#044; voc&#234; n&#227;o precisar&#225; estourar seu or&#231;amento. A maioria dos temas mensais n&#227;o cobra nada&#044; ent&#227;o voc&#234; pode aproveit&#225;-los sem se preocupar com custos extras ou taxas ocultas.</p>
+<h3>Posso compartilhar minhas pr&#243;prias experi&#234;ncias mensais com o tema Mickey nas redes sociais&#063;</h3>
+<p>Claro&#044; voc&#234; pode compartilhar suas experi&#234;ncias nas redes sociais&#033; Apenas lembre-se de respeitar quaisquer diretrizes fornecidas e sinta-se &#224; vontade para expressar sua criatividade. Sua perspectiva &#250;nica pode inspirar outros&#044; ent&#227;o n&#227;o hesite em postar&#033;</p>
+<h2>Conclus&#227;o</h2>
+<p>Para resumir&#044; abra&#231;ar o <strong>M&#234;s Tem&#225;tico do Mickey</strong> n&#227;o &#233; apenas sobre celebrar um personagem amado&#059; &#233; sobre tecer magia em sua vida.</p>
+<p>Participando de eventos&#044; adquirindo <strong>mercadorias exclusivas</strong> e adicionando um toque do Mickey &#224; sua decora&#231;&#227;o&#044; voc&#234; encontrar&#225; alegria em cada momento.</p>
+<p>Portanto&#044; entre neste mundo encantado e deixe o esp&#237;rito do Mickey iluminar seus dias como fogos de artif&#237;cio em um c&#233;u noturno.</p>
+<p>Junte-se &#224; divers&#227;o e <strong>crie mem&#243;rias</strong> que durar&#227;o uma vida inteira&#033;</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

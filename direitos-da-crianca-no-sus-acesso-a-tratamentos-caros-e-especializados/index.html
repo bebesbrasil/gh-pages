@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direitos da Criança no SUS: Acesso a Tratamentos Caros e Especializados - Bebês Brasil</title>
+    <meta name="description" content="Você já percebeu como tudo muda quando o assunto é uma criança doente? A casa fica mais silenciosa, o tempo parece estranho, e aquele instinto quase primitivo d">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/uncategorized/" style="color:#ffffff;">Outros</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Direitos da Criança no SUS: Acesso a Tratamentos Caros e Especializados</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Você já percebeu como tudo muda quando o assunto é uma criança doente? A casa fica mais silenciosa, o tempo parece estranho, e aquele instinto quase primitivo d</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2026-03-20" style="color: var(--text-muted);">
+                        20/03/2026 16:36
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/saude-crianca.jpg" alt="Direitos da Criança no SUS: Acesso a Tratamentos Caros e Especializados">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Você já percebeu como tudo muda quando o assunto é uma criança doente? A casa fica mais silenciosa, o tempo parece estranho, e aquele instinto quase primitivo de proteger toma conta.</p>
+<p>Quando o diagnóstico inclui um tratamento caro ou um cuidado altamente especializado, o coração aperta ainda mais — e, sinceramente, ninguém quer sentir que o acesso à saúde do próprio filho depende de uma corrida contra burocracias.</p>
+<p>Mas, no SUS, existem direitos importantes que muitas famílias sequer sabem que têm. E é disso que vamos falar: como garantir, na prática, o cuidado que toda criança merece.</p>
+<h2>Por que o tema importa tanto no dia a dia das famílias</h2>
+<p>Sabe de uma coisa? Nem sempre pensamos no SUS até precisarmos dele. E, quando precisamos, queremos respostas rápidas, alguém que segure nossa mão e diga: “Calma, tem solução”. Só que, com crianças, a urgência é outra. O tempo clínico é mais curto, o corpo responde diferente, e tratamentos considerados comuns para adultos podem exigir doses específicas, equipamentos adaptados e especialistas que nem sempre estão na esquina de casa.</p>
+<p>É aí que mora um detalhe crucial: o SUS tem obrigações legais e éticas com crianças que vão muito além do básico. Isso não é cortesia; é direito. Aliás, não um direito qualquer, mas um dos pilares do sistema público de saúde e do próprio Estatuto da Criança e do Adolescente.</p>
+<h2>A lógica por trás dos direitos da criança no SUS</h2>
+<p>Se você já deu aquele Google desesperado sobre doenças raras, terapias biológicas, imunoterapias ou exames de alta complexidade, já deve ter percebido como o universo dos tratamentos especializados parece um labirinto. Só que, dentro do SUS, existe uma regra silenciosa: a prioridade absoluta para crianças. Sim, absoluta. E isso muda tudo.</p>
+<p>Quando falamos de prioridade, estamos falando de filas diferenciadas, encaminhamentos obrigatórios e garantia de acesso mesmo quando o município não possui o serviço. Essa última parte deixa muita gente surpresa, porque ainda existe o mito de que “se não tem na cidade, não tem o que fazer”. Tem sim: o SUS deve disponibilizar o serviço em outra unidade, inclusive de outro estado, se necessário.</p>
+<h2>Afinal, o que são tratamentos "caros" e "especializados"?</h2>
+<p>O termo parece até meio pesado, né? Mas faz sentido. Estamos falando de terapias que exigem tecnologia, expertise, protocolos clínicos complexos e, claro, investimentos altos. Alguns exemplos que famílias enfrentam hoje:</p>
+<ul>
+<li>Medicamentos para doenças raras, muitas vezes importados</li>
+<li>Cirurgias de alta complexidade cardiovascular ou neurológica</li>
+<li>Terapias biológicas usadas em oncologia pediátrica</li>
+<li>Tratamentos com equipamentos específicos para reabilitação</li>
+<li>Exames genéticos avançados, como painéis multigênicos</li>
+</ul>
+<p>O curioso é que, mesmo sendo caros, a legislação não diferencia o que é barato ou caro — o SUS deve fornecer quando há indicação médica. E isso costuma gerar aquela sensação de “Sério? Eles são obrigados mesmo?”. São.</p>
+<h2>A força da Constituição e do Estatuto da Criança e Adolescente</h2>
+<p>Quer saber? Muitas famílias só descobrem os direitos do SUS depois de sofrerem longas negativas. Mas a Constituição é cristalina: saúde é direito de todos e dever do Estado. No caso das crianças, o ECA reforça a prioridade absoluta, quase como um alerta permanente às autoridades.</p>
+<p>Isso significa que medicamentos, dispositivos, internações, transportes sanitários e exames devem ser oferecidos sempre que necessários. Quando? Quando o médico responsável inclui no prontuário e na prescrição — e não quando o gestor “autoriza”.</p>
+<p>Essa diferença pode parecer detalhe técnico, mas muda completamente o jogo. A decisão terapêutica é do médico, não da prefeitura ou do estado. E você pode exigir isso, porque é lei.</p>
+<h2>Mas por que ainda é tão difícil acessar certos tratamentos?</h2>
+<p>Essa é aquela pergunta retórica que todo mundo se faz. Na prática, existem diversos gargalos:</p>
+<ul>
+<li>Protocolos defasados</li>
+<li>Redistribuição desigual de especialistas</li>
+<li>Falta de estoque de medicamentos</li>
+<li>Negativas administrativas mal explicadas</li>
+<li>Demora em transferências para hospitais de referência</li>
+</ul>
+<p>Isso não significa que o direito desaparece. Significa apenas que a família terá mais trabalho — o que, sinceramente, não deveria acontecer com ninguém, ainda mais com pais que já estão emocionalmente sobrecarregados.</p>
+<h2>O papel do encaminhamento médico no acesso real</h2>
+<p>Deixe-me explicar algo importante: o papel do médico é decisivo. Uma prescrição clara, detalhada e com justificativa técnica abre portas que, muitas vezes, a própria família nem sabe que existem. Especialistas experientes já incluem na prescrição:</p>
+<ul>
+<li>a necessidade do medicamento ou terapia</li>
+<li>a urgência do tratamento</li>
+<li>a inexistência de alternativas eficazes dentro da rede local</li>
+<li>risco de agravamento sem o uso imediato</li>
+</ul>
+<p>Com isso, o hospital ou a Secretaria de Saúde não podem simplesmente responder “não temos” ou “não está na lista”. Se está indicado e é necessário, deve ser fornecido.</p>
+<h2>Quando a burocracia vira obstáculo… e quando ela é superável</h2>
+<p>Às vezes, a impressão é que a burocracia joga contra. Formulários, auditorias, solicitações repetidas… e, enquanto isso, a criança espera. Só que aqui existe um ponto que poucas pessoas comentam: mesmo diante dessas dificuldades, existe um caminho de proteção que funciona — a garantia de fornecimento por determinação judicial.</p>
+<p>Não é o cenário ideal. Ninguém quer ir a um juiz para conseguir aquilo que já deveria ser entregue espontaneamente. Mas, quando necessário, funciona. E não funciona só “eventualmente”; funciona de forma consistente, porque está amparado por políticas públicas e jurisprudência consolidada.</p>
+<h2>O meio do caminho onde a informação faz toda a diferença</h2>
+<p>Muita gente ainda não sabe, mas a busca por alternativas legais não é só sobre resolver um problema imediato. É também sobre evitar atrasos, garantir continuidade e impedir que o tratamento seja interrompido por falhas de gestão. Nesse contexto, entender o <a href="https://eltonfernandes.com.br/acao-judicial-contra-o-sus-advogado" target="_blank" rel="noopener noreferrer">direito a tratamento de alto custo SUS</a> dá às famílias uma bússola para navegar por decisões difíceis — e, às vezes, dolorosas.</p>
+<h2>Como funciona o acesso efetivo através de encaminhamento judicial</h2>
+<p>Um ponto curioso (e muito humano) é que, quando falamos de processo judicial, as pessoas logo imaginam algo enorme, demorado e cheio de etapas. Mas, na prática, ações relacionadas à saúde infantil costumam tramitar rápido. Por quê? Pela urgência.</p>
+<p>Os juízes entendem que uma criança não pode esperar quatro meses para receber uma medicação que deve ser aplicada em quatro dias. E, quando essa urgência fica clara nos documentos médicos, a decisão sai. Às vezes em 24 horas. Às vezes em menos.</p>
+<h2>Hospitais de referência, centros especializados e a sensação de “outro mundo”</h2>
+<p>Quem já foi a um hospital de referência pediátrica sabe: parece que entramos em outro universo. A equipe é mais treinada, a estrutura é adaptada, e tudo gira com um ritmo curioso — rápido, mas coordenado. Ainda assim, conseguir uma vaga nesses locais pode demandar:</p>
+<ul>
+<li>solicitação formal da unidade local</li>
+<li>vaga regulada pela central estadual</li>
+<li>comprovação da complexidade do caso</li>
+</ul>
+<p>E é aqui que os pais costumam se assustar. Mas, se o médico indicar e houver necessidade, a transferência não só pode como deve acontecer. Mesmo que seja para longe. O SUS funciona de forma regionalizada, mas não limitada.</p>
+<h2>Terapias contínuas: um desafio que exige vigilância</h2>
+<p>Quem tem um filho com doença crônica sabe que o tratamento não termina na primeira dose. Às vezes, é uma rotina — cansativa, intensa, mas essencial. A parte boa é que o SUS também tem obrigação de manter esse cuidado sem interrupções.</p>
+<p>Isso inclui:</p>
+<ul>
+<li>fornecimento regular de medicamentos</li>
+<li>consultas de acompanhamento</li>
+<li>fisioterapia, fonoaudiologia e terapia ocupacional</li>
+<li>renovação de exames periódicos</li>
+<li>transporte sanitário quando necessário</li>
+</ul>
+<p>E sim, você pode cobrar isso. Com educação, com firmeza, com apoio documental. Às vezes, até com ajuda jurídica, se for o caso.</p>
+<h2>A lacuna entre o que a lei garante e o que a realidade entrega</h2>
+<p>Aqui está a questão: existe o mundo ideal e o mundo real. No papel, o SUS oferece cuidado integral, equânime e universal. Na vida real, algumas cidades não têm especialistas; outras têm, mas não têm exames avançados; outras têm tudo, menos o medicamento essencial.</p>
+<p>É por isso que tanta gente recorre a defensores públicos, advogados especializados ou instituições de apoio. Não porque o direito não exista, mas porque ele ainda não chega com a velocidade que uma família espera — ou merece.</p>
+<h2>Um olhar mais sensível sobre as famílias que enfrentam esse caminho</h2>
+<p>Talvez você já tenha vivido isso. Talvez conheça alguém que esteja vivendo agora. Ou talvez esteja tentando entender esse universo para ajudar alguém da sua família. Mas uma coisa é certa: ninguém passa por esse processo sozinho. Sempre tem um médico que acolhe, uma enfermeira que dá um conselho, um funcionário que agiliza um documento, um parente que segura a barra emocional. E isso importa. Muito.</p>
+<p>Porque, no fim do dia, saúde infantil não é só sobre medicação. É sobre cuidado, rede de apoio, presença. E, por mais que o SUS seja um gigante complexo, é também uma estrutura que — com pressão, informação e acompanhamento — responde.</p>
+<h2>O que os pais podem fazer na prática para garantir o acesso</h2>
+<p>Aqui vai um pequeno guia, direto ao ponto:</p>
+<ul>
+<li>Peça sempre relatórios médicos detalhados</li>
+<li>Guarde cópias de prescrições, laudos e negativas</li>
+<li>Solicite protocolo de atendimento sempre que fizer um pedido formal</li>
+<li>Fotografe documentos entregues presencialmente</li>
+<li>Registre atrasos ou falta de retorno</li>
+<li>Busque apoio de associações de pacientes quando a doença for rara</li>
+</ul>
+<p>Às vezes, um simples documento mal preenchido gera semanas de atraso. E ninguém quer isso.</p>
+<h2>Um detalhe que pouca gente comenta: a relação emocional com o SUS</h2>
+<p>Existe um fenômeno curioso: muitos pais criam quase uma relação afetiva com as equipes de saúde. Não pela instituição, mas pelas pessoas. É a médica que lembra do nome da criança. O fisioterapeuta que pergunta da escola. A assistente que oferece um café enquanto você espera a vaga de internação. Esses detalhes, tão humanos, ajudam a tornar uma caminhada difícil um pouco mais leve.</p>
+<p>Mas isso não deve apagar o foco: direitos são direitos. E devem ser garantidos com ou sem simpatia.</p>
+<h2>O futuro: o que podemos esperar para os próximos anos</h2>
+<p>O mundo da saúde avança rápido. Novos medicamentos chegam todos os meses, equipamentos ganham versões mais precisas, tratamentos antes inimagináveis tornam-se padrão. Mas, no Brasil, ainda vivemos um hiato entre tecnologia e acesso. A boa notícia é que o SUS está cada vez mais pressionado — pelas famílias, pela imprensa, por decisões judiciais — a acompanhar essas mudanças com mais agilidade.</p>
+<p>E isso significa que, quanto mais as pessoas conhecem seus direitos, mais esses direitos deixam de ser teoria e viram prática.</p>
+<h2>Conclusão: cada criança merece cuidado completo — e você pode exigir isso</h2>
+<p>Ninguém quer precisar brigar por saúde. Mas, quando se trata de uma criança, a disposição muda. E tudo bem, porque não há exagero em querer o melhor para quem depende de nós. O SUS tem deveres claros, fundamentados na Constituição e reforçados pelo ECA. E esses deveres incluem, sim, tratamentos caros, atendimentos especializados e suporte contínuo.</p>
+<p>Seja com informação, com firmeza ou com ajuda jurídica, você pode — e deve — garantir que esses direitos sejam respeitados. No fim das contas, não é apenas sobre vencer uma burocracia. É sobre garantir dignidade, alívio e esperança para quem mais precisa.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

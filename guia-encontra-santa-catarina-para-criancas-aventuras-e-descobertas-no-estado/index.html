@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Encontra Santa Catarina para Crianças: Aventuras e Descobertas no Estado - Bebês Brasil</title>
+    <meta name="description" content="
+Santa Catarina é um estado que encanta a todos com suas paisagens incríveis e diversificadas, mas você sabia que ele também oferece inúmeras opções de diversão">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/atividades/" style="color:#ffffff;">Atividades</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Guia Encontra Santa Catarina para Crianças: Aventuras e Descobertas no Estado</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">
+Santa Catarina é um estado que encanta a todos com suas paisagens incríveis e diversificadas, mas você sabia que ele também oferece inúmeras opções de diversão</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2024-09-11" style="color: var(--text-muted);">
+                        11/09/2024 14:45
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/Guia-Encontra-Santa-Catarina-1.jpg" alt="Guia Encontra Santa Catarina para Crianças: Aventuras e Descobertas no Estado">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p><!-- wp:paragraph --></p>
+<p>Santa Catarina é um estado que encanta a todos com suas paisagens incríveis e diversificadas, mas você sabia que ele também oferece inúmeras opções de diversão para crianças? Desde praias paradisíacas até parques temáticos e reservas naturais, o <strong>Guia Encontra Santa Catarina</strong> é o recurso perfeito para quem quer aproveitar ao máximo as atrações voltadas para as crianças. Seja para uma viagem em família ou um passeio de final de semana, neste guia você vai encontrar tudo o que precisa para garantir momentos inesquecíveis com os pequenos.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>Índice</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:table --></p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<thead>
+<tr>
+<th>Sr#</th>
+<th>Títulos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Introdução</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Parques Temáticos e Diversões para Crianças</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Praias de Santa Catarina para Crianças</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Ecoturismo e Natureza: Explorando com os Pequenos</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Museus e Centros Culturais para a Criançada</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Aventuras Educativas: Visitas a Fazendas e Sítios</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Atividades ao Ar Livre e Esportivas</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Parques Aquáticos: Diversão Refrescante</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Gastronomia Infantil em Santa Catarina</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Festivais e Eventos Infantis</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Dicas Práticas para Pais em Viagem</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Conclusão</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Perguntas Frequentes (FAQs)</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>
+<!-- /wp:table --></p>
+<p><!-- wp:separator --></p>
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
+</p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>1. Introdução</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Se você está procurando uma viagem para fazer com os seus filhos, Santa Catarina é uma excelente escolha! O estado oferece uma mistura perfeita de diversão, aventura e aprendizado, com atrações que atendem a todas as faixas etárias. Neste artigo, você encontrará uma seleção de passeios e atividades que irão entreter, educar e fazer com que seus filhos explorem o mundo de uma maneira divertida e envolvente.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>2. Parques Temáticos e Diversões para Crianças</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Santa Catarina é lar de alguns dos melhores parques temáticos do Brasil, perfeitos para crianças que adoram emoção e entretenimento. O <strong>Beto Carrero World</strong>, localizado em Penha, é o maior parque temático da América Latina e oferece uma infinidade de atrações, desde shows de personagens até montanhas-russas e áreas temáticas inspiradas em filmes e desenhos animados.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Outro local de destaque é o <strong>Parque Unipraias</strong>, em Balneário Camboriú. Aqui, as crianças podem andar de bondinho, explorar o <strong>Youhooo!</strong>, um trenó de montanha que proporciona muita adrenalina, e passear pelo parque de aventuras no topo do Morro da Aguada.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>3. Praias de Santa Catarina para Crianças</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Quando se pensa em Santa Catarina, as praias são sempre uma excelente opção para os pequenos. Praias como <strong>Praia do Forte</strong>, em Florianópolis, e <strong>Praia da Sepultura</strong>, em Bombinhas, são ideais para famílias por suas águas calmas e rasas. Esses locais oferecem a segurança necessária para que as crianças possam brincar na água sem preocupações.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>A <strong>Praia de Jurerê Internacional</strong> também é uma ótima pedida, pois além das belezas naturais, possui infraestrutura completa com restaurantes e quiosques, além de áreas destinadas a recreação infantil.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:image {"id":242,"sizeSlug":"large","linkDestination":"none"} --></p>
+<figure class="wp-block-image size-large"><img src="/static/uploads/Guia-Encontra-Santa-Catarina-1024x1024.jpg" alt="" class="wp-image-242"/></figure>
+<p>
+<!-- /wp:image --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>4. Ecoturismo e Natureza: Explorando com os Pequenos</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Se você quer que seus filhos tenham um contato maior com a natureza, <a href="https://www.encontrasc.com.br">Guia de Santa Catarina</a> oferece muitas opções de ecoturismo. O <strong>Parque Nacional de São Joaquim</strong>, com sua vegetação exuberante e trilhas tranquilas, é perfeito para uma caminhada em família. Crianças podem aprender sobre a biodiversidade da região e observar a fauna e a flora locais.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Outro local interessante é o <strong>Parque Estadual da Serra do Tabuleiro</strong>, onde as crianças podem explorar cachoeiras e aprender sobre a conservação ambiental de forma prática e divertida.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>5. Museus e Centros Culturais para a Criançada</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Para momentos mais tranquilos e educativos, Santa Catarina possui diversos museus e centros culturais que são perfeitos para crianças. O <strong>Museu de Zoologia da UFSC</strong>, por exemplo, permite que os pequenos descubram mais sobre os animais que vivem no estado.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>O <strong>Museu da Infância</strong>, localizado em Joinville, é um espaço interativo que proporciona um ambiente de aprendizado lúdico para crianças de todas as idades. Através de exposições temáticas e atividades interativas, as crianças podem aprender e se divertir ao mesmo tempo.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>6. Aventuras Educativas: Visitas a Fazendas e Sítios</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Visitar uma fazenda ou sítio pode ser uma maneira excelente de conectar as crianças com a natureza e ensiná-las sobre a vida rural. No <a href="https://www.encontrasantacatarina.com.br">Guia Encontra Santa Catarina</a>, você encontra várias fazendas turísticas oferecem visitas guiadas onde os pequenos podem aprender sobre a produção de alimentos, cuidar de animais e até plantar suas próprias hortaliças.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>A <strong>Fazenda Parque Hotel</strong>, localizada na Serra Catarinense, é um dos destinos mais populares, com atividades como ordenha de vacas, passeio a cavalo e pesca recreativa. Além de se divertirem, as crianças aprendem sobre o respeito aos animais e à natureza.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>7. Atividades ao Ar Livre e Esportivas</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Crianças cheias de energia vão adorar as atividades ao ar livre que Santa Catarina oferece. O estado é um lugar ideal para quem gosta de aventura e esportes. Parques como o <strong>Parque do Rio Vermelho</strong>, em Florianópolis, possuem trilhas e áreas para acampamento onde as crianças podem explorar a natureza de maneira segura e supervisionada.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Outras opções incluem passeios de bicicleta por ciclovias bem estruturadas e a prática de esportes como surf nas praias de ondas mais calmas, ideais para iniciantes.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>8. Parques Aquáticos: Diversão Refrescante</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Nos dias mais quentes, os parques aquáticos são uma ótima opção de lazer para as crianças. O <strong>Água Show Park</strong>, em Florianópolis, é um dos maiores parques aquáticos da região, com toboáguas, piscinas infantis e áreas de lazer que garantem diversão para toda a família.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Outro destaque é o <strong>Cascaneia</strong>, em Gaspar, que oferece diversas atrações aquáticas, como rios de correnteza, piscinas de ondas e toboáguas, tudo projetado para garantir a segurança e o entretenimento das crianças.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>9. Gastronomia Infantil em Santa Catarina</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Viajar com crianças pode ser um desafio quando o assunto é alimentação, mas Santa Catarina tem uma ótima infraestrutura voltada para os pequenos. Restaurantes como o <strong>Madero Container</strong>, com seu cardápio infantil, e o <strong>Restaurante Toca da Garoupa</strong>, que oferece pratos simples e saudáveis, são ótimas opções.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Muitos restaurantes possuem também áreas de recreação, onde as crianças podem brincar enquanto os pais desfrutam da refeição, tornando a experiência agradável para toda a família.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>10. Festivais e Eventos Infantis</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Santa Catarina também é conhecida por seus festivais, muitos deles com atrações específicas para crianças. O <strong>Festival Infantil de Teatro de Joinville</strong> é um exemplo, com peças criativas e interativas que encantam o público infantil.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Além disso, o <strong>Festival de Inverno de Santa Catarina</strong> oferece atividades voltadas para as crianças, como oficinas de arte, contação de histórias e apresentações teatrais.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>11. Dicas Práticas para Pais em Viagem</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Viajar com crianças exige planejamento e atenção a detalhes, por isso aqui estão algumas dicas para garantir que tudo corra bem:</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:list --></p>
+<ul class="wp-block-list"><!-- wp:list-item --></p>
+<li><strong>Leve itens de conforto</strong>: Sempre tenha à mão travesseiros, brinquedos favoritos ou qualquer item que possa ajudar as crianças a se sentirem confortáveis durante a viagem.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li><strong>Planeje paradas estratégicas</strong>: Se você estiver fazendo uma viagem de carro, planeje paradas para que as crianças possam se esticar e gastar energia.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li><strong>Leve lanches e água</strong>: Ter sempre à disposição lanches saudáveis e água é essencial, especialmente em passeios ao ar livre.</li>
+<p>
+<!-- /wp:list-item --></ul>
+<p>
+<!-- /wp:list --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>12. Conclusão</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>O <strong>Guia Encontra Santa Catarina para Crianças</strong> mostra como o estado oferece uma infinidade de opções de diversão e aprendizado para os pequenos. De praias a parques temáticos, fazendas educativas a museus interativos, Santa Catarina é um destino completo para famílias que buscam viver aventuras inesquecíveis. Com tantas opções à disposição, seu próximo passeio em família certamente será repleto de momentos especiais.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:separator --></p>
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
+</p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading"><strong>13. Perguntas Frequentes (FAQs)</strong></h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>1. Qual é o melhor parque temático para crianças em Santa Catarina?</strong><br>O Beto Carrero World é o parque temático mais famoso e oferece diversas atrações para todas as idades.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>2. Existem praias seguras para crianças em Santa Catarina?</strong><br>Sim, praias como Praia do Forte e Praia da Sepultura são ideais para famílias, com águas calmas e infraestrutura.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>3. Quais são os melhores museus para visitar com crianças em Santa Catarina?</strong><br>O Museu de Zoologia da UFSC e o Museu da Infância em Joinville são ótimas opções com conteúdo interativo.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>4. Quais atividades ao ar livre são recomendadas para crianças?</strong><br>Trilhas leves, visitas a parques e atividades como surf e ciclismo são ótimas para crianças que gostam de aventura.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>5. Onde posso encontrar restaurantes com cardápios infantis em Santa Catarina?</strong><br>Restaurantes como o Madero Container e a Toca da Garoupa oferecem opções pensadas para agradar os pequenos.</p>
+<p>
+<!-- /wp:paragraph --></p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

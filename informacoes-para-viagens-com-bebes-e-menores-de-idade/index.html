@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações para viagens com bebês e menores de idade - Bebês Brasil</title>
+    <meta name="description" content="Viajar com bebês e menores de idade exige um planejamento cuidadoso para garantir a segurança, o conforto e a tranquilidade durante toda a jornada. Seja uma via">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/bebes/" style="color:#ffffff;">Bebês</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Informações para viagens com bebês e menores de idade</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Viajar com bebês e menores de idade exige um planejamento cuidadoso para garantir a segurança, o conforto e a tranquilidade durante toda a jornada. Seja uma via</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-05-24" style="color: var(--text-muted);">
+                        24/05/2025 12:14
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/bebe-no-aviao.jpg" alt="Informações para viagens com bebês e menores de idade">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p data-start="167" data-end="534">Viajar com bebês e menores de idade exige um planejamento cuidadoso para garantir a segurança, o conforto e a tranquilidade durante toda a jornada. Seja uma viagem de carro, avião ou transporte público, é fundamental conhecer as regras, a documentação necessária, os cuidados especiais e as melhores práticas para tornar essa experiência positiva para toda a família.</p>
+<p data-start="536" data-end="799">Neste artigo, você encontrará informações completas e atualizadas para organizar viagens com crianças pequenas e menores de idade, incluindo documentos obrigatórios, orientações para diferentes tipos de transporte, dicas para o conforto dos pequenos e muito mais.</p>
+<hr data-start="801" data-end="804">
+<h2 data-start="806" data-end="874">Documentação necessária para viagens com bebês e menores de idade</h2>
+<p data-start="876" data-end="1088">Viajar com bebês e menores envolve questões legais importantes. Cada tipo de viagem — nacional ou internacional — possui exigências específicas de documentação para comprovar a identidade e autorização de viagem.</p>
+<p data-start="1090" data-end="1295">Para bebês e crianças pequenas, o documento básico é a certidão de nascimento. Para menores de idade, o documento mais utilizado é a carteira de identidade (RG), que deve estar em bom estado e ser oficial.</p>
+<h3 data-start="1297" data-end="1318">Viagens nacionais</h3>
+<p data-start="1320" data-end="1512">Para viagens dentro do Brasil, geralmente, o documento de identificação exigido é a certidão de nascimento para bebês e crianças pequenas. Menores de idade que possuírem RG devem apresentá-lo.</p>
+<p data-start="1514" data-end="1768">No caso de viagens interestaduais, em algumas situações, é necessária autorização dos pais ou responsáveis, principalmente quando a criança estiver viajando desacompanhada. Essa autorização pode ser feita por meio de um documento autenticado em cartório.</p>
+<h3 data-start="1770" data-end="1796">Viagens internacionais</h3>
+<p data-start="1798" data-end="2143">Em viagens internacionais, a documentação é mais rigorosa. Além do passaporte válido, a criança deve estar acompanhada por pelo menos um dos pais ou responsáveis legais. Caso o menor viaje desacompanhado ou acompanhado por terceiros, é indispensável uma autorização formal, assinada pelos pais ou responsáveis, com firma reconhecida em cartório.</p>
+<p data-start="2145" data-end="2316">Alguns países exigem também o visto de entrada, dependendo da nacionalidade do viajante. Portanto, é essencial verificar as exigências do país de destino com antecedência.</p>
+<hr data-start="2318" data-end="2321">
+<h2 data-start="2323" data-end="2409">Autorizações para viagens com menores desacompanhados ou acompanhados por terceiros</h2>
+<p data-start="2411" data-end="2652">Uma das dúvidas mais comuns entre pais é como proceder quando um menor viaja sozinho ou acompanhado por alguém que não seja um dos responsáveis legais. Nesse caso, a autorização é obrigatória para evitar problemas com órgãos de fiscalização.</p>
+<h3 data-start="2654" data-end="2694">Autorização judicial e extrajudicial</h3>
+<p data-start="2696" data-end="2861">Para que um menor viaje desacompanhado ou acompanhado por terceiros, os pais devem emitir uma autorização específica. Essa autorização pode ser feita de duas formas:</p>
+<ul data-start="2863" data-end="3277">
+<li data-start="2863" data-end="3091">
+<p data-start="2865" data-end="3091"><strong data-start="2865" data-end="2895">Autorização extrajudicial:</strong> Feita em cartório, onde os pais ou responsáveis assinam um documento autorizando a viagem do menor, especificando destino, duração e acompanhante (se houver). Esta é a forma mais comum e prática.</p>
+</li>
+<li data-start="3093" data-end="3277">
+<p data-start="3095" data-end="3277"><strong data-start="3095" data-end="3120">Autorização judicial:</strong> Caso os pais estejam separados ou haja algum impedimento legal, pode ser necessária uma autorização judicial, obtida por meio de um pedido formal à justiça.</p>
+</li>
+</ul>
+<h3 data-start="3279" data-end="3308">Regras da Polícia Federal</h3>
+<p data-start="3310" data-end="3577">Para viagens aéreas nacionais, a Polícia Federal exige que o menor desacompanhado ou com terceiros apresente a autorização autenticada em cartório. No embarque, as autoridades podem solicitar a documentação para comprovar a autorização e evitar o tráfico de crianças.</p>
+<p data-start="3579" data-end="3757">No caso de viagens internacionais, a autorização deve estar traduzida para o idioma oficial do país de destino, quando necessário, e acompanhada da documentação dos responsáveis.</p>
+<hr data-start="3759" data-end="3762">
+<h2 data-start="3764" data-end="3825">Cuidados e dicas para viajar com bebês e crianças pequenas</h2>
+<p data-start="3827" data-end="4050">Viajar com bebês e menores de idade envolve desafios especiais que exigem planejamento para garantir o bem-estar das crianças durante o trajeto. A seguir, algumas dicas práticas para tornar a viagem mais tranquila e segura.</p>
+<h3 data-start="4052" data-end="4080">Alimentação e hidratação</h3>
+<p data-start="4082" data-end="4300">É fundamental garantir que o bebê ou criança esteja bem alimentado e hidratado durante a viagem. Leve alimentos e bebidas apropriados, especialmente para viagens longas, e evite alimentos que possam causar desconforto.</p>
+<p data-start="4302" data-end="4415">Para bebês que ainda estão no aleitamento materno, amamentar durante o voo ajuda a aliviar a pressão nos ouvidos.</p>
+<h3 data-start="4417" data-end="4436">Conforto e sono</h3>
+<p data-start="4438" data-end="4605">Leve itens que proporcionem conforto, como travesseiros de pescoço, cobertores, roupas confortáveis e itens pessoais que acalmem a criança, como brinquedos e chupetas.</p>
+<p data-start="4607" data-end="4700">Tente organizar a viagem nos horários em que o bebê costuma dormir para facilitar o descanso.</p>
+<h3 data-start="4702" data-end="4724">Paradas frequentes</h3>
+<p data-start="4726" data-end="4864">Se a viagem for de carro, planeje paradas regulares para que o bebê possa ser trocado, alimentado e para que todos se movimentem um pouco.</p>
+<p data-start="4866" data-end="5021">Em viagens de avião, aproveite as mudanças de altitude para ajudar o bebê a equalizar a pressão nos ouvidos, por meio da amamentação, chupeta ou mamadeira.</p>
+<hr data-start="5023" data-end="5026">
+<h2 data-start="5028" data-end="5090">Regras específicas para transporte aéreo de bebês e menores</h2>
+<p data-start="5092" data-end="5269">As companhias aéreas possuem regras específicas para o transporte de bebês e menores de idade, que envolvem desde a documentação até a reserva de assentos e uso de equipamentos.</p>
+<h3 data-start="5271" data-end="5308">Idade mínima para viajar de avião</h3>
+<p data-start="448" data-end="669">Geralmente, as companhias aéreas exigem que o bebê tenha pelo menos 7 dias de vida para viajar, embora algumas aceitem a partir de 3 dias mediante atestado médico. É importante verificar a política da companhia escolhida.</p>
+<p data-start="671" data-end="893">No <a href="https://aeroportosaoluis.com" target="_blank" rel="noopener noreferrer">Aeroporto Internacional de São Luis</a>, por exemplo, é comum que as equipes estejam preparadas para auxiliar famílias com crianças, oferecendo serviços especiais para facilitar o embarque e desembarque com bebês e menores.</p>
+<h3 data-start="5533" data-end="5555">Reserva e assentos</h3>
+<p data-start="5557" data-end="5818">Bebês com até 2 anos geralmente viajam no colo dos pais, mediante pagamento de uma taxa reduzida ou até mesmo gratuitamente em alguns voos nacionais. Para mais conforto e segurança, é recomendada a compra de um assento separado com uso de cadeirinha homologada.</p>
+<p data-start="5820" data-end="5907">Crianças acima de 2 anos já precisam de um assento próprio e pagar a passagem integral.</p>
+<h3 data-start="5909" data-end="5935">Equipamentos e bagagem</h3>
+<p data-start="5937" data-end="6148">É permitido levar carrinhos de bebê, cadeirinhas e outros equipamentos, mas cada companhia aérea tem regras específicas para transporte e despacho. Informe-se antes da viagem para evitar transtornos no embarque.</p>
+<hr data-start="6150" data-end="6153">
+<h2 data-start="6155" data-end="6221">Como garantir a segurança do bebê e da criança durante a viagem</h2>
+<p data-start="6223" data-end="6396">A segurança é prioridade máxima em qualquer viagem com menores de idade. Além da documentação correta, é importante garantir que o ambiente de viagem seja seguro e adequado.</p>
+<h3 data-start="6398" data-end="6444">Uso de cadeirinhas e assentos de segurança</h3>
+<p data-start="6446" data-end="6584">Em viagens de carro, o uso de cadeirinhas apropriadas para a idade e peso da criança é obrigatório por lei e fundamental para a segurança.</p>
+<p data-start="6586" data-end="6733">Em aviões, embora o uso de cadeirinhas não seja obrigatório para bebês no colo, recomenda-se o uso de dispositivos homologados para maior proteção.</p>
+<h3 data-start="6735" data-end="6763">Identificação da criança</h3>
+<p data-start="6765" data-end="6932">Para evitar o risco de perda, coloque uma etiqueta com nome, telefone dos pais e informações importantes na roupa da criança ou em pulseiras específicas para esse fim.</p>
+<h3 data-start="6934" data-end="6963">Kit de primeiros socorros</h3>
+<p data-start="6965" data-end="7100">Leve um kit com itens básicos como remédios infantis, curativos, álcool em gel e outros produtos que possam ser úteis durante a viagem.</p>
+<hr data-start="7102" data-end="7105">
+<h2 data-start="7107" data-end="7192">Dicas para organizar a bagagem e itens essenciais para viagens com bebês e menores</h2>
+<p data-start="7194" data-end="7347">Organizar a bagagem para viajar com crianças exige atenção especial para garantir que todos os itens necessários estejam disponíveis sem excesso de peso.</p>
+<h3 data-start="7349" data-end="7369">Itens essenciais</h3>
+<ul data-start="7371" data-end="7740">
+<li data-start="7371" data-end="7459">
+<p data-start="7373" data-end="7459">Fraldas e lenços umedecidos em quantidade suficiente para toda a viagem e imprevistos.</p>
+</li>
+<li data-start="7460" data-end="7535">
+<p data-start="7462" data-end="7535">Roupas extras, considerando trocas frequentes e variações de temperatura.</p>
+</li>
+<li data-start="7536" data-end="7610">
+<p data-start="7538" data-end="7610">Alimentação, como mamadeiras, leite em pó, papinhas e lanches adequados.</p>
+</li>
+<li data-start="7611" data-end="7680">
+<p data-start="7613" data-end="7680">Produtos de higiene, como sabonete, creme para assaduras e toalhas.</p>
+</li>
+<li data-start="7681" data-end="7740">
+<p data-start="7683" data-end="7740">Brinquedos e objetos de conforto para entreter e acalmar.</p>
+</li>
+</ul>
+<h3 data-start="7742" data-end="7775">Dicas para otimizar a bagagem</h3>
+<p data-start="7777" data-end="7900">Utilize organizadores ou bolsas específicas para separar os itens do bebê dentro da mala. Priorize itens leves e versáteis.</p>
+<p data-start="7902" data-end="8022">Leve uma muda de roupa para o bebê na bagagem de mão para fácil acesso em caso de acidentes ou trocas durante o trajeto.</p>
+<hr data-start="8024" data-end="8027">
+<h1 data-start="8029" data-end="8040">Conclusão</h1>
+<p data-start="8042" data-end="8326">Viajar com bebês e menores de idade pode ser uma experiência maravilhosa, desde que bem planejada. Conhecer a documentação necessária, regras para autorização, cuidados especiais e as melhores práticas para o conforto e segurança das crianças são fundamentais para evitar imprevistos.</p>
+<p data-start="8328" data-end="8517">Com as informações deste guia, você estará preparado para enfrentar qualquer tipo de viagem, garantindo tranquilidade para toda a família e momentos inesquecíveis ao lado dos seus pequenos.</p>
+<p data-start="8519" data-end="8610">Se precisar de mais dicas personalizadas para o seu tipo de viagem, estou aqui para ajudar!</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

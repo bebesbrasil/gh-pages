@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investindo no Futuro dos seus Filhos: O Guia da Imobiliária em Dois Irmãos para Encontrar a Casa Nova Perfeita - Bebês Brasil</title>
+    <meta name="description" content="Encontre a casa perfeita para o futuro dos seus filhos com o guia completo da imobiliária em Dois Irmãos. Invista no lar ideal hoje!">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/seguranca/" style="color:#ffffff;">Segurança</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Investindo no Futuro dos seus Filhos: O Guia da Imobiliária em Dois Irmãos para Encontrar a Casa Nova Perfeita</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Encontre a casa perfeita para o futuro dos seus filhos com o guia completo da imobiliária em Dois Irmãos. Invista no lar ideal hoje!</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2026-02-14" style="color: var(--text-muted);">
+                        14/02/2026 21:00
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/investindo-no-futuro-dos-seus-filhos-o-guia-da-imobiliaria-em-dois-irmaos-para-encontrar-a-casa-nova-perfeita.jpg" alt="Investindo no Futuro dos seus Filhos: O Guia da Imobiliária em Dois Irmãos para Encontrar a Casa Nova Perfeita">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p> Comprar uma casa nunca é só sobre tijolos e cimento. É sobre construir um lar. Um lugar onde seus filhos vão crescer, brincar, aprender e, claro, sonhar. Sabe de uma coisa? Quando pensamos em investir no futuro deles, escolher a casa certa vira quase uma missão de vida — cheia de emoção, expectativa e, claro, aquele frio na barriga que todo grande passo traz. E se você está por aqui, procurando a casa ideal em Dois Irmãos, fica comigo. Vamos bater um papo sincero sobre tudo o que envolve essa jornada.</p>
+<h2> Por Que Investir em Imóvel é Mais do Que Uma Questão Financeira?</h2>
+<p> Muita gente vê o imóvel só como um investimento — e não está errado, claro. Mas, honestamente, é muito mais do que isso. A casa onde seus filhos vão crescer é o palco das primeiras histórias, das risadas sem fim e, até mesmo, daquelas birras inesquecíveis (quem nunca?).</p>
+<p> Investir em um lar é investir em segurança, em estabilidade emocional, em qualidade de vida. É garantir que eles tenham um espaço para se sentirem protegidos, para que possam explorar o mundo com confiança. E isso, meu amigo, não tem preço.</p>
+<p> Além disso, há o lado prático. A valorização da propriedade, as possibilidades de personalização do espaço, a proximidade com escolas, parques e comércio — tudo isso conta e muito.</p>
+<h3> O Que a Casa Perfeita Deve Ter Para o Futuro dos Seus Filhos?</h3>
+<p> Se você pensa que basta um imóvel qualquer, pare por um segundo. Aqui vai uma provocação: será que a casa que você escolhe hoje vai acompanhar o crescimento e as mudanças da sua família?</p>
+<p> Antes de sair visitando cada cantinho, reflita sobre:</p>
+<ul><li>  <strong>Espaço para brincar e aprender:</strong> Criança precisa de área livre – quintal, varanda, um cantinho para as artes ou para os estudos.</li><li> <strong>Segurança:</strong> Portas, janelas com travas, bairro tranquilo — não dá para vacilar nesse ponto.</li><li> <strong>Localização:</strong> Próximo a escolas, creches, área de lazer e, claro, com fácil acesso ao trabalho dos pais.</li><li> <strong>Ambiente saudável:</strong> Boa iluminação natural, ventilação e pouco barulho. Isso faz uma diferença danada no dia a dia.</li><li> <strong>Potencial de crescimento:</strong> Um imóvel que possa ser ampliado ou adaptado conforme a família cresce.</li><li> </li></ul>
+<p> Esses detalhes fazem toda a diferença, e acredite, seu futuro "eu” (e seus filhos) vão agradecer.</p>
+<h2> O Papel da Imobiliária: Muito Além de Vender Casas</h2>
+<p> Agora, você deve estar pensando: "Mas e a imobiliária? Só querem fechar negócio, né?” Calma, nem tudo é preto no branco. Uma imobiliária de confiança é mais como uma parceira estratégica — aquela mão amiga que entende suas necessidades e sabe exatamente onde procurar.</p>
+<p> Em Dois Irmãos, por exemplo, o mercado é cheio de nuances. Bairros mais tranquilos, áreas em crescimento, opções que cabem no seu bolso... tudo isso precisa ser levado em conta. E é aí que uma <a href="https://danijohann.com.br/" rel="noopener" target="_blank">imobiliaria em dois irmãos</a> faz toda a diferença — conhecem o terreno, literalmente e figurativamente.</p>
+<p> Quer saber? Muitas vezes, o que separa uma compra frustrante de uma experiência incrível é exatamente o suporte que você recebe. E não estamos falando só de burocracia (que já é um saco, né?), mas de ouvir, entender o que você quer para sua família e ajudar a encontrar a melhor saída.</p>
+<h3> Como Escolher a Imobiliária Certa?</h3>
+<p> Você não precisa sair por aí só escolhendo pelo preço ou pela propaganda que viu na internet. Pergunte, investigue — afinal, é o futuro da sua família em jogo.</p>
+<ul><li>  <strong>Reputação:</strong> Busque avaliações, converse com quem já comprou casa com eles.</li><li> <strong>Conhecimento local:</strong> Eles precisam entender o mercado de Dois Irmãos como ninguém.</li><li> <strong>Transparência:</strong> Nada de surpresas no meio do caminho.</li><li> <strong>Atendimento personalizado:</strong> Cada família é única, e o serviço deve ser também.</li><li> </li></ul>
+<p> Se a imobiliária passa nesses quesitos, você está no caminho certo.</p>
+<h2> Não é Só Escolher a Casa, Mas Construir o Sonho</h2>
+<p> Comprar um imóvel vai muito além de assinar papelada e pagar parcelas. É um processo cheio de emoções que, se você deixar, pode até assustar um pouco. Afinal, é o futuro do seu filho que está em jogo, não é?</p>
+<p> Mas aqui é onde você pode respirar fundo: pense no seu sonho, visualize as alegrias, os almoços de domingo, as noites de filme no sofá, as descobertas de cada dia. Isso, sim, é o que realmente importa.</p>
+<p> Aliás, falando em sonhos, já reparou como a casa certa pode até mudar o ritmo da família? Muitas vezes, um espaço mais acolhedor ajuda até na rotina dos pequenos — estudos mais tranquilos, brincadeiras mais seguras, menos estresse para todo mundo. Não é só papo de vendedor, não.</p>
+<h3> Detalhes Que Fazem Toda a Diferença</h3>
+<p> Tem coisas que só quem já passou por isso sabe: o barulho da vizinhança, o cheiro da rua depois da chuva, a luz que bate na janela da cozinha logo cedo. São pequenos detalhes que, no conjunto, criam a sensação de lar.</p>
+<p> Por isso, não tenha pressa. Visite o imóvel em diferentes horários, converse com os vizinhos, observe o entorno. Esses detalhes, que parecem bobos, fazem parte da equação do seu investimento emocional e financeiro.</p>
+<h2> Ao Final, Tudo Se Resume a Segurança e Qualidade de Vida</h2>
+<p> Investir no futuro dos seus filhos é, no fundo, garantir que eles tenham um espaço para crescer felizes, com liberdade e proteção. É um passo que exige cuidado, atenção e, claro, um pouquinho de paciência — porque não é tarefa fácil escolher a casa certa.</p>
+<p> Mas sabe o que é mais legal? Você não está sozinho nessa caminhada. Com o parceiro certo — e um olhar atento — essa jornada pode ser até prazerosa. Afinal, nada se compara à sensação de ver o sorriso dos seus filhos em um cantinho que você escolheu pensando neles.</p>
+<p> E aí, pronto para começar essa aventura? A casa nova dos seus sonhos em Dois Irmãos pode estar mais perto do que você imagina. Só não esqueça: o lugar ideal é aquele onde o coração da família se sente em casa.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

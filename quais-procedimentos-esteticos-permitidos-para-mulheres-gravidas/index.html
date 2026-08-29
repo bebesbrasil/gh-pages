@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quais procedimentos estéticos permitidos para mulheres grávidas - Bebês Brasil</title>
+    <meta name="description" content="Descubra os procedimentos estéticos seguros para mulheres grávidas e cuide da beleza com saúde durante a gestação. Informações essenciais e atualizadas!">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/bebes/" style="color:#ffffff;">Bebês</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Quais procedimentos estéticos permitidos para mulheres grávidas</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Descubra os procedimentos estéticos seguros para mulheres grávidas e cuide da beleza com saúde durante a gestação. Informações essenciais e atualizadas!</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-12-04" style="color: var(--text-muted);">
+                        04/12/2025 21:00
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/quais-procedimentos-esteticos-permitidos-para-mulheres-gravidas.jpg" alt="Quais procedimentos estéticos permitidos para mulheres grávidas">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>A gravidez &eacute; um per&iacute;odo de grandes transforma&ccedil;&otilde;es no corpo da mulher. Com tantas mudan&ccedil;as f&iacute;sicas e hormonais, o desejo de cuidar da apar&ecirc;ncia pode continuar presente, mas &eacute; fundamental saber quais <strong>procedimentos est&eacute;ticos</strong> s&atilde;o seguros durante essa fase t&atilde;o delicada. Muitas gestantes t&ecirc;m d&uacute;vidas sobre o que &eacute; permitido, quais tratamentos devem ser evitados e como garantir a sa&uacute;de tanto da m&atilde;e quanto do beb&ecirc;.</p>
+<p>Este conte&uacute;do traz um guia completo sobre os principais tratamentos est&eacute;ticos indicados e contraindicados para mulheres gr&aacute;vidas, destacando cuidados essenciais e orienta&ccedil;&otilde;es m&eacute;dicas para que a beleza e o bem-estar caminhem juntos com seguran&ccedil;a.</p>
+<h2>Entendendo Os Riscos Dos Procedimentos Est&eacute;ticos Na Gravidez</h2>
+<p>Durante a gesta&ccedil;&atilde;o, o organismo da mulher passa por uma s&eacute;rie de altera&ccedil;&otilde;es hormonais que podem influenciar diretamente a resposta da pele e do corpo a determinados tratamentos est&eacute;ticos. Al&eacute;m disso, muitos produtos qu&iacute;micos e t&eacute;cnicas podem representar riscos para o desenvolvimento fetal.</p>
+<p>Por isso, a recomenda&ccedil;&atilde;o geral dos especialistas &eacute; evitar procedimentos invasivos e tratamentos que envolvam o uso de subst&acirc;ncias n&atilde;o testadas para gestantes. Consultar um profissional qualificado antes de qualquer interven&ccedil;&atilde;o &eacute; indispens&aacute;vel para avaliar riscos e benef&iacute;cios.</p>
+<h2>Procedimentos Est&eacute;ticos Permitidos Para Mulheres Gr&aacute;vidas</h2>
+<p>Apesar das restri&ccedil;&otilde;es, alguns procedimentos s&atilde;o considerados seguros para gestantes e podem ajudar na melhora da autoestima sem comprometer a sa&uacute;de. Abaixo, est&atilde;o os tratamentos mais indicados durante a gravidez.</p>
+<h3>1. Limpeza de pele facial</h3>
+<p>A <strong>limpeza de pele facial</strong> &eacute; um dos procedimentos est&eacute;ticos mais seguros para as gr&aacute;vidas, desde que realizada com produtos adequados e por profissionais especializados. A gesta&ccedil;&atilde;o pode aumentar a oleosidade e causar acne devido &agrave; eleva&ccedil;&atilde;o dos horm&ocirc;nios, tornando a limpeza importante para manter a pele saud&aacute;vel.</p>
+<p>- <strong>Benef&iacute;cios:</strong> remo&ccedil;&atilde;o de impurezas, controle da oleosidade, preven&ccedil;&atilde;o da acne.</p>
+<p>- <strong>Cuidados:</strong> evitar produtos com &aacute;cidos fortes e procedimentos agressivos.</p>
+<h3>2. Massagem relaxante</h3>
+<p>A massagem relaxante &eacute; uma excelente op&ccedil;&atilde;o para aliviar o estresse e as tens&otilde;es musculares comuns durante a gravidez. Existem t&eacute;cnicas espec&iacute;ficas que respeitam o per&iacute;odo gestacional, focando em conforto e bem-estar.</p>
+<p>- <strong>Benef&iacute;cios:</strong> redu&ccedil;&atilde;o do estresse, melhora da circula&ccedil;&atilde;o sangu&iacute;nea, al&iacute;vio de dores musculares.</p>
+<p>- <strong>Cuidados:</strong> evitar massagens profundas no abd&ocirc;men e em pontos que possam estimular contra&ccedil;&otilde;es uterinas.</p>
+<h3>3. Hidrata&ccedil;&atilde;o corporal e facial</h3>
+<p>A <strong>hidrata&ccedil;&atilde;o corporal</strong> e facial &eacute; fundamental para manter a elasticidade da pele e prevenir o ressecamento, que pode ser mais intenso durante a gravidez. Produtos naturais e hipoalerg&ecirc;nicos s&atilde;o os mais indicados.</p>
+<p>- <strong>Benef&iacute;cios:</strong> melhora da textura da pele, preven&ccedil;&atilde;o de estrias, sensa&ccedil;&atilde;o de conforto.</p>
+<p>- <strong>Cuidados:</strong> evitar cremes com ingredientes potencialmente t&oacute;xicos.</p>
+<h3>4. Depila&ccedil;&atilde;o com cera</h3>
+<p>A depila&ccedil;&atilde;o com cera &eacute; normalmente segura durante a gravidez, desde que seja feita com produtos apropriados e por profissionais experientes. Algumas mulheres podem sentir maior sensibilidade na pele, ent&atilde;o &eacute; essencial avaliar a resposta individual.</p>
+<p>- <strong>Benef&iacute;cios:</strong> pele lisa e livre de pelos por mais tempo.</p>
+<p>- <strong>Cuidados:</strong> evitar &aacute;reas com varizes ou irrita&ccedil;&otilde;es.</p>
+<h3>5. Manicure e pedicure</h3>
+<p>Cuidados com as unhas s&atilde;o totalmente permitidos e recomendados. Manter as m&atilde;os e os p&eacute;s bem cuidados ajuda a aumentar a autoestima e o conforto da gestante.</p>
+<p>- <strong>Benef&iacute;cios:</strong> preven&ccedil;&atilde;o de infec&ccedil;&otilde;es, embelezamento das unhas.</p>
+<p>- <strong>Cuidados:</strong> optar por esmaltes sem ingredientes t&oacute;xicos e garantir a higiene das ferramentas.</p>
+<h3>6. Microagulhamento leve (com restri&ccedil;&otilde;es)</h3>
+<p>O microagulhamento pode ser realizado em n&iacute;veis superficiais para estimular a produ&ccedil;&atilde;o de col&aacute;geno e tratar cicatrizes ou manchas leves, desde que o procedimento seja minimamente invasivo.</p>
+<p>- <strong>Benef&iacute;cios:</strong> melhora da textura da pele e rejuvenescimento.</p>
+<p>- <strong>Cuidados:</strong> evitar a penetra&ccedil;&atilde;o profunda e o uso de produtos p&oacute;s-tratamento agressivos.</p>
+<h2>Procedimentos Est&eacute;ticos Proibidos Ou Contraindicados Durante A Gravidez</h2>
+<p>Alguns tratamentos est&eacute;ticos apresentam riscos significativos e devem ser evitados pelas gestantes para proteger a sa&uacute;de do beb&ecirc; e da m&atilde;e.</p>
+<h3>1. Aplica&ccedil;&atilde;o de toxina botul&iacute;nica (Botox)</h3>
+<p>A aplica&ccedil;&atilde;o de <strong>toxina botul&iacute;nica</strong> &eacute; contraindicada durante a gravidez, pois n&atilde;o existem estudos conclusivos que garantam a seguran&ccedil;a para o feto. A toxina pode atravessar a barreira placent&aacute;ria e trazer riscos desconhecidos.</p>
+<h3>2. Uso de &aacute;cidos e peelings profundos</h3>
+<p>Peelings qu&iacute;micos profundos que utilizam &aacute;cidos como o retinoico, glic&oacute;lico em altas concentra&ccedil;&otilde;es, ou fenol, n&atilde;o s&atilde;o recomendados durante a gesta&ccedil;&atilde;o. Esses produtos podem causar absor&ccedil;&atilde;o sist&ecirc;mica significativa e potencialmente prejudicar o beb&ecirc;.</p>
+<h3>3. Tratamentos com laser</h3>
+<p>Procedimentos a laser, especialmente aqueles que envolvem o uso de luz intensa para remo&ccedil;&atilde;o de manchas, depila&ccedil;&atilde;o definitiva ou rejuvenescimento, devem ser evitados durante a gravidez. A seguran&ccedil;a para o feto ainda n&atilde;o foi comprovada.</p>
+<h3>4. Procedimentos invasivos e cir&uacute;rgicos</h3>
+<p>Qualquer procedimento invasivo, incluindo preenchimentos faciais, cirurgias pl&aacute;sticas e tratamentos que envolvam anestesia, s&atilde;o desaconselhados durante a gesta&ccedil;&atilde;o devido ao risco de complica&ccedil;&otilde;es e efeitos adversos.</p>
+<h3>5. Uso de subst&acirc;ncias qu&iacute;micas agressivas</h3>
+<p>Produtos contendo hidroquinona, isotretino&iacute;na, e outros compostos qu&iacute;micos potentes n&atilde;o devem ser usados em tratamentos est&eacute;ticos durante a gravidez, pois podem causar malforma&ccedil;&otilde;es e outras complica&ccedil;&otilde;es.</p>
+<h2>Cuidados Essenciais Para Gestantes Ao Realizar Procedimentos Est&eacute;ticos</h2>
+<p>Quando o procedimento &eacute; permitido, &eacute; importante que a gestante siga algumas recomenda&ccedil;&otilde;es para garantir a seguran&ccedil;a e efic&aacute;cia do tratamento.</p>
+<h3>Consulta m&eacute;dica pr&eacute;via</h3>
+<p>Antes de qualquer tratamento, a gestante deve passar por uma avalia&ccedil;&atilde;o m&eacute;dica para certificar que n&atilde;o h&aacute; contraindica&ccedil;&otilde;es espec&iacute;ficas para o procedimento escolhido.</p>
+<h3>Escolha de profissionais qualificados</h3>
+<p>A realiza&ccedil;&atilde;o do procedimento em uma <a href="https://esteticafortaleza.com/" target="_blank" rel="noopener">cl&iacute;nica de procedimentos est&eacute;ticos</a> de confian&ccedil;a, com profissionais especializados e experientes em atender gestantes, &eacute; fundamental para evitar riscos.</p>
+<h3>Uso de produtos seguros e naturais</h3>
+<p>Optar por produtos naturais, hipoalerg&ecirc;nicos e livres de subst&acirc;ncias t&oacute;xicas ajuda a minimizar rea&ccedil;&otilde;es adversas na pele sens&iacute;vel da gr&aacute;vida.</p>
+<h3>Aten&ccedil;&atilde;o &agrave; higiene e esteriliza&ccedil;&atilde;o</h3>
+<p>A higieniza&ccedil;&atilde;o adequada dos materiais e do ambiente &eacute; crucial para prevenir infec&ccedil;&otilde;es, que podem ser perigosas durante a gravidez.</p>
+<h3>Monitoramento constante</h3>
+<p>Durante e ap&oacute;s o procedimento, a gestante deve ser acompanhada para identificar qualquer rea&ccedil;&atilde;o inesperada e garantir o bem-estar.</p>
+<h2>Benef&iacute;cios Dos Procedimentos Est&eacute;ticos Para Mulheres Gr&aacute;vidas</h2>
+<p>Al&eacute;m do aspecto est&eacute;tico, os tratamentos autorizados durante a gravidez podem trazer diversos benef&iacute;cios para a sa&uacute;de emocional e f&iacute;sica da gestante.</p>
+<p>- <strong>Aumento da autoestima:</strong> sentir-se bonita e cuidada ajuda a melhorar o humor e a confian&ccedil;a.</p>
+<p>- <strong>Al&iacute;vio do estresse:</strong> t&eacute;cnicas como massagens relaxantes promovem o relaxamento e combatem a ansiedade.</p>
+<p>- <strong>Melhora da circula&ccedil;&atilde;o:</strong> alguns procedimentos auxiliam na circula&ccedil;&atilde;o sangu&iacute;nea, reduzindo incha&ccedil;os.</p>
+<p>- <strong>Preven&ccedil;&atilde;o de problemas de pele:</strong> cuidados faciais adequados ajudam a controlar altera&ccedil;&otilde;es como acne grav&iacute;dica.</p>
+<h2>Dicas Para Manter A Beleza Natural Durante A Gesta&ccedil;&atilde;o</h2>
+<p>Al&eacute;m dos procedimentos est&eacute;ticos permitidos, algumas pr&aacute;ticas simples podem ajudar a manter a pele e o corpo saud&aacute;veis durante a gravidez.</p>
+<h3>Alimenta&ccedil;&atilde;o equilibrada</h3>
+<p>Uma dieta rica em frutas, verduras, prote&iacute;nas magras e muita &aacute;gua contribui para a sa&uacute;de da pele e do organismo.</p>
+<h3>Prote&ccedil;&atilde;o solar</h3>
+<p>O uso di&aacute;rio de protetor solar &eacute; fundamental para evitar manchas e danos causados pela exposi&ccedil;&atilde;o solar, que podem ser intensificados na gravidez.</p>
+<h3>Atividade f&iacute;sica moderada</h3>
+<p>Exerc&iacute;cios leves, aprovados pelo obstetra, ajudam a melhorar a circula&ccedil;&atilde;o e o t&ocirc;nus muscular.</p>
+<h3>Hidrata&ccedil;&atilde;o constante</h3>
+<p>Beber bastante &aacute;gua mant&eacute;m a pele hidratada e ajuda a prevenir o ressecamento.</p>
+<h2>Conclus&atilde;o</h2>
+<p>Saber quais <strong>procedimentos est&eacute;ticos permitidos para mulheres gr&aacute;vidas</strong> &eacute; essencial para garantir que a busca pela beleza n&atilde;o comprometa a sa&uacute;de da m&atilde;e e do beb&ecirc;. Tratamentos como limpeza de pele, hidrata&ccedil;&atilde;o, massagens e depila&ccedil;&atilde;o com cera s&atilde;o seguros quando realizados com cuidado e orienta&ccedil;&atilde;o adequada. Por outro lado, procedimentos invasivos, uso de toxinas e lasers devem ser evitados durante a gesta&ccedil;&atilde;o.</p>
+<p>A escolha consciente, aliada &agrave; consulta m&eacute;dica e &agrave; realiza&ccedil;&atilde;o dos procedimentos em local confi&aacute;vel, assegura que a gestante possa cuidar de sua apar&ecirc;ncia com tranquilidade, valorizando sua beleza natural e seu bem-estar durante esse per&iacute;odo t&atilde;o especial.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentes para Geeks: Ideias Criativas para Crianças Nerds - Bebês Brasil</title>
+    <meta name="description" content="Descubra os melhores presentes para geeks! Brinquedos, livros e itens incríveis para crianças nerds que amam tecnologia, games e ficção científica.
+
+">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <span>Bebês Brasil</span>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Presentes para Geeks: Ideias Criativas para Crianças Nerds</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Descubra os melhores presentes para geeks! Brinquedos, livros e itens incríveis para crianças nerds que amam tecnologia, games e ficção científica.
+
+</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-03-11" style="color: var(--text-muted);">
+                        11/03/2025 18:59
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/Presentes-para-Geeks.jpg" alt="Presentes para Geeks: Ideias Criativas para Crianças Nerds">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <h2 data-pm-slice="1 1 []"><strong>Introdução</strong></h2>
+<p>Escolher o presente perfeito para uma criança geek pode ser um verdadeiro desafio. Afinal, elas adoram tecnologia, games, ficção científica e tudo que envolve o universo nerd. Mas não se preocupe! Se você quer surpreender e encantar, este artigo traz as melhores ideias de <strong><a href="https://www.sweetgeek.com.br/post/presentes-para-geeks">presentes para geeks</a></strong> que farão qualquer criança nerd vibrar de alegria.</p>
+<p>Vamos explorar opções criativas, educativas e divertidas para tornar qualquer aniversário, Natal ou data especial ainda mais incrível!</p>
+<div><hr></div>
+<h2><strong>Índice</strong></h2>
+<table>
+<tbody>
+<tr>
+<th>Sr#</th>
+<th>Tópicos</th>
+</tr>
+<tr>
+<td>1</td>
+<td>Por que escolher um presente geek?</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Jogos de Tabuleiro Inteligentes</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Livros Infantis para Pequenos Geeks</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Brinquedos Tecnológicos e Robôs</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Kits de Ciência e Experimentação</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Presentes para Fãs de Filmes e Séries</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Itens de Decoração Temáticos</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Roupas e Acessórios Nerds</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Gadgets e Eletrônicos Divertidos</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Presentes Criativos e Feitos à Mão</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Conclusão</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Perguntas Frequentes</td>
+</tr>
+</tbody>
+</table>
+<div><hr></div>
+<h2><strong>1. Por que escolher um presente geek?</strong></h2>
+<p>Crianças geeks têm uma imaginação fértil e adoram explorar novas ideias. Um presente geek pode estimular a criatividade, o pensamento lógico e até mesmo o interesse por ciência e tecnologia. Além disso, são opções únicas que fogem do óbvio e tornam qualquer momento especial.</p>
+<h2><strong>2. Jogos de Tabuleiro Inteligentes</strong></h2>
+<p>Jogos de tabuleiro são uma excelente escolha, pois unem diversão e aprendizado. Algumas opções populares incluem:</p>
+<ul data-spread="false">
+<li>
+<p><strong>Catan Junior</strong> – uma versão mais simples do clássico Catan.</p>
+</li>
+<li>
+<p><strong>Ticket to Ride – Primeiro Viagem</strong> – ideal para crianças aprenderem estratégia.</p>
+</li>
+<li>
+<p><strong>Dixit</strong> – um jogo visual e narrativo que estimula a criatividade.</p>
+</li>
+</ul>
+<h2><strong>3. Livros Infantis para Pequenos Geeks</strong></h2>
+<p>Nada melhor do que um bom livro para incentivar a leitura e alimentar a curiosidade. Algumas sugestões incluem:</p>
+<ul data-spread="false">
+<li>
+<p><strong>“O Pequeno Príncipe”</strong> – um clássico atemporal cheio de reflexões.</p>
+</li>
+<li>
+<p><strong>“Diário de um Banana”</strong> – para quem gosta de histórias engraçadas.</p>
+</li>
+<li>
+<p><strong>Livros de Star Wars, Harry Potter ou Marvel</strong> – perfeitos para fãs dessas franquias.</p>
+</li>
+</ul>
+<div class="gallery" contenteditable="false" data-is-empty="false" data-translation="Adicione imagens" data-columns="3">
+<figure class="gallery__item"><a href="#DOMAIN_NAME#gallery/Presentes-para-Geeks.-2.jpg" data-size="1224x1224"><img src="/static/uploads/Presentes-para-Geeks.-2-thumbnail.jpg" alt="" width="768" height="768"></a></figure>
+</div>
+<h2><strong>4. Brinquedos Tecnológicos e Robôs</strong></h2>
+<p>Crianças geeks adoram tecnologia, e há muitos brinquedos interativos incríveis:</p>
+<ul data-spread="false">
+<li>
+<p><strong>Lego Mindstorms</strong> – para montar e programar robôs.</p>
+</li>
+<li>
+<p><strong>Ozobot</strong> – um mini robô que segue comandos desenhados.</p>
+</li>
+<li>
+<p><strong>Drones infantis</strong> – para explorar e aprender sobre aerodinâmica.</p>
+</li>
+</ul>
+<h2><strong>5. Kits de Ciência e Experimentação</strong></h2>
+<p>Kits de ciência são presentes perfeitos para crianças curiosas:</p>
+<ul data-spread="false">
+<li>
+<p><strong>Kits de química</strong> – com experiências seguras e educativas.</p>
+</li>
+<li>
+<p><strong>Kits de eletrônica</strong> – para montar circuitos e entender como funciona a tecnologia.</p>
+</li>
+<li>
+<p><strong>Telas interativas e de realidade aumentada</strong> – para aprender brincando.</p>
+</li>
+</ul>
+<h2><strong>6. Presentes para Fãs de Filmes e Séries</strong></h2>
+<p>Se a criança é apaixonada por filmes e séries, esses presentes são ótimos:</p>
+<ul data-spread="false">
+<li>
+<p><strong>Bonecos Funko Pop</strong> dos personagens favoritos.</p>
+</li>
+<li>
+<p><strong>Posters e quadros decorativos</strong> de filmes icônicos.</p>
+</li>
+<li>
+<p><strong>Coleções de DVD ou Blu-ray</strong> para maratonar os clássicos nerds.</p>
+</li>
+</ul>
+<h2><strong>7. Itens de Decoração Temáticos</strong></h2>
+<p>Transforme o quarto de uma criança geek com decorações criativas:</p>
+<ul data-spread="false">
+<li>
+<p><strong>Luminárias temáticas</strong> – como a da Estrela da Morte de Star Wars.</p>
+</li>
+<li>
+<p><strong>Almofadas e roupas de cama personalizadas</strong> com temas nerds.</p>
+</li>
+<li>
+<p><strong>Adesivos de parede</strong> para criar um ambiente intergaláctico ou de super-heróis.</p>
+</li>
+</ul>
+<h2><strong>8. Roupas e Acessórios Nerds</strong></h2>
+<p>As crianças adoram vestir roupas que representem seus interesses. Algumas opções incluem:</p>
+<ul data-spread="false">
+<li>
+<p><strong>Camisetas estampadas</strong> com heróis e personagens.</p>
+</li>
+<li>
+<p><strong>Mochilas personalizadas</strong> de Star Wars, Harry Potter e Pokémon.</p>
+</li>
+<li>
+<p><strong>Chinelos e meias divertidas</strong> com estampas geek.</p>
+</li>
+</ul>
+<h2><strong>9. Gadgets e Eletrônicos Divertidos</strong></h2>
+<p>A tecnologia está presente no dia a dia das crianças geeks, e há muitas opções de gadgets:</p>
+<ul data-spread="false">
+<li>
+<p><strong>Fones de ouvido personalizados</strong> com temas nerds.</p>
+</li>
+<li>
+<p><strong>Relógios inteligentes infantis</strong> – para acompanhar o dia a dia com estilo.</p>
+</li>
+<li>
+<p><strong>Mini projetores portáteis</strong> – para criar um cinema em casa.</p>
+</li>
+</ul>
+<h2><strong>10. Presentes Criativos e Feitos à Mão</strong></h2>
+<p>Se você quer algo mais pessoal e exclusivo, presentes feitos à mão são uma ótima escolha:</p>
+<ul data-spread="false">
+<li>
+<p><strong>Caixas temáticas personalizadas</strong> com itens favoritos da criança.</p>
+</li>
+<li>
+<p><strong>Marcadores de página artesanais</strong> com personagens nerds.</p>
+</li>
+<li>
+<p><strong>Quadros e artes customizadas</strong> de filmes, games e séries favoritas.</p>
+</li>
+</ul>
+<div><hr></div>
+<h2><strong>Conclusão</strong></h2>
+<p>Escolher <strong>presentes para geeks</strong> pode ser uma experiência divertida e gratificante. Com tantas opções criativas e educativas, você certamente encontrará algo que encantará qualquer criança nerd. Desde livros e jogos até gadgets tecnológicos, há um universo inteiro de possibilidades para tornar o dia dela ainda mais especial.</p>
+<div><hr></div>
+<h2><strong>Perguntas Frequentes</strong></h2>
+<h3>1. Qual é o melhor presente geek para crianças pequenas?</h3>
+<p>Brinquedos interativos, livros ilustrados e jogos educativos são ótimas opções para estimular a criatividade desde cedo.</p>
+<h3>2. Crianças geeks gostam de jogos de tabuleiro?</h3>
+<p>Sim! Muitos jogos de tabuleiro são perfeitos para desenvolver habilidades de raciocínio lógico e criatividade.</p>
+<h3>3. Presentes tecnológicos são seguros para crianças?</h3>
+<p>Sim, desde que sejam adequados para a faixa etária e usados com supervisão. Sempre verifique as recomendações do fabricante.</p>
+<h3>4. Qual é o melhor presente para uma criança que ama ficção científica?</h3>
+<p>Livros, bonecos colecionáveis e roupas temáticas de filmes como Star Wars e Marvel são ótimas escolhas.</p>
+<h3>5. Vale a pena investir em kits de ciência?</h3>
+<p>Com certeza! Eles incentivam o aprendizado de forma divertida e podem despertar o interesse por tecnologia e experimentação.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

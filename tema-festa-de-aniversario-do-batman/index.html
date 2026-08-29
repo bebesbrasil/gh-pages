@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema Festa de Aniversário do Batman - Bebês Brasil</title>
+    <meta name="description" content="Ao refletir sobre o anivers&#225;rio do Batman&#044; considere o impacto desta figura ic&#244;nica na cultura popular e na sociedade. Desde sua cria&#231;&#227;">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/criancas/" style="color:#ffffff;">Crianças</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Tema Festa de Aniversário do Batman</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Ao refletir sobre o anivers&#225;rio do Batman&#044; considere o impacto desta figura ic&#244;nica na cultura popular e na sociedade. Desde sua cria&#231;&#227;</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2024-07-22" style="color: var(--text-muted);">
+                        22/07/2024 00:14
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/festa-do-batman-luxo.jpg" alt="Tema Festa de Aniversário do Batman">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Ao refletir sobre o anivers&#225;rio do Batman&#044; considere o impacto desta figura ic&#244;nica na cultura popular e na sociedade. Desde sua cria&#231;&#227;o em 1939 at&#233; os dias atuais&#044; a jornada do Batman &#233; uma prova do apelo duradouro de um personagem que transcende gera&#231;&#245;es. O legado do Cavaleiro das Trevas vai muito al&#233;m do mero entretenimento&#044; gerando discuss&#245;es sobre justi&#231;a&#044; hero&#237;smo e as complexidades da natureza humana. Ao ponderar sobre a signific&#226;ncia do anivers&#225;rio do Batman&#044; voc&#234; se encontrar&#225; imerso em um mundo onde um &#250;nico s&#237;mbolo representa esperan&#231;a&#044; medo e a busca incans&#225;vel pela justi&#231;a.</p>
+<h2>Origens e Evolu&#231;&#227;o do Batman</h2>
+<p>Explore como o Batman&#044; um personagem amado dos quadrinhos&#044; evoluiu desde suas origens para se tornar o ic&#244;nico super-her&#243;i que reconhecemos hoje.</p>
+<p>Batman estreou em Detective Comics &#035;27 em 1939&#044; criado por Bob Kane e Bill Finger. Inicialmente&#044; Batman era retratado como um vigilante sombrio e melanc&#243;lico&#044; em busca de justi&#231;a pela morte de seus pais. Ao longo dos anos&#044; seu personagem passou por transforma&#231;&#245;es significativas&#044; refletindo os tempos em mudan&#231;a e as prefer&#234;ncias do p&#250;blico.</p>
+<p>Desde a representa&#231;&#227;o brega na s&#233;rie de TV dos anos 1960 at&#233; o sombrio Cavaleiro das Trevas dos filmes de Christopher Nolan&#044; Batman evoluiu para atrair uma ampla gama de p&#250;blicos.</p>
+<p>A evolu&#231;&#227;o do Batman n&#227;o se limita apenas ao seu personagem&#044; mas tamb&#233;m se estende aos seus gadgets&#044; ve&#237;culos e vil&#245;es.</p>
+<p>O traje do Batman passou por v&#225;rias atualiza&#231;&#245;es&#044; tornando-se mais t&#225;tico e avan&#231;ado. O Batm&#243;vel se transformou de um carro preto elegante para um ve&#237;culo tipo tanque equipado com tecnologia de ponta. Vil&#245;es como o Coringa&#044; Mulher-Gato e Bane tamb&#233;m evolu&#237;ram&#044; tornando-se personagens mais complexos e multidimensionais que desafiam o Batman tanto fisicamente quanto mentalmente.</p>
+<p>A evolu&#231;&#227;o do Batman mostra o apelo duradouro e a adaptabilidade do personagem&#044; garantindo seu lugar como um super-her&#243;i atemporal na cultura pop.</p>
+<h2>A Ascens&#227;o do Batman na Cultura Pop</h2>
+<p>A evolu&#231;&#227;o do Batman desde suas origens at&#233; os dias atuais solidificou sua posi&#231;&#227;o como uma figura proeminente na cultura pop. O Cavaleiro das Trevas transcendeu as hist&#243;rias em quadrinhos para se tornar um &#237;cone cultural&#044; aparecendo em in&#250;meros filmes&#044; programas de TV&#044; jogos de v&#237;deo e produtos.</p>
+<p>A popularidade do Batman na cultura pop pode ser atribu&#237;da ao seu personagem complexo&#044; tramas cativantes e s&#237;mbolo ic&#244;nico. Os f&#227;s s&#227;o atra&#237;dos pela sua identidade dupla&#044; passado tr&#225;gico e compromisso inabal&#225;vel com a justi&#231;a. A persona sombria e vigilante do Batman tem cativado audi&#234;ncias em todo o mundo&#044; ressoando tanto com espectadores casuais quanto com f&#227;s dedicados.</p>
+<p>Com o sucesso da trilogia de Christopher Nolan&#044; &#034;Batman&#058; O Cavaleiro das Trevas&#034;&#044; e v&#225;rias s&#233;ries animadas como &#039;Batman&#058; A S&#233;rie Animada&#039;&#044; a presen&#231;a do Batman na cultura pop s&#243; continuou a crescer. A adaptabilidade do personagem permite interpreta&#231;&#245;es em diferentes meios&#044; garantindo que o Batman permane&#231;a relevante e atraente para novas gera&#231;&#245;es de f&#227;s.</p>
+<h2>Explorando a galeria de vil&#245;es do Batman</h2>
+<p>Vamos dar uma olhada mais de perto na <strong>Galera de Vil&#245;es</strong> do Batman&#044; onde o perfil de cada vil&#227;o mostra sua <strong>marca &#250;nica de malevol&#234;ncia</strong>. Desde a loucura ca&#243;tica do Coringa at&#233; a dualidade do Duas-Caras&#044; esses personagens revelam profundezas psicol&#243;gicas intricadas que espelham a complexidade pr&#243;pria do Batman.</p>
+<p>Ao explorarmos esses inimigos ic&#244;nicos&#044; descobrimos a <strong>intrincada teia de relacionamentos</strong> que definem o submundo de Gotham e a luta eterna do Batman por justi&#231;a.</p>
+<h3>Perfil de Vil&#245;es Ic&#244;nicos</h3>
+<p>Explore a not&#243;ria galeria de vil&#245;es do Batman&#044; repleta de vil&#245;es ic&#244;nicos que cativaram o p&#250;blico por d&#233;cadas. Desde o <strong>man&#237;aco Coringa</strong>&#044; com seu senso de humor distorcido e natureza ca&#243;tica&#044; at&#233; o <strong>enigm&#225;tico Charada</strong>&#044; que desafia a intelig&#234;ncia do Batman com enigmas elaborados&#044; cada vil&#227;o apresenta um desafio &#250;nico para o Cavaleiro das Trevas.</p>
+<p>A sedutora e <strong>letal Hera Venenosa</strong> usa seus poderes bot&#226;nicos para controlar e manipular aqueles ao seu redor&#044; enquanto o <strong>g&#233;lido Senhor Frio</strong> busca salvar sua esposa criogenicamente congelada a qualquer custo. O <strong>sombrio e brutal Duas-Caras</strong> incorpora a dualidade do bem e do mal&#044; tomando decis&#245;es com base no lan&#231;amento de uma moeda.</p>
+<p>Mulher-Gato&#044; com sua <strong>gra&#231;a felina</strong> e natureza moralmente amb&#237;gua&#044; caminha na linha t&#234;nue entre aliada e advers&#225;ria do Batman. O astuto Pinguim&#044; com seu <strong>comportamento aristocr&#225;tico</strong> e predile&#231;&#227;o por guarda-chuvas&#044; conspira seu caminho pelo submundo criminoso de Gotham.</p>
+<p>Esses vil&#245;es ic&#244;nicos n&#227;o apenas testam a destreza f&#237;sica do Batman&#044; mas tamb&#233;m desafiam seus valores e intelig&#234;ncia&#044; criando um rico cen&#225;rio de advers&#225;rios para o Cruzado Encapuzado superar.</p>
+<h3>Profundezas Psicol&#243;gicas Reveladas</h3>
+<p>Explore as intricadas profundezas psicol&#243;gicas da galeria de vil&#245;es do Batman. As motiva&#231;&#245;es e psique distorcida de cada vil&#227;o adicionam camadas de complexidade aos confrontos com o Cavaleiro das Trevas.</p>
+<p>O Coringa&#044; com sua natureza ca&#243;tica e imprevis&#237;vel&#044; personifica o &#225;pice da loucura. Ele encontra alegria em causar caos e desafiar o c&#243;digo moral do Batman.</p>
+<p>Por outro lado&#044; a luta interna de Duas-Caras entre o senso de justi&#231;a de Harvey Dent e a influ&#234;ncia mal&#233;vola do acaso cria uma dualidade cativante. Isso reflete os pr&#243;prios conflitos internos do Batman.</p>
+<p>A obsess&#227;o do Charada por enigmas e quebra-cabe&#231;as decorre de uma necessidade profunda de valida&#231;&#227;o e superioridade intelectual. Isso o leva a testar incessantemente as habilidades de detetive do Batman.</p>
+<p>A conex&#227;o de Hera Venenosa com a natureza e suas motiva&#231;&#245;es eco-terroristas borraram as linhas entre vilania e ativismo ambiental. Isso for&#231;a o Batman a enfrentar dilemas &#233;ticos em seus encontros.</p>
+<p>Esses vil&#245;es&#044; entre outros como Espantalho&#044; Bane e Mulher-Gato&#044; mostram o rico tapete de complexidades psicol&#243;gicas que elevam a galeria de vil&#245;es do Batman ao status lend&#225;rio no mundo das hist&#243;rias em quadrinhos.</p>
+<h2>O Impacto do Batman na Sociedade</h2>
+<p>A presen&#231;a do Batman na cultura popular teve um impacto profundo na sociedade&#044; moldando percep&#231;&#245;es de justi&#231;a e hero&#237;smo. Desde sua estreia em 1939&#044; o Batman se tornou um s&#237;mbolo de resili&#234;ncia&#044; determina&#231;&#227;o e da luta contra a corrup&#231;&#227;o. Atrav&#233;s de quadrinhos&#044; programas de TV&#044; filmes e produtos&#044; o Cavaleiro das Trevas capturou a imagina&#231;&#227;o de pessoas ao redor do mundo&#044; inspirando in&#250;meras pessoas a defender o que &#233; certo e justo.</p>
+<p>Uma das principais formas como o Batman influenciou a sociedade foi destacando a import&#226;ncia de usar os pr&#243;prios recursos para o bem da comunidade. A dedica&#231;&#227;o de Bruce Wayne &#224; filantropia e seu compromisso em melhorar Gotham City mostram como indiv&#237;duos com poder e riqueza podem causar um impacto positivo no mundo ao seu redor.</p>
+<p>Al&#233;m disso&#044; o c&#243;digo moral do Batman&#044; centrado na ideia de nunca tirar uma vida&#044; tem suscitado discuss&#245;es sobre a &#233;tica no combate ao crime e o verdadeiro significado da justi&#231;a. Ao manter esse princ&#237;pio&#044; o Batman desafia no&#231;&#245;es convencionais de vigilantismo e incentiva uma abordagem mais ponderada para combater o crime.</p>
+<p>O impacto do Batman na sociedade serve como um lembrete de que mesmo nos momentos mais sombrios&#044; um farol de esperan&#231;a e justi&#231;a pode surgir para inspirar outros a fazer a diferen&#231;a.</p>
+<h2>Nos Bastidores&#058; Criadores do Batman</h2>
+<p>Os talentosos indiv&#237;duos respons&#225;veis por dar vida ao Batman abrangem uma variedade diversificada de escritores&#044; artistas e vision&#225;rios. Esses criadores contribu&#237;ram imensamente para moldar a persona ic&#244;nica do Cavaleiro das Trevas e o rico mundo de Gotham City.</p>
+<p>Aqui est&#227;o quatro fatos intrigantes sobre os criadores do Batman&#058;</p>
+<ol>
+<li><strong>Paix&#227;o&#058;</strong> Muitos dos criadores do Batman dedicaram seus cora&#231;&#245;es e almas ao desenvolvimento dos personagens complexos e das tramas intricadas que fascinaram o p&#250;blico por d&#233;cadas.</li>
+<li><strong>Colabora&#231;&#227;o&#058;</strong> Os esfor&#231;os colaborativos entre escritores e artistas resultaram na integra&#231;&#227;o perfeita entre a narrativa visual e as hist&#243;rias cativantes&#044; elevando as hist&#243;rias em quadrinhos do Batman a um novo n&#237;vel.</li>
+<li><strong>Inova&#231;&#227;o&#058;</strong> Os criadores do Batman constantemente empurraram os limites da criatividade&#044; introduzindo conceitos inovadores e reimaginando o g&#234;nero de super-her&#243;is de maneiras inventivas.</li>
+<li><strong>Legado&#058;</strong> O legado duradouro dos criadores do Batman &#233; evidente na cont&#237;nua popularidade e relev&#226;ncia do personagem&#044; cativando novas gera&#231;&#245;es de f&#227;s e inspirando futuros contadores de hist&#243;rias a manter a lenda viva.</li>
+</ol>
+<h2>Celebrando o Legado Duradouro do Batman</h2>
+<p>Celebre o legado duradouro do Batman refletindo sobre o impacto de seus criadores e a influ&#234;ncia duradoura do personagem na cultura popular. Bob Kane e Bill Finger deram vida ao Cruzado de Capa pela primeira vez em 1939&#044; moldando o vigilante sombrio e complexo com o qual estamos familiarizados hoje.</p>
+<p>A presen&#231;a do Batman transcendeu os quadrinhos&#044; influenciando filmes&#044; programas de TV&#044; jogos de v&#237;deo e mercadorias por mais de 80 anos. Seu s&#237;mbolo se tornou um &#237;cone universal&#044; representando justi&#231;a e resili&#234;ncia.</p>
+<p>O legado do Batman n&#227;o se resume apenas &#224; sua hist&#243;ria de origem ou sua impressionante galeria de vil&#245;es&#059; tamb&#233;m se trata dos valores que ele defende. A dedica&#231;&#227;o do Cavaleiro das Trevas em combater o crime sem superpoderes ressoa com o p&#250;blico mundial. Sua humanidade imperfeita e determina&#231;&#227;o inabal&#225;vel o tornam uma figura cativante e inspiradora.</p>
+<p>Enquanto voc&#234; celebra o legado duradouro do Batman&#044; considere como seu personagem evoluiu ao longo do tempo&#044; mantendo seus princ&#237;pios fundamentais. De Adam West a Christian Bale e Robert Pattinson&#044; cada ator traz uma perspectiva &#250;nica para o papel&#044; mantendo o Batman relevante e cativante para novas gera&#231;&#245;es.</p>
+<p>O legado do Batman perdura porque ele fala para a luta atemporal entre a luz e a escurid&#227;o dentro de todos n&#243;s.</p>
+<h2>Perguntas Frequentes</h2>
+<h3>Qual &#233; a comida favorita do Batman&#063;</h3>
+<p>Imagine um cavaleiro das trevas desejando combust&#237;vel para a justi&#231;a. Voc&#234; se pergunta&#044; &#039;qual &#233; a comida favorita do Batman&#063;&#039; Bem&#044; alerta de spoiler&#033; N&#227;o &#233; apenas qualquer comida - &#233; o sabor da vit&#243;ria e da justi&#231;a&#044; sempre.</p>
+<h3>O Batman tem algum hobby secreto&#063;</h3>
+<p>Claro&#044; o Batman tem hobbies secretos. Ele gosta de pintar e resolver quebra-cabe&#231;as no tempo livre. Essas atividades ajudam-no a relaxar e a manter a mente afiada quando n&#227;o est&#225; combatendo o crime em Gotham City.</p>
+<h3>Como o Batman gasta o seu tempo livre&#063;</h3>
+<p>Quando n&#227;o est&#225; lutando contra o crime&#044; o Batman passa seu tempo livre como um detetive noturno desvendando mist&#233;rios da mente. Ele explora textos antigos&#044; aprimora habilidades de combate e aperfei&#231;oa sua parafern&#225;lia&#044; sempre se preparando para a pr&#243;xima batalha.</p>
+<h3>Qual &#233; o filme favorito do Batman&#063;</h3>
+<p>Voc&#234; conhece bem o Batman&#044; mas sabe qual &#233; o filme favorito dele&#063; Ele adora &#039;The Dark Knight&#039;&#044; cativado por seus temas complexos e pela representa&#231;&#227;o de seu alter ego. &#201; um filme que ressoa profundamente com ele.</p>
+<h3>O Batman tem algum animal de estima&#231;&#227;o&#063;</h3>
+<p>Voc&#234; se pergunta se o Batman tem algum animal de estima&#231;&#227;o. Bem&#044; a resposta &#233; sim. Alfred&#044; seu leal mordomo&#044; ocasionalmente cuida de Ace&#044; o Bat-C&#227;o. Este filhote inteligente ajuda o Batman a combater o crime ao seu lado.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

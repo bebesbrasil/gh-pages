@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantos Meses Pode Colocar o Bebê na Cadeirinha de Alimentação? - Bebês Brasil</title>
+    <meta name="description" content="Quantos meses pode colocar o bebê na cadeirinha de alimentação? Descubra o momento ideal para começar a usar o cadeirão, dicas para escolher o melhor modelo e c">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/bebes/" style="color:#ffffff;">Bebês</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Quantos Meses Pode Colocar o Bebê na Cadeirinha de Alimentação?</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Quantos meses pode colocar o bebê na cadeirinha de alimentação? Descubra o momento ideal para começar a usar o cadeirão, dicas para escolher o melhor modelo e c</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-08-05" style="color: var(--text-muted);">
+                        05/08/2025 21:31
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/pais-dando-comida-para-bebe-na-cadeirinha.jpg" alt="Quantos Meses Pode Colocar o Bebê na Cadeirinha de Alimentação?">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p data-start="349" data-end="874">A chegada do bebê traz muitas dúvidas para os pais, especialmente quando o assunto é a introdução da alimentação sólida e os cuidados com a segurança na hora de comer. Um dos acessórios mais importantes nesse momento é a cadeirinha de alimentação, também conhecida como cadeirão de alimentação.</p>
+<p data-start="349" data-end="874">Mas afinal, <strong data-start="656" data-end="722">quantos meses pode colocar o bebê na cadeirinha de alimentação</strong>? Neste artigo, vamos esclarecer essa dúvida e dar dicas importantes para o uso correto da cadeirinha, garantindo conforto e segurança para o seu filho.</p>
+<h2 data-start="876" data-end="915">O Que é a Cadeirinha de Alimentação?</h2>
+<p data-start="917" data-end="1293">Antes de falar sobre a idade ideal para começar a usar a <span data-sheets-root="1"><a href="https://meubebechegou.com.br/cadeirinha-de-alimentacao-para-bebe/" target="_blank" rel="noopener noreferrer">cadeirinha de alimentação para bebê</a></span>, é importante entender o que é esse produto. A cadeirinha de alimentação é um assento especialmente desenvolvido para oferecer suporte e segurança ao bebê durante as refeições. Ela geralmente possui um cinto de segurança, apoio para os pés e uma bandeja removível para facilitar a alimentação.</p>
+<p data-start="1295" data-end="1492">Além de ajudar na postura correta do bebê, a cadeirinha também promove momentos de interação entre a família durante as refeições, contribuindo para o desenvolvimento social e emocional da criança.</p>
+<h2 data-start="1494" data-end="1542">A Importância da Cadeirinha na Rotina do Bebê</h2>
+<p data-start="1544" data-end="1597">Usar a cadeirinha de alimentação é importante porque:</p>
+<ul data-start="1599" data-end="1902">
+<li data-start="1599" data-end="1662">
+<p data-start="1601" data-end="1662"><strong data-start="1601" data-end="1615">Segurança:</strong> Evita quedas e acidentes durante as refeições.</p>
+</li>
+<li data-start="1663" data-end="1741">
+<p data-start="1665" data-end="1741"><strong data-start="1665" data-end="1677">Postura:</strong> Ajuda o bebê a se sentar corretamente, prevenindo desconfortos.</p>
+</li>
+<li data-start="1742" data-end="1817">
+<p data-start="1744" data-end="1817"><strong data-start="1744" data-end="1760">Convivência:</strong> Facilita a interação familiar no momento da alimentação.</p>
+</li>
+<li data-start="1818" data-end="1902">
+<p data-start="1820" data-end="1902"><strong data-start="1820" data-end="1836">Organização:</strong> Mantém o bebê em um local fixo, facilitando a limpeza e a rotina.</p>
+</li>
+</ul>
+<p data-start="1904" data-end="1966">Mas quando exatamente começar a usar esse item tão importante?</p>
+<h2 data-start="1968" data-end="2034">Quantos Meses Pode Colocar o Bebê na Cadeirinha de Alimentação?</h2>
+<p data-start="2036" data-end="2310">O bebê pode ser colocado na cadeirinha de alimentação a partir dos <strong data-start="2103" data-end="2123">6 meses de idade</strong>, que é quando geralmente se inicia a introdução alimentar. Esse período é recomendado por órgãos como a Sociedade Brasileira de Pediatria (SBP) e pela Organização Mundial da Saúde (OMS).</p>
+<h3 data-start="2312" data-end="2345">Por Que a partir dos 6 Meses?</h3>
+<ul data-start="2347" data-end="2736">
+<li data-start="2347" data-end="2472">
+<p data-start="2349" data-end="2472"><strong data-start="2349" data-end="2375">Desenvolvimento Motor:</strong> Nessa idade, o bebê já consegue sentar-se com apoio e tem controle melhor da cabeça e do tronco.</p>
+</li>
+<li data-start="2473" data-end="2632">
+<p data-start="2475" data-end="2632"><strong data-start="2475" data-end="2500">Introdução Alimentar:</strong> A partir dos 6 meses, a dieta do bebê começa a incluir alimentos sólidos ou pastosos, que precisam ser administrados com segurança.</p>
+</li>
+<li data-start="2633" data-end="2736">
+<p data-start="2635" data-end="2736"><strong data-start="2635" data-end="2651">Coordenação:</strong> O bebê começa a desenvolver a coordenação motora para pegar e levar a comida à boca.</p>
+</li>
+</ul>
+<p data-start="2738" data-end="3014">Antes dos 6 meses, o bebê ainda não está preparado para se alimentar em uma cadeirinha, pois a capacidade de manter a postura e engolir alimentos sólidos não está completamente desenvolvida. Nessa fase, o ideal é a amamentação exclusiva, de acordo com as recomendações da OMS.</p>
+<h3 data-start="3016" data-end="3040">E Antes dos 6 Meses?</h3>
+<p data-start="3042" data-end="3348">Antes dos 6 meses, a alimentação do bebê deve ser exclusiva ao leite materno ou fórmula infantil, que pode ser oferecida no colo, em posição segura e confortável. Colocar o bebê na cadeirinha para alimentar antes do desenvolvimento adequado pode gerar desconforto, insegurança e até riscos de engasgamento.</p>
+<h2 data-start="3350" data-end="3412">Como Escolher a Cadeirinha de Alimentação Ideal para o Bebê</h2>
+<p data-start="3414" data-end="3530">Ao escolher uma cadeirinha de alimentação, alguns fatores devem ser considerados para garantir conforto e segurança:</p>
+<h3 data-start="3532" data-end="3548">1. Segurança</h3>
+<p data-start="3550" data-end="3664">Opte por cadeirinhas que possuam cinto de segurança de 3 ou 5 pontos para manter o bebê bem preso e evitar quedas.</p>
+<h3 data-start="3666" data-end="3685">2. Estabilidade</h3>
+<p data-start="3687" data-end="3746">A base deve ser ampla e antiderrapante, para evitar tombos.</p>
+<h3 data-start="3748" data-end="3769">3. Ajustabilidade</h3>
+<p data-start="3771" data-end="3876">A cadeirinha precisa ter ajuste de altura e inclinação do encosto para se adaptar ao crescimento do bebê.</p>
+<h3 data-start="3878" data-end="3906">4. Facilidade de Limpeza</h3>
+<p data-start="3908" data-end="4028">Modelos com bandejas removíveis e superfícies lisas facilitam a limpeza, o que é essencial para a rotina de alimentação.</p>
+<h3 data-start="4030" data-end="4045">5. Conforto</h3>
+<p data-start="4047" data-end="4128">Assentos acolchoados e apoio para os pés são importantes para o conforto do bebê.</p>
+<h2 data-start="4130" data-end="4172">Como Usar a Cadeirinha de Forma Correta</h2>
+<p data-start="4174" data-end="4254">Para que a cadeirinha cumpra seu papel, é importante seguir algumas orientações:</p>
+<ul data-start="4256" data-end="4725">
+<li data-start="4256" data-end="4350">
+<p data-start="4258" data-end="4350"><strong data-start="4258" data-end="4303">Nunca deixe o bebê sozinho na cadeirinha.</strong> Sempre esteja por perto para evitar acidentes.</p>
+</li>
+<li data-start="4351" data-end="4450">
+<p data-start="4353" data-end="4450"><strong data-start="4353" data-end="4389">Use sempre o cinto de segurança.</strong> Mesmo que o bebê esteja tranquilo, ele pode se mexer e cair.</p>
+</li>
+<li data-start="4451" data-end="4546">
+<p data-start="4453" data-end="4546"><strong data-start="4453" data-end="4487">Posicione o bebê corretamente.</strong> O encosto deve estar ajustado para manter a postura ereta.</p>
+</li>
+<li data-start="4547" data-end="4631">
+<p data-start="4549" data-end="4631"><strong data-start="4549" data-end="4631">Não use a cadeirinha como brinquedo ou para outros fins que não a alimentação.</strong></p>
+</li>
+<li data-start="4632" data-end="4725">
+<p data-start="4634" data-end="4725"><strong data-start="4634" data-end="4725">Evite deixar brinquedos pendurados na cadeirinha que possam causar distração ou perigo.</strong></p>
+</li>
+</ul>
+<h2 data-start="4727" data-end="4781">Quando Retirar o Bebê da Cadeirinha de Alimentação?</h2>
+<p data-start="4783" data-end="5011">O uso da cadeirinha pode ser estendido até os 2 ou 3 anos de idade, dependendo do modelo e do desenvolvimento da criança. Quando o bebê começar a se alimentar na mesa junto com a família, é sinal de que a transição pode ocorrer.</p>
+<p data-start="5013" data-end="5068">Alguns sinais para considerar a retirada da cadeirinha:</p>
+<ul data-start="5070" data-end="5277">
+<li data-start="5070" data-end="5144">
+<p data-start="5072" data-end="5144">O bebê já consegue sentar sozinho e confortavelmente em cadeiras comuns.</p>
+</li>
+<li data-start="5145" data-end="5207">
+<p data-start="5147" data-end="5207">Há interesse em participar das refeições em família na mesa.</p>
+</li>
+<li data-start="5208" data-end="5277">
+<p data-start="5210" data-end="5277">A cadeirinha não oferece mais conforto ou segurança para a criança.</p>
+</li>
+</ul>
+<h2 data-start="5279" data-end="5335">Dicas para Facilitar o Uso da Cadeirinha no Dia a Dia</h2>
+<ol data-start="5337" data-end="5800">
+<li data-start="5337" data-end="5479">
+<p data-start="5340" data-end="5479"><strong data-start="5340" data-end="5360">Crie uma rotina:</strong> Ofereça as refeições sempre no mesmo horário e local para que o bebê associe a cadeirinha a um momento de alimentação.</p>
+</li>
+<li data-start="5481" data-end="5569">
+<p data-start="5484" data-end="5569"><strong data-start="5484" data-end="5517">Deixe a cadeirinha acessível:</strong> Tenha o cadeirão em um local fácil de usar e limpo.</p>
+</li>
+<li data-start="5571" data-end="5669">
+<p data-start="5574" data-end="5669"><strong data-start="5574" data-end="5598">Interaja com o bebê:</strong> Aproveite para conversar e fazer contato visual durante a alimentação.</p>
+</li>
+<li data-start="5671" data-end="5800">
+<p data-start="5674" data-end="5800"><strong data-start="5674" data-end="5699">Estimule a autonomia:</strong> Quando a criança estiver pronta, incentive que ela tente comer sozinha, usando talheres apropriados.</p>
+</li>
+</ol>
+<h2 data-start="5802" data-end="5856">Principais Cuidados com a Cadeirinha de Alimentação</h2>
+<ul data-start="5858" data-end="6213">
+<li data-start="5858" data-end="5940">
+<p data-start="5860" data-end="5940"><strong data-start="5860" data-end="5879">Limpeza diária:</strong> Evite acúmulo de sujeira para prevenir alergias e infecções.</p>
+</li>
+<li data-start="5941" data-end="6033">
+<p data-start="5943" data-end="6033"><strong data-start="5943" data-end="5969">Verificação periódica:</strong> Confira os cintos e travas para garantir que estão funcionando.</p>
+</li>
+<li data-start="6034" data-end="6115">
+<p data-start="6036" data-end="6115"><strong data-start="6036" data-end="6077">Não deixe objetos pesados na bandeja:</strong> Isso pode desequilibrar a cadeirinha.</p>
+</li>
+<li data-start="6116" data-end="6213">
+<p data-start="6118" data-end="6213"><strong data-start="6118" data-end="6155">Atenção ao peso máximo suportado:</strong> Cada cadeirinha tem um limite, respeite-o para segurança.</p>
+</li>
+</ul>
+<h2 data-start="6215" data-end="6295">Cadeirinha de Alimentação para Bebês Prematuros ou com Necessidades Especiais</h2>
+<p data-start="6297" data-end="6508">Para bebês prematuros ou com alguma necessidade especial, é fundamental consultar o pediatra antes de usar a cadeirinha. Pode ser necessário um modelo específico ou adaptações para garantir conforto e segurança.</p>
+<h2 data-start="6510" data-end="6522">Conclusão</h2>
+<p data-start="6524" data-end="6915">Saber <strong data-start="6530" data-end="6596">quantos meses pode colocar o bebê na cadeirinha de alimentação</strong> é essencial para garantir a segurança, conforto e desenvolvimento adequado da criança. A partir dos 6 meses, quando o bebê está pronto para iniciar a alimentação sólida, a cadeirinha torna-se uma aliada importante. Além de ajudar na postura, ela garante segurança e momentos de interação familiar durante as refeições.</p>
+<p data-start="6917" data-end="7169">Lembre-se de escolher uma cadeirinha que ofereça todos os itens de segurança, praticidade e conforto, e siga as orientações para o uso correto. Assim, você promove uma alimentação saudável e um ambiente seguro para o seu bebê crescer feliz e protegido.</p>
+<hr data-start="7171" data-end="7174">
+<p data-start="7176" data-end="7302"><strong data-start="7176" data-end="7302">Gostou deste conteúdo? Confira também outros artigos sobre cuidados com bebês e dicas para facilitar o dia a dia dos pais!</strong></p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

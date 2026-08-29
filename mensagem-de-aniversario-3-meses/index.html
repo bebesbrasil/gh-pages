@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagem de Aniversário 3 Meses - Bebês Brasil</title>
+    <meta name="description" content="À medida que você se aproxima do seu aniversário de três meses, é natural refletir sobre o significado desse marco. Você pode achar surpreendente como apenas al">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/atividades/" style="color:#ffffff;">Atividades</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Mensagem de Aniversário 3 Meses</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">À medida que você se aproxima do seu aniversário de três meses, é natural refletir sobre o significado desse marco. Você pode achar surpreendente como apenas al</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2024-08-05" style="color: var(--text-muted);">
+                        05/08/2024 00:00
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+
+        
+
+        <div class="post-content">
+            <p>À medida que você se aproxima do seu <strong>aniversário de três meses</strong>, é natural refletir sobre o significado desse marco. Você pode achar surpreendente como apenas alguns meses podem estabelecer a base para <strong>conexões mais profundas</strong> e experiências compartilhadas. Elaborar uma <strong>mensagem reflexiva</strong> pode realçar este momento, mas o que você realmente deve dizer para capturar a essência do seu relacionamento até agora? As opções são vastas, e as palavras certas podem definir o tom para o que está por vir. Vamos explorar as melhores maneiras de expressar seus sentimentos e <strong>celebrar esta ocasião única</strong>.</p>
+<h2>Importância dos Aniversários de Três Meses</h2>
+<p>Aniversários de três meses marcam um <strong>marco significativo</strong> que celebra os estágios iniciais do seu relacionamento e ajuda a <strong>fortalecer seu vínculo</strong>. Neste ponto, você teve tempo para explorar as personalidades, hábitos e peculiaridades um do outro, estabelecendo a base para uma <strong>intimidade mais profunda</strong>. Reconhecer esse marco permite que você pause e reflita sobre o crescimento que experimentaram juntos.</p>
+<p>Celebrar três meses também oferece uma oportunidade para <strong>comunicar seus sentimentos</strong>. Isso mostra ao seu parceiro que você valoriza o relacionamento e está comprometido em nutri-lo. Esse reconhecimento pode <strong>aumentar a confiança</strong>, fazendo com que ambos se sintam seguros em sua conexão. Você pode se pegar relembrando seus melhores momentos ou discutindo planos futuros, reforçando seu compromisso um com o outro.</p>
+<p>Além disso, é uma chance de estabelecer tradições e criar <strong>memórias compartilhadas</strong>, que podem ser significativas à medida que seu relacionamento avança. Seja um pequeno presente, uma nota sincera ou um simples jantar, esses gestos transmitem sua apreciação. No geral, <strong>aniversários de três meses</strong> servem como um lembrete para <strong>valorizar o que você tem</strong> e olhar para o que está por vir, fortalecendo seu vínculo e preparando o terreno para um futuro vibrante juntos.</p>
+<h2>Ideias de Mensagens Sinceras</h2>
+<p>Celebrando este marco especial, você pode expressar seus sentimentos com uma <strong>mensagem sincera</strong> que capture verdadeiramente sua jornada juntos até agora. Reflita sobre os momentos que te fizeram sorrir, as risadas que vocês compartilharam e os desafios que superaram.</p>
+<p>Você pode dizer algo como: "Esses últimos três meses foram uma <strong>aventura linda</strong>. Eu <strong>valorizo cada risada</strong> e cada conversa que tivemos. Você trouxe tanta <strong>alegria para a minha vida</strong>." Isso não apenas demonstra sua apreciação, mas também destaca a conexão que vocês construíram.</p>
+<p>Outra ideia poderia ser: "Eu nunca soube que poderia me sentir assim até te conhecer. Cada dia com você é especial, e mal posso esperar para ver aonde essa <strong>jornada nos levará a seguir</strong>." Ao compartilhar sua empolgação pelo futuro, você fortalece seu vínculo.</p>
+<p>Você também pode incluir um toque pessoal, relembrando uma <strong>memória específica</strong>, como o seu primeiro encontro ou um momento engraçado. Por exemplo: "Lembra daquela vez que nos perdemos a caminho do jantar? Eu não trocaria aqueles momentos por nada."</p>
+<p>No final, certifique-se de que suas palavras venham do coração, refletindo seu <strong>relacionamento único</strong> e o amor que vocês compartilham.</p>
+<h2>Formas Criativas de Celebrar</h2>
+<p>Encontrar maneiras criativas de celebrar esse marco pode tornar seu relacionamento ainda mais especial, adicionando experiências memoráveis ao amor que vocês já compartilharam. Pense fora da caixa e considere atividades que ressoem com ambos. Aqui estão algumas ideias divertidas para inspirar sua celebração:</p>
+<ul>
+<li><strong>Planeje uma noite de encontro temática:</strong> Escolha um tema que vocês dois amem. Pode ser um filme favorito, culinária ou até mesmo uma década. Vista-se a caráter, cozinhem juntos e mergulhem no tema.</li>
+<li><strong>Crie um álbum de recortes:</strong> Colete fotos, ingressos e pequenos mementos do tempo que passaram juntos nos últimos três meses. Isso não só serve como uma linda lembrança, mas também permite que vocês relembrem sua jornada.</li>
+</ul>
+<p>Abrace a alegria de celebrar seu marco de três meses de maneiras que reflitam seu vínculo único, e vocês criarão memórias duradouras que vão valorizar por anos a fio.</p>
+<h2>Perguntas Frequentes</h2>
+<h3>Qual é o significado de um aniversário de três meses?</h3>
+<p>Um aniversário de três meses marca um marco significativo em seu relacionamento. É um momento para refletir sobre as experiências compartilhadas, celebrar o crescimento juntos e fortalecer seu vínculo enquanto continuam a construir memórias duradouras.</p>
+<h3>Como Escolho o Presente Certo para Esta Ocasião?</h3>
+<p>Você sabia que 68% das pessoas acreditam que presentes pensativos fortalecem relacionamentos? Para escolher o presente certo, considere os interesses deles, experiências compartilhadas e o valor sentimental. Toques pessoais muitas vezes ressoam mais do que itens extravagantes.</p>
+<h3>Existem presentes tradicionais para aniversários de três meses?</h3>
+<p>Sim, existem presentes tradicionais para aniversários de três meses! Você pode considerar dar itens de papel, como cartas de amor ou um álbum de recortes. Esses gestos atenciosos mostram seu afeto e celebram os primeiros marcos do seu relacionamento.</p>
+<h3>O que devo evitar dizer em uma mensagem?</h3>
+<p>Você pensaria que evitar clichês seria fácil, mas não é. Evite negatividade, comparações ou qualquer coisa muito séria. Foque em vez disso na positividade e nos momentos compartilhados que tornam seu relacionamento único e especial.</p>
+<h3>Como posso tornar o dia especial sem gastar muito?</h3>
+<p>Você pode tornar o dia especial planejando um piquenique no parque, cozinhando uma refeição favorita juntos ou assistindo a uma maratona de filmes em casa. Gestos pequenos e atenciosos muitas vezes significam mais do que presentes caros.</p>
+<h2>Conclusão</h2>
+<p>À medida que você fecha este capítulo de sua jornada de três meses, lembre-se de que cada momento é uma <strong>pincelada na tela</strong> do seu relacionamento.</p>
+<p>Cada risada compartilhada e conversa até tarde da noite adiciona profundidade à sua obra-prima.</p>
+<p>Abrace as <strong>cores vibrantes do seu vínculo</strong> e olhe para o horizonte sempre em expansão de aventuras que estão por vir.</p>
+<p>Com os corações entrelaçados, vocês não estão apenas marcando o tempo; estão criando uma bela história juntos.</p>
+<p>Um brinde à <strong>magia do amor</strong> e às infinitas possibilidades que aguardam!</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

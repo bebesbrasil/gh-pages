@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como Escolher os Brinquedos para seu Filho de Acordo com a Idade - Bebês Brasil</title>
+    <meta name="description" content="
+Introdução
+
+
+
+Escolher os brinquedos certos para o seu filho é essencial para o seu desenvolvimento físico, cognitivo e emocional. Os brinquedos desempenham um">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/criancas/" style="color:#ffffff;">Crianças</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Como Escolher os Brinquedos para seu Filho de Acordo com a Idade</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">
+Introdução
+
+
+
+Escolher os brinquedos certos para o seu filho é essencial para o seu desenvolvimento físico, cognitivo e emocional. Os brinquedos desempenham um</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2024-04-08" style="color: var(--text-muted);">
+                        08/04/2024 21:50
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/Brinquedos-para-seu-Filho.jpg" alt="Como Escolher os Brinquedos para seu Filho de Acordo com a Idade">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Introdução</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Escolher os brinquedos certos para o seu filho é essencial para o seu desenvolvimento físico, cognitivo e emocional. Os brinquedos desempenham um papel crucial no estímulo das habilidades das crianças e na promoção de aprendizado através da brincadeira.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Considerações Gerais</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>É importante compreender que cada fase do desenvolvimento infantil requer diferentes tipos de estímulos e desafios. Além disso, a segurança dos brinquedos é uma prioridade máxima em qualquer idade.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Brinquedos para Recém-Nascidos</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:image {"lightbox":{"enabled":false},"id":107,"width":"578px","height":"auto","sizeSlug":"large","linkDestination":"custom","align":"center"} --></p>
+<figure class="wp-block-image aligncenter size-large is-resized"><a href="https://bilubebe.com.br/"><img src="/static/uploads/brinquedos-para-bebes-1024x640.jpg" alt="Brinquedos para Recém-Nascidos" class="wp-image-107" style="width:578px;height:auto" /></a>
+<figcaption class="wp-element-caption">Brinquedos para Recém-Nascidos</figcaption>
+</figure>
+<p>
+<!-- /wp:image --></p>
+<p><!-- wp:paragraph --></p>
+<p>Para os bebês recém-nascidos, os brinquedos devem ser escolhidos com cuidado para estimular seus sentidos em desenvolvimento. Alguns exemplos incluem:</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:list --></p>
+<ul><!-- wp:list-item --></p>
+<li>Móbiles coloridos e com diferentes texturas que podem ser pendurados sobre o berço ou o trocador, proporcionando estímulos visuais e táteis.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li>Brinquedos musicais com melodias suaves e relaxantes que ajudam a acalmar o bebê e promovem a audição.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li>Cobertores ou panos macios com texturas variadas, como pelúcia e tecidos ondulados, para estimular o tato do bebê durante o tempo de brincadeira e de descanso.</li>
+<p>
+<!-- /wp:list-item --></ul>
+<p>
+<!-- /wp:list --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Brinquedos para Bebês</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Para bebês um pouco mais velhos, entre três e doze meses, é importante escolher brinquedos que ajudem no desenvolvimento da coordenação motora e na exploração sensorial. Alguns exemplos incluem:</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:list --></p>
+<ul><!-- wp:list-item --></p>
+<li>Brinquedos de dentição feitos de materiais seguros e texturizados que proporcionam alívio durante o período de dentição.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li>Brinquedos interativos que emitem sons suaves e luzes coloridas quando pressionados, puxados ou sacudidos, estimulando a curiosidade e a descoberta.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li>Brinquedos educativos, como blocos de empilhar e encaixar, que incentivam a manipulação e a exploração das mãos do bebê, promovendo o desenvolvimento da coordenação motora fina.</li>
+<p>
+<!-- /wp:list-item --></ul>
+<p>
+<!-- /wp:list --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Brinquedos para Crianças de 1 a 2 Anos</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Nesta fase, as crianças estão começando a desenvolver habilidades motoras finas e a explorar o ambiente ao seu redor com mais curiosidade. Alguns exemplos de brinquedos adequados incluem:</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:list --></p>
+<ul><!-- wp:list-item --></p>
+<li>Conjuntos de blocos de construção grandes e coloridos que permitem que as crianças empilhem, derrubem e construam, promovendo a criatividade e a coordenação motora.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li>Livros de plástico ou tecido com páginas grossas e ilustrações coloridas que incentivam a exploração e o desenvolvimento da linguagem.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li>Brinquedos de empurrar e puxar, como carrinhos ou bonecos com rodinhas, que ajudam no desenvolvimento da coordenação motora grossa e no estímulo à atividade física.</li>
+<p>
+<!-- /wp:list-item --></ul>
+<p>
+<!-- /wp:list --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Brinquedos para Crianças de 3 a 5 Anos</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Crianças nesta faixa etária estão desenvolvendo habilidades cognitivas e sociais mais complexas, e os brinquedos devem acompanhar esse desenvolvimento. Alguns exemplos incluem:</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:list --></p>
+<ul><!-- wp:list-item --></p>
+<li>Quebra-cabeças simples com peças grandes e coloridas que desafiam a criança a resolver problemas e desenvolver habilidades de raciocínio.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li>Brinquedos de empurrar e puxar, como carrinhos de brinquedo ou trenzinhos, que promovem a coordenação motora e a imaginação durante o tempo de brincadeira.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li>Conjuntos de blocos de montar com peças mais pequenas e detalhadas, que permitem que as crianças criem estruturas mais complexas e estimulam a criatividade e a concentração.</li>
+<p>
+<!-- /wp:list-item --></ul>
+<p>
+<!-- /wp:list --></p>
+<p><!-- wp:paragraph --></p>
+<p>Confira uma lista e análise dos 10 melhores brinquedos <a href="https://bilubebe.com.br/melhores-brinquedos-para-5-anos/" target="_blank" rel="noreferrer noopener">aqui</a>.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Brinquedos para Crianças de 6 a 8 Anos</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Nesta fase, as crianças estão prontas para desafios mais complexos que estimulem o pensamento crítico e a expressão criativa. Alguns exemplos de brinquedos adequados incluem:</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:list --></p>
+<ul><!-- wp:list-item --></p>
+<li>Jogos de tabuleiro simples que envolvem estratégia e planejamento, como jogo da velha ou jogo da memória, que promovem o desenvolvimento do raciocínio lógico e das habilidades sociais.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li>Instrumentos musicais básicos, como flautas ou tambores de brinquedo, que permitem que as crianças experimentem e expressem sua criatividade através da música.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li>Kits de construção e modelagem que desafiam as crianças a seguir instruções e criar projetos tridimensionais, promovendo o desenvolvimento das habilidades motoras e da concentração.</li>
+<p>
+<!-- /wp:list-item --></ul>
+<p>
+<!-- /wp:list --></p>
+<p><!-- wp:paragraph --></p>
+<p>Confira uma lista seleta de brinquedos para essa faixa etária <a href="https://bilubebe.com.br/melhores-brinquedos-para-7-anos/" target="_blank" rel="noreferrer noopener">clicando aqui</a>.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Brinquedos para Crianças de 9 a 12 Anos</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Para crianças mais velhas, é importante escolher brinquedos que estimulem o pensamento crítico, a resolução de problemas e promovam habilidades sociais. Alguns exemplos incluem:</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:list --></p>
+<ul><!-- wp:list-item --></p>
+<li>Kits de ciência e experimentos que permitem que as crianças explorem conceitos científicos e realizem experiências práticas, estimulando a curiosidade e o interesse pela aprendizagem.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li>Jogos de estratégia mais complexos, como xadrez ou jogos de cartas colecionáveis, que desafiam as crianças a pensar de forma estratégica e tomar decisões cuidadosas, promovendo o desenvolvimento do raciocínio lógico e das habilidades sociais.</li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li>Brinquedos que incentivam o trabalho em equipe e a cooperação, como jogos de quebra-cabeça em grupo ou jogos esportivos, que promovem o desenvolvimento das habilidades sociais e a comunicação interpessoal.</li>
+<p>
+<!-- /wp:list-item --></ul>
+<p>
+<!-- /wp:list --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Considerações Finais</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Os pais desempenham um papel crucial na escolha dos brinquedos adequados para seus filhos. É essencial encontrar um equilíbrio entre diversão e aprendizado, proporcionando oportunidades para que as crianças explorem e cresçam de acordo com seu próprio ritmo.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Conclusão</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Escolher os brinquedos certos para o seu filho pode ter um impacto significativo em seu desenvolvimento. Ao considerar a idade e as necessidades individuais da criança, os pais podem garantir que os brinquedos escolhidos promovam um crescimento saudável e feliz.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">FAQs</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:list {"ordered":true} --></p>
+<ol><!-- wp:list-item --></p>
+<li><strong>Como posso garantir a segurança dos brinquedos que escolho para meu filho?</strong><!-- wp:list -->
+<ul><!-- wp:list-item --></p>
+<li>Sempre verifique se os brinquedos têm certificações de segurança e se não possuem peças pequenas que possam representar riscos de engasgo.</li>
+<p>
+<!-- /wp:list-item --></ul>
+<p>
+<!-- /wp:list --></li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li><strong>É importante considerar o interesse atual do meu filho ao escolher um brinquedo?</strong><!-- wp:list -->
+<ul><!-- wp:list-item --></p>
+<li>Sim, escolher brinquedos que correspondam aos interesses e estágios de desenvolvimento atuais da criança pode aumentar sua participação e engajamento.</li>
+<p>
+<!-- /wp:list-item --></ul>
+<p>
+<!-- /wp:list --></li>
+<p>
+<!-- /wp:list-item --></p>
+<p><!-- wp:list-item --></p>
+<li><strong>Brinquedos eletrônicos são adequados para crianças em desenvolvimento?</strong><!-- wp:list -->
+<ul><!-- wp:list-item --></p>
+<li>Brinquedos eletrônicos podem ter valor educativo, mas é importante limitar seu uso e garantir que não substituam completamente a interação física e criativa.</li>
+<p>
+<!-- /wp:list-item --></ul>
+<p>
+<!-- /wp:list --></li>
+<p>
+<!-- /wp:list-item --></ol>
+<p>
+<!-- /wp:list --></p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

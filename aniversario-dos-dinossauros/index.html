@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aniversário dos Dinossauros - Bebês Brasil</title>
+    <meta name="description" content="Ao considerar o próximo Aniversário dos Dinossauros, você pode se sentir intrigado pela rica história e mistérios que cercam essas criaturas antigas. O evento o">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/atividades/" style="color:#ffffff;">Atividades</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Aniversário dos Dinossauros</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Ao considerar o próximo Aniversário dos Dinossauros, você pode se sentir intrigado pela rica história e mistérios que cercam essas criaturas antigas. O evento o</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2024-07-22" style="color: var(--text-muted);">
+                        22/07/2024 00:11
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/Aniversario-dos-Dinossauros.jpg" alt="Aniversário dos Dinossauros">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Ao considerar o próximo <strong>Aniversário dos Dinossauros</strong>, você pode se sentir intrigado pela <strong>rica história</strong> e mistérios que cercam essas criaturas antigas. O evento oferece uma oportunidade única para refletir sobre a vasta diversidade de espécies de dinossauros que um dia habitaram nosso planeta e o <strong>profundo impacto</strong> que deixaram para trás. Desde descobertas de fósseis inovadoras até avanços na <strong>pesquisa em andamento</strong>, o Aniversário dos Dinossauros convida você a explorar um mundo onde gigantes vagavam e mistérios ainda se desdobram. Fique ligado para descobrir mais sobre essa celebração fascinante e o que ela revela sobre o passado distante de nosso planeta.</p>
+<h2>Evolução dos Dinossauros</h2>
+<p>Ao longo de milhões de anos, os dinossauros evoluíram em uma <strong>ampla gama</strong> de espécies com <strong>adaptações únicas</strong> aos seus ambientes. Essas criaturas antigas vagaram pela Terra, adaptando-se a vários ecossistemas e desenvolvendo <strong>características especializadas</strong> que lhes permitiram prosperar.</p>
+<p>Desde o <strong>tamanho massivo</strong> do Braquiossauro de pescoço longo até a <strong>agilidade rápida</strong> do Velociraptor, cada dinossauro tinha seu próprio conjunto de características que se adequava ao seu modo de vida.</p>
+<p>Conforme o ambiente mudava ao longo do tempo, os dinossauros passaram por transformações significativas para sobreviver. Algumas espécies desenvolveram dentes afiados e mandíbulas poderosas para caçar, enquanto outras evoluíram <strong>armaduras protetoras</strong> ou camuflagem para evitar predadores. O processo de evolução moldou os dinossauros em uma variedade notável de formas, cada uma finamente ajustada ao seu habitat e estilo de vida particular.</p>
+<p>Através da <strong>seleção natural</strong> e da <strong>variação genética</strong>, os dinossauros continuaram a se diversificar e evoluir, levando à incrível variedade de espécies que uma vez dominaram o planeta.</p>
+<p>A evolução dos dinossauros mostra o poder da adaptação e a notável diversidade da vida que existia muito antes de os seres humanos pisarem na Terra.</p>
+<h2>Descobertas de Fósseis de Dinossauros</h2>
+<p>Você provavelmente já se maravilhou com raros fósseis de dinossauros expostos em museus, mas sabia que novos <strong>métodos de escavação</strong> estão revolucionando o campo da paleontologia?</p>
+<p>Essas <strong>técnicas inovadoras</strong> estão permitindo que os cientistas desenterrem restos de dinossauros anteriormente não descobertos, lançando luz sobre o mundo antigo de maneiras nunca imaginadas.</p>
+<p>Continue acompanhando para saber mais sobre as <strong>últimas descobertas</strong> e o que elas revelam sobre as fascinantes criaturas que um dia percorreram a Terra.</p>
+<h3>Fósseis raros de dinossauros</h3>
+<p>Fósseis de dinossauros raros, como o esqueleto recém-descoberto do T-Rex, fornecem informações valiosas sobre a vida pré-histórica. Essas descobertas raras oferecem aos cientistas um vislumbre do passado, iluminando o comportamento, anatomia e evolução dos dinossauros. A descoberta de fósseis intactos como este permite aos pesquisadores estudar a estrutura dessas criaturas antigas, levando a uma melhor compreensão de como elas viveram e interagiram com seu ambiente.</p>
+<p>Os fósseis raros de dinossauros também ajudam a preencher lacunas no registro fóssil, fornecendo informações essenciais sobre espécies menos conhecidas ou períodos da história dos dinossauros. Ao examinar esses espécimes únicos, os paleontólogos podem montar o quebra-cabeça do passado distante da Terra, descobrindo novos detalhes sobre a diversidade e adaptações dos dinossauros.</p>
+<p>Além disso, o estudo de fósseis raros de dinossauros pode contribuir para avanços no conhecimento científico e tecnológico. Essas descobertas excepcionais despertam curiosidade e inovação, impulsionando novas pesquisas e explorações no mundo dos dinossauros. Em última análise, esses fósseis raros são tesouros inestimáveis que continuam a enriquecer nossa compreensão da vida pré-histórica.</p>
+<h3>Novos Métodos de Escavação</h3>
+<p>Descobrir fósseis de dinossauros através de novos métodos de escavação revolucionou o campo da paleontologia, permitindo o acesso a locais anteriormente inacessíveis e descobrindo tesouros escondidos enterrados profundamente na Terra. Com avanços tecnológicos como varreduras LiDAR, drones e mapeamento 3D, agora é possível localizar locais de fósseis com uma precisão sem precedentes. Esses métodos economizam tempo e recursos ao orientar suas escavações para as áreas mais promissoras.</p>
+<p>Além disso, o uso de radar de penetração no solo permite detectar fósseis abaixo da superfície sem escavações extensas, preservando a integridade do local. Ao empregar ferramentas delicadas como cinzéis de ar e microscópios, é possível extrair e estudar cuidadosamente fósseis frágeis sem danificá-los.</p>
+<p>Além disso, os novos métodos de escavação facilitam a descoberta de esqueletos articulados e preservação de tecidos moles, fornecendo insights inestimáveis sobre a anatomia e comportamento dos dinossauros. Essas técnicas inovadoras ampliam os limites da pesquisa paleontológica, abrindo um mundo de possibilidades para desvendar os mistérios do passado antigo.</p>
+<h2>Espécies de Dinossauros Populares</h2>
+<p>Uma das espécies de dinossauros mais conhecidas é o <strong>Tiranossauro rex</strong>, frequentemente referido como T. rex. Este predador temível percorreu a Terra durante o período do <strong>Cretáceo Superior</strong>, cerca de 68 a 66 milhões de anos atrás. Com seu tamanho massivo, mandíbulas poderosas cheias de <strong>dentes afiados</strong>, e <strong>braços pequenos</strong>, o T. rex capturou a imaginação das pessoas em todo o mundo.</p>
+<p>Outra espécie de dinossauro popular é o <strong>Velociraptor</strong>. Apesar de sua representação em filmes como uma criatura imponente, os Velociraptors eram na verdade muito menores, aproximadamente do tamanho de um peru. Estes predadores ágeis eram conhecidos por sua inteligência e estratégias de caça.</p>
+<p>O <strong>Triceratops</strong> também é uma espécie de dinossauro adorada. Reconhecível pelo seu rosto com três chifres e pescoço frisado, este <strong>herbívoro</strong> viveu durante o período do Cretáceo Superior. Os Triceratops eram um dos maiores dinossauros com chifres, atingindo comprimentos de até 30 pés.</p>
+<p>Estas espécies de dinossauros populares deixaram um impacto duradouro na cultura popular e continuam a fascinar tanto jovens como adultos com suas características incríveis e histórias fascinantes.</p>
+<h2>Dinossauros na Cultura Popular</h2>
+<p>Vamos discutir como os <strong>dinossauros</strong> têm pisado seu caminho em <strong>várias formas de mídia</strong>, de filmes a programas de TV, encantando audiências de todas as idades.</p>
+<p>Sem mencionar a tendência rugente da <strong>moda dos dinossauros</strong> que deixou sua marca nas passarelas e no estilo urbano ao redor do mundo.</p>
+<p>Os dinossauros se tornaram verdadeiros símbolos icônicos na cultura popular, deixando sua pegada pré-histórica na sociedade moderna.</p>
+<h3>Dinossauros na Mídia</h3>
+<p>Explorar a representação de dinossauros na cultura popular revela o seu apelo duradouro e impacto nos meios de entretenimento. De filmes clássicos como '<strong>Jurassic Park</strong>' a séries animadas como '<strong>The Land Before Time</strong>', os dinossauros rugiram seu caminho para os corações do público em todo o mundo.</p>
+<p>Essas criaturas pré-históricas não apenas foram apresentadas em filmes e programas de TV, mas também em <strong>video games</strong>, <strong>livros</strong> e até mesmo <strong>atrações de parques temáticos</strong>.</p>
+<p>Os dinossauros na mídia frequentemente servem como <strong>ferramentas educacionais</strong> e fontes de entretenimento, cativando audiências de todas as idades com seu tamanho imenso, força e mistério. Através de documentários como 'Walking with Dinosaurs' ou <strong>exposições interativas em museus</strong>, as pessoas têm a oportunidade de aprender sobre as diversas espécies que um dia vagaram pela Terra milhões de anos atrás.</p>
+<p>Além disso, a representação de dinossauros na mídia continua a evoluir, com avanços na tecnologia permitindo representações mais <strong>realistas</strong> na tela. Sejam retratados como predadores ferozes ou gigantes gentis, os dinossauros na mídia desempenham um papel crucial em despertar a curiosidade e a imaginação nos espectadores de todas as origens.</p>
+<h3>Tendências da Moda dos Dinossauros</h3>
+<p>Os dinossauros não apenas capturaram a imaginação do público por meio de filmes e programas de TV, mas também deixaram sua marca no mundo da moda, influenciando as tendências temáticas de dinossauros na cultura popular. De camisetas com estampas ferozes de T-Rex a acessórios fofos em forma de dinossauro, essas criaturas pré-históricas se tornaram um elemento essencial na indústria da moda.</p>
+<p>As marcas estão incorporando motivos de dinossauro em seus designs, atraindo tanto crianças quanto adultos que têm carinho por esses répteis antigos. É possível encontrar itens de vestuário inspirados em dinossauros não apenas em roupas casuais, mas também em coleções de moda de alta qualidade. Desfiles de moda têm mostrado vestidos, bolsas e até sapatos com estampas de dinossauro, provando que essas criaturas extintas têm um apelo atemporal.</p>
+<p>Acessórios como brincos em forma de dinossauro, colares e capas de celular também se tornaram populares entre os entusiastas da moda que buscam adicionar um toque lúdico às suas roupas. Se você é um grande fã de dinossauros ou apenas quer adicionar um elemento peculiar ao seu guarda-roupa, as tendências de moda com dinossauros oferecem uma maneira divertida e estilosa de abraçar essas criaturas majestosas em seu visual cotidiano.</p>
+<h2>Impacto dos Eventos de Extinção</h2>
+<p>Durante eventos de extinção, vários fatores convergem para alterar dramaticamente os ecossistemas e levar ao desaparecimento de inúmeras espécies. Esses eventos podem ser causados por desastres naturais como impactos de asteroides ou erupções vulcânicas, bem como por mudanças ambientais graduais. As interrupções repentinas no ambiente podem resultar em perda generalizada de habitat, escassez de alimentos e aumento da competição entre as espécies.</p>
+<p>As extinções em massa tiveram impactos profundos na biodiversidade da Terra, moldando o curso da evolução ao eliminar grupos inteiros de organismos. O evento de extinção mais conhecido, que pôs fim ao reinado dos dinossauros, ocorreu cerca de 66 milhões de anos atrás. Esse evento abriu caminho para o surgimento dos mamíferos e, eventualmente, levou à diversificação da vida como a conhecemos hoje.</p>
+<p>Compreender o impacto dos eventos de extinção é essencial para prever como os ecossistemas podem responder aos desafios atuais e futuros. Ao estudar extinções passadas, os cientistas podem obter insights sobre a resiliência de diferentes espécies e as potenciais consequências das mudanças ambientais induzidas pelo ser humano.</p>
+<h2>Pesquisa moderna de dinossauros</h2>
+<p>Os pesquisadores de hoje estão ativamente descobrindo novas perspectivas sobre o mundo dos dinossauros por meio de avanços tecnológicos modernos e parcerias interdisciplinares. Com ferramentas de ponta como técnicas de imagem em alta definição e modelagem computacional avançada, os cientistas agora podem recriar a aparência e o comportamento dos dinossauros com uma precisão sem precedentes.</p>
+<p>Ao estudar restos fossilizados usando métodos de ponta como tomografias computadorizadas e análise de isótopos, os pesquisadores estão montando o quebra-cabeça da evolução e ecologia dos dinossauros.</p>
+<p>Parcerias interdisciplinares entre paleontólogos, geneticistas, geólogos e outros especialistas estão revolucionando nossa compreensão dos dinossauros. Estudos genéticos estão lançando luz sobre as relações e comportamentos dos dinossauros, enquanto pesquisas geológicas ajudam a situar essas magníficas criaturas em seus ambientes antigos.</p>
+<p>A integração de diversos campos oferece uma visão mais inclusiva dos dinossauros, pintando um quadro vívido de seu mundo como nunca antes.</p>
+<p>Por meio de inovação contínua e colaboração, a pesquisa moderna sobre dinossauros está ampliando os limites de nosso conhecimento e alimentando nossa fascinação por esses gigantes pré-históricos. As descobertas e avanços contínuos no campo prometem revelar ainda mais segredos do mundo dos dinossauros nos próximos anos.</p>
+<h2>Perguntas Frequentes</h2>
+<h3>Qual é a Significância do Nome 'Mêsversário Dinossauro'?</h3>
+<p>Explore profundamente as nuances do nome, desvende suas camadas e descubra sua essência. Descubra as profundezas ocultas e o rico simbolismo que dão ao 'mêsversário dinossauro' sua significância profunda e seu apelo único.</p>
+<h3>Existem Mitos ou Lendas Relacionados aos Dinossauros na Cultura Brasileira?</h3>
+<p>Na cultura brasileira, os mitos e lendas sobre dinossauros são escassos. No entanto, as tribos indígenas possuem histórias de criaturas poderosas que se assemelham a dinossauros. Esses contos frequentemente os retratam como protetores ou símbolos de força e sabedoria.</p>
+<h3>Como os cientistas determinam a cor da pele e das penas dos dinossauros?</h3>
+<p>Para determinar a cor da pele e das penas dos dinossauros, os cientistas estudam os melanosomas fossilizados. Essas estruturas microscópicas ajudam a revelar a pigmentação. Ao analisar esses melanosomas, os pesquisadores podem inferir as cores originais dos dinossauros, fornecendo insights sobre sua aparência.</p>
+<h3>Os Dinossauros Podem Ser Clonados Como no Filme Parque Jurássico?</h3>
+<p>Imagine as maravilhas da ciência, mas lembre-se, nem toda história está destinada a se tornar realidade. Enquanto os filmes entretêm, a realidade é diferente. Clonar dinossauros como em Jurassic Park permanece um sonho, longe da realidade.</p>
+<h3>Qual é a mais recente descoberta na pesquisa moderna de dinossauros?</h3>
+<p>A mais recente descoberta na pesquisa moderna de dinossauros envolve a descoberta de novas espécies, técnicas avançadas de imagem e estudos genéticos. Mantenha-se atualizado em revistas científicas e documentários para aprender sobre os emocionantes desenvolvimentos nesse campo.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

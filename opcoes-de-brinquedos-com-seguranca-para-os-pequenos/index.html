@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brinquedos Inteligentes e Seguros: Escolhas Certeiras para os Primeiros Anos de Vida - Bebês Brasil</title>
+    <meta name="description" content="A infância é um período de descobertas intensas, e os brinquedos desempenham papel crucial nesse processo. Mais do que entretenimento, eles funcionam como ferra">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/brinquedos/" style="color:#ffffff;">Brinquedos</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Brinquedos Inteligentes e Seguros: Escolhas Certeiras para os Primeiros Anos de Vida</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">A infância é um período de descobertas intensas, e os brinquedos desempenham papel crucial nesse processo. Mais do que entretenimento, eles funcionam como ferra</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-07-25" style="color: var(--text-muted);">
+                        25/07/2025 11:13
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/OIP.webp" alt="Brinquedos Inteligentes e Seguros: Escolhas Certeiras para os Primeiros Anos de Vida">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p data-start="92" data-end="648">A infância é um período de descobertas intensas, e os brinquedos desempenham papel crucial nesse processo. Mais do que entretenimento, eles funcionam como ferramentas que estimulam o desenvolvimento cognitivo, motor e emocional das crianças. Contudo, tão importante quanto escolher brinquedos educativos é garantir que eles sejam <strong data-start="422" data-end="460">seguros e adequados à faixa etária</strong>. Neste artigo, exploramos as melhores opções de brinquedos com segurança para bebês e crianças pequenas, destacando critérios essenciais e recomendações práticas para pais e responsáveis.</p>
+<hr data-start="650" data-end="653">
+<h2 data-start="655" data-end="726"><strong data-start="658" data-end="726">A importância dos brinquedos seguros no desenvolvimento infantil</strong></h2>
+<p data-start="728" data-end="1086">Durante os primeiros anos de vida, os bebês estão em constante evolução. Eles exploram o mundo ao redor utilizando principalmente os sentidos: visão, audição, tato e, sobretudo, o paladar. É comum que levem objetos à boca para conhecer texturas e formas. Por isso, brinquedos mal planejados podem oferecer riscos como <strong data-start="1046" data-end="1085">engasgos, intoxicação ou ferimentos</strong>.</p>
+<p data-start="1088" data-end="1373">Além da segurança física, brinquedos de qualidade podem contribuir diretamente para a <strong data-start="1174" data-end="1196">coordenação motora</strong>, <strong data-start="1198" data-end="1220">percepção espacial</strong>, <strong data-start="1222" data-end="1248">resolução de problemas</strong> e <strong data-start="1251" data-end="1271">interação social</strong>. A escolha acertada dos brinquedos promove uma infância rica em experiências positivas e aprendizado.</p>
+<hr data-start="1375" data-end="1378">
+<h2 data-start="1380" data-end="1444"><strong data-start="1383" data-end="1444">Critérios essenciais para a escolha de brinquedos seguros</strong></h2>
+<p data-start="1446" data-end="1658">Selecionar brinquedos com segurança não é apenas uma recomendação, mas uma <strong data-start="1521" data-end="1545">obrigação de cuidado</strong> com a saúde e integridade das crianças. Veja os principais critérios que devem ser considerados antes da compra:</p>
+<h3 data-start="1660" data-end="1694"><strong data-start="1664" data-end="1694">1. Certificação do INMETRO</strong></h3>
+<p data-start="1695" data-end="1954">A primeira verificação deve ser a presença do <strong data-start="1741" data-end="1760">selo do INMETRO</strong>. Esse selo garante que o brinquedo passou por testes rigorosos de segurança, incluindo resistência a impactos, presença de substâncias tóxicas e possibilidade de desmontagem com peças pequenas.</p>
+<h3 data-start="1956" data-end="1983"><strong data-start="1960" data-end="1983">2. Indicação etária</strong></h3>
+<p data-start="1984" data-end="2198">Brinquedos possuem <strong data-start="2003" data-end="2025">indicação de idade</strong> por uma razão técnica. Um brinquedo indicado para crianças de 3 anos pode conter peças pequenas, impróprias para bebês. Seguir a recomendação do fabricante é indispensável.</p>
+<h3 data-start="2200" data-end="2229"><strong data-start="2204" data-end="2229">3. Materiais atóxicos</strong></h3>
+<p data-start="2230" data-end="2380">Bebês costumam colocar tudo na boca. Portanto, brinquedos devem ser feitos com materiais <strong data-start="2319" data-end="2379">livres de ftalatos, chumbo, e outras substâncias tóxicas</strong>.</p>
+<h3 data-start="2382" data-end="2438"><strong data-start="2386" data-end="2438">4. Estrutura sem partes cortantes ou destacáveis</strong></h3>
+<p data-start="2439" data-end="2638">Brinquedos devem ser inteiriços ou possuir peças <strong data-start="2488" data-end="2509">firmemente presas</strong>, que não soltem facilmente, evitando o risco de engasgo. Bordas arredondadas e acabamentos sem rebarbas também são fundamentais.</p>
+<hr data-start="2640" data-end="2643">
+<h2 data-start="2645" data-end="2687"><strong data-start="2648" data-end="2687">Brinquedos seguros por faixa etária</strong></h2>
+<h3 data-start="2689" data-end="2742"><strong data-start="2693" data-end="2742">De 0 a 6 meses: estímulo sensorial e conforto</strong></h3>
+<p data-start="2744" data-end="2860">Nessa fase, o bebê ainda desenvolve os sentidos básicos e a coordenação motora. Os brinquedos mais recomendados são:</p>
+<ul data-start="2862" data-end="3035">
+<li data-start="2862" data-end="2900">
+<p data-start="2864" data-end="2900"><strong data-start="2864" data-end="2900">Móbiles musicais e com movimento</strong></p>
+</li>
+<li data-start="2901" data-end="2931">
+<p data-start="2903" data-end="2931"><strong data-start="2903" data-end="2931">Chocalhos leves e macios</strong></p>
+</li>
+<li data-start="2932" data-end="2983">
+<p data-start="2934" data-end="2983"><strong data-start="2934" data-end="2983">Livros de pano ou vinil com figuras coloridas</strong></p>
+</li>
+<li data-start="2984" data-end="3035">
+<p data-start="2986" data-end="3035"><strong data-start="2986" data-end="3035">Tapetes de atividades com espelhos e texturas</strong></p>
+</li>
+</ul>
+<p data-start="3037" data-end="3147">Estes brinquedos incentivam o olhar, o toque e o ouvir, sem oferecer riscos de peças soltas ou bordas afiadas.</p>
+<hr data-start="3149" data-end="3152">
+<h3 data-start="3154" data-end="3201"><strong data-start="3158" data-end="3201">De 6 a 12 meses: movimento e exploração</strong></h3>
+<p data-start="3203" data-end="3311">Com o avanço da coordenação motora, os brinquedos devem estimular o bebê a alcançar, engatinhar e manipular:</p>
+<ul data-start="3313" data-end="3482">
+<li data-start="3313" data-end="3349">
+<p data-start="3315" data-end="3349"><strong data-start="3315" data-end="3349">Brinquedos empilháveis grandes</strong></p>
+</li>
+<li data-start="3350" data-end="3379">
+<p data-start="3352" data-end="3379"><strong data-start="3352" data-end="3379">Blocos de montar macios</strong></p>
+</li>
+<li data-start="3380" data-end="3433">
+<p data-start="3382" data-end="3433"><strong data-start="3382" data-end="3433">Brinquedos com sons e luzes ativados pelo toque</strong></p>
+</li>
+<li data-start="3434" data-end="3482">
+<p data-start="3436" data-end="3482"><strong data-start="3436" data-end="3482">Brinquedos com argolas grandes e coloridas</strong></p>
+</li>
+</ul>
+<p data-start="3484" data-end="3597">Aqui, é importante garantir que todos os objetos sejam <strong data-start="3539" data-end="3563">grandes o suficiente</strong> para não caberem na boca do bebê.</p>
+<hr data-start="3599" data-end="3602">
+<h3 data-start="3604" data-end="3643"><strong data-start="3608" data-end="3643">De 1 a 2 anos: ação e repetição</strong></h3>
+<p data-start="3645" data-end="3747">Nesta fase, os pequenos já caminham, interagem e repetem comportamentos. Os brinquedos ideais incluem:</p>
+<ul data-start="3749" data-end="3917">
+<li data-start="3749" data-end="3776">
+<p data-start="3751" data-end="3776"><strong data-start="3751" data-end="3776">Carrinhos empurráveis</strong></p>
+</li>
+<li data-start="3777" data-end="3825">
+<p data-start="3779" data-end="3825"><strong data-start="3779" data-end="3825">Brinquedos de encaixe e formas geométricas</strong></p>
+</li>
+<li data-start="3826" data-end="3870">
+<p data-start="3828" data-end="3870"><strong data-start="3828" data-end="3870">Brinquedos com engrenagens e alavancas</strong></p>
+</li>
+<li data-start="3871" data-end="3917">
+<p data-start="3873" data-end="3917"><strong data-start="3873" data-end="3917">Livros com texturas e interações sonoras</strong></p>
+</li>
+</ul>
+<p data-start="3919" data-end="4034">Nessa idade, a criança passa a explorar <strong data-start="3959" data-end="3977">causa e efeito</strong>, e brinquedos interativos favorecem muito esse processo.</p>
+<hr data-start="4036" data-end="4039">
+<h2 data-start="4041" data-end="4105"><strong data-start="4044" data-end="4105">Brinquedos educativos e criativos com segurança garantida</strong></h2>
+<p data-start="4107" data-end="4275">Além de respeitar as normas de segurança, muitos brinquedos podem promover o <strong data-start="4184" data-end="4215">desenvolvimento intelectual</strong> e a <strong data-start="4220" data-end="4236">criatividade</strong> dos pequenos. Alguns exemplos incluem:</p>
+<ul data-start="4277" data-end="4489">
+<li data-start="4277" data-end="4324">
+<p data-start="4279" data-end="4324"><strong data-start="4279" data-end="4324">Cubos didáticos com diferentes atividades</strong></p>
+</li>
+<li data-start="4325" data-end="4388">
+<p data-start="4327" data-end="4388"><strong data-start="4327" data-end="4388">Instrumentos musicais de brinquedo com controle de volume</strong></p>
+</li>
+<li data-start="4389" data-end="4427">
+<p data-start="4391" data-end="4427"><strong data-start="4391" data-end="4427">Massinhas comestíveis e atóxicas</strong></p>
+</li>
+<li data-start="4428" data-end="4489">
+<p data-start="4430" data-end="4489"><strong data-start="4430" data-end="4489">Brinquedos de simulação de profissões com peças grandes</strong></p>
+</li>
+</ul>
+<p data-start="4491" data-end="4644">Esses itens promovem <strong data-start="4512" data-end="4539">coordenação motora fina</strong>, <strong data-start="4541" data-end="4564">expressão artística</strong> e até <strong data-start="4571" data-end="4594">habilidades sociais</strong>, como compartilhar e simular papéis do cotidiano.</p>
+<hr data-start="4646" data-end="4649">
+<h2 data-start="4651" data-end="4697"><strong data-start="4654" data-end="4697">Backlink contextual com valor educativo</strong></h2>
+<p data-start="4699" data-end="5165">Quando tratamos de brinquedos educativos, não podemos esquecer que <strong data-start="4766" data-end="4792">miniaturas de veículos</strong> exercem grande fascínio sobre as crianças, ao mesmo tempo que ensinam sobre o mundo real. Uma excelente opção para crianças maiores são os brinquedos temáticos, como a <a data-start="4961" data-end="5032" rel="noopener" target="_new" class="" href="https://sambabusminiaturas.com.br"><strong data-start="4962" data-end="4996">Miniatura de ônibus rodoviário</strong></a>, que além de divertirem, ajudam a criança a compreender noções de trânsito, transporte público e organização urbana de forma lúdica.</p>
+<hr data-start="5167" data-end="5170">
+<h2 data-start="5172" data-end="5240"><strong data-start="5175" data-end="5240">A importância do acompanhamento e da renovação dos brinquedos</strong></h2>
+<p data-start="5242" data-end="5396">Brinquedos seguros hoje podem se tornar perigosos com o tempo. Quebras, desgaste natural, ferrugem ou peças soltas exigem atenção dos pais. É fundamental:</p>
+<ul data-start="5398" data-end="5612">
+<li data-start="5398" data-end="5450">
+<p data-start="5400" data-end="5450"><strong data-start="5400" data-end="5450">Verificar periodicamente o estado do brinquedo</strong></p>
+</li>
+<li data-start="5451" data-end="5493">
+<p data-start="5453" data-end="5493"><strong data-start="5453" data-end="5493">Higienizar brinquedos com frequência</strong></p>
+</li>
+<li data-start="5494" data-end="5541">
+<p data-start="5496" data-end="5541"><strong data-start="5496" data-end="5541">Substituir brinquedos quebrados ou gastos</strong></p>
+</li>
+<li data-start="5542" data-end="5612">
+<p data-start="5544" data-end="5612"><strong data-start="5544" data-end="5612">Observar se a criança já superou aquela etapa de desenvolvimento</strong></p>
+</li>
+</ul>
+<p data-start="5614" data-end="5684">Crianças crescem rápido e precisam de <strong data-start="5652" data-end="5671">novos estímulos</strong> a cada fase.</p>
+<hr data-start="5686" data-end="5689">
+<h2 data-start="5691" data-end="5754"><strong data-start="5694" data-end="5754">Conclusão: brincar com segurança é brincar com confiança</strong></h2>
+<p data-start="5756" data-end="6069">Escolher brinquedos que priorizem a segurança não é limitar a diversão — é <strong data-start="5831" data-end="5876">potencializar o aprendizado e o bem-estar</strong>. Investir em brinquedos adequados para cada fase, com certificações, materiais de qualidade e proposta educativa é um dos maiores presentes que pais e responsáveis podem oferecer aos pequenos.</p>
+<p data-start="6071" data-end="6269">Brinquedos são pontes entre a fantasia e o mundo real, entre o lúdico e o aprendizado. Quando seguros, tornam-se instrumentos valiosos para a <strong data-start="6213" data-end="6268">formação de adultos curiosos, saudáveis e criativos</strong>.</p>
+<p data-start="6271" data-end="6376" data-is-last-node="" data-is-only-node="">Que cada escolha feita com carinho hoje reflita em uma infância cheia de descobertas, alegria e proteção.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

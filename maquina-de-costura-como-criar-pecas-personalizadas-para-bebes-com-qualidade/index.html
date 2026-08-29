@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máquina de Costura: Como Criar Peças Personalizadas para Bebês com Qualidade - Bebês Brasil</title>
+    <meta name="description" content="Criar peças personalizadas para bebês é uma tendência que cresce cada vez mais no mercado infantil. Mães, pais e até empreendedores buscam opções exclusivas, fe">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/uncategorized/" style="color:#ffffff;">Outros</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Máquina de Costura: Como Criar Peças Personalizadas para Bebês com Qualidade</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Criar peças personalizadas para bebês é uma tendência que cresce cada vez mais no mercado infantil. Mães, pais e até empreendedores buscam opções exclusivas, fe</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-12-14" style="color: var(--text-muted);">
+                        14/12/2025 20:04
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/costurar-roupa.jpg" alt="Máquina de Costura: Como Criar Peças Personalizadas para Bebês com Qualidade">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p data-start="264" data-end="695">Criar peças personalizadas para bebês é uma tendência que cresce cada vez mais no mercado infantil. Mães, pais e até empreendedores buscam opções exclusivas, feitas com carinho e com atenção à qualidade e segurança para os pequenos.</p>
+<p data-start="264" data-end="695">Para isso, a <strong data-start="510" data-end="532">máquina de costura</strong> torna-se uma aliada fundamental para quem deseja transformar tecidos em produtos únicos e delicados, como bodies, macacões, mantas, babadores e outros acessórios.</p>
+<p data-start="697" data-end="926">Neste artigo, vamos mostrar como você pode usar sua máquina de costura para criar peças personalizadas para bebês com alta qualidade, além de apresentar dicas importantes para quem quer trabalhar nesse nicho com profissionalismo.</p>
+<hr data-start="928" data-end="931">
+<h2 data-start="933" data-end="987">Por que apostar em peças personalizadas para bebês?</h2>
+<p data-start="989" data-end="1314">Peças personalizadas para bebês são muito mais do que roupas ou acessórios; são expressões de cuidado, amor e exclusividade. O mercado de produtos infantis está em alta, e consumidores estão dispostos a pagar mais por algo que seja único, confortável e que tenha detalhes especiais, seja em bordados, estampas ou acabamentos.</p>
+<p data-start="1316" data-end="1389">Além disso, criar suas próprias peças com uma máquina de costura oferece:</p>
+<ul data-start="1391" data-end="1656">
+<li data-start="1391" data-end="1475">
+<p data-start="1393" data-end="1475"><strong data-start="1393" data-end="1440">Flexibilidade para criar modelos exclusivos</strong>: você pode inovar em cada produto;</p>
+</li>
+<li data-start="1476" data-end="1563">
+<p data-start="1478" data-end="1563"><strong data-start="1478" data-end="1522">Controle sobre a qualidade dos materiais</strong>: escolhendo tecidos adequados e seguros;</p>
+</li>
+<li data-start="1564" data-end="1656">
+<p data-start="1566" data-end="1656"><strong data-start="1566" data-end="1597">Possibilidade de empreender</strong>: abrir seu próprio negócio com baixo investimento inicial.</p>
+</li>
+</ul>
+<hr data-start="1658" data-end="1661">
+<h2 data-start="1663" data-end="1722">Escolhendo a máquina de costura ideal para peças de bebê</h2>
+<p data-start="1724" data-end="1950">Nem toda máquina de costura é igual, e para criar peças para bebês, é importante investir em uma máquina que ofereça precisão, durabilidade e facilidades específicas. Confira os pontos principais para escolher a máquina certa:</p>
+<h3 data-start="1952" data-end="2019">1. Tipos de máquinas de costura para iniciantes e profissionais</h3>
+<ul data-start="2021" data-end="2328">
+<li data-start="2021" data-end="2125">
+<p data-start="2023" data-end="2125"><strong data-start="2023" data-end="2060">Máquinas domésticas convencionais</strong>: ideais para quem está começando, geralmente com pontos básicos;</p>
+</li>
+<li data-start="2126" data-end="2230">
+<p data-start="2128" data-end="2230"><strong data-start="2128" data-end="2152">Máquinas eletrônicas</strong>: mais precisas, com vários tipos de pontos decorativos e funções automáticas;</p>
+</li>
+<li data-start="2231" data-end="2328">
+<p data-start="2233" data-end="2328"><strong data-start="2233" data-end="2257">Máquinas industriais</strong>: indicadas para produção em escala, com alta velocidade e resistência.</p>
+</li>
+</ul>
+<p data-start="2330" data-end="2456">Para criar peças personalizadas para bebês, máquinas eletrônicas ou domésticas com boa variedade de pontos já são suficientes.</p>
+<h3 data-start="2458" data-end="2512">2. Pontos importantes para costurar peças infantis</h3>
+<p data-start="2514" data-end="2538">A máquina deve permitir:</p>
+<ul data-start="2540" data-end="2769">
+<li data-start="2540" data-end="2597">
+<p data-start="2542" data-end="2597">Ponto reto firme e resistente para costuras principais;</p>
+</li>
+<li data-start="2598" data-end="2651">
+<p data-start="2600" data-end="2651">Ponto zig-zag para acabamento e costuras flexíveis;</p>
+</li>
+<li data-start="2652" data-end="2716">
+<p data-start="2654" data-end="2716">Ponto elástico para tecidos que precisam esticar, como malhas;</p>
+</li>
+<li data-start="2717" data-end="2769">
+<p data-start="2719" data-end="2769">Ajuste de tensão da linha para diferentes tecidos.</p>
+</li>
+</ul>
+<h3 data-start="2771" data-end="2808">3. Facilidade de uso e manutenção</h3>
+<p data-start="2810" data-end="3399">Para quem está começando ou mesmo para quem já tem experiência, a escolha da máquina de costura faz toda a diferença na qualidade do acabamento das peças para bebês. Um modelo muito indicado é a <a href="https://www.maquinadecosturatech.com.br/post/maquina-de-costura-singer-facilita-pro-4411-review" target="_blank" rel="noopener noreferrer">Máquina de Costura Singer Facilita Pro 4411</a>, que oferece funcionalidades práticas e resistência para trabalhar com diferentes tipos de tecidos, desde os mais leves até os mais estruturados.</p>
+<p data-start="2810" data-end="3399">Com ela, é possível ajustar facilmente a tensão da linha, escolher entre vários pontos essenciais para roupas infantis e garantir um acabamento profissional, mesmo em peças delicadas para os pequenos.</p>
+<p data-start="3401" data-end="3614">Máquinas com sistema de enfiamento automático da linha, ajustes simples e baixo ruído facilitam o trabalho, especialmente para quem está começando. Além disso, manutenção fácil prolonga a vida útil do equipamento.</p>
+<hr data-start="3616" data-end="3619">
+<h2 data-start="3621" data-end="3672">Materiais e tecidos indicados para peças de bebê</h2>
+<p data-start="3674" data-end="3880">A qualidade das peças não depende só da máquina, mas também dos tecidos e acessórios que você vai usar. Bebês têm pele sensível, por isso, é fundamental escolher materiais que garantam conforto e segurança.</p>
+<h3 data-start="3882" data-end="3906">Tecidos recomendados</h3>
+<ul data-start="3908" data-end="4246">
+<li data-start="3908" data-end="4000">
+<p data-start="3910" data-end="4000"><strong data-start="3910" data-end="3926">Algodão 100%</strong>: natural, respirável e suave, é o mais indicado para roupas e acessórios;</p>
+</li>
+<li data-start="4001" data-end="4092">
+<p data-start="4003" data-end="4092"><strong data-start="4003" data-end="4020">Malha suedine</strong>: muito usada para bodies e macacões, possui elasticidade e toque macio;</p>
+</li>
+<li data-start="4093" data-end="4165">
+<p data-start="4095" data-end="4165"><strong data-start="4095" data-end="4108">Tricoline</strong>: ótimo para peças estruturadas, como vestidos e camisas;</p>
+</li>
+<li data-start="4166" data-end="4246">
+<p data-start="4168" data-end="4246"><strong data-start="4168" data-end="4188">Tecido atoalhado</strong>: perfeito para babadores e mantas, absorve bem a umidade.</p>
+</li>
+</ul>
+<h3 data-start="4248" data-end="4280">Outros materiais importantes</h3>
+<ul data-start="4282" data-end="4489">
+<li data-start="4282" data-end="4375">
+<p data-start="4284" data-end="4375"><strong data-start="4284" data-end="4323">Linhas de costura de alta qualidade</strong>: resistentes e com cores que combinam com o tecido;</p>
+</li>
+<li data-start="4376" data-end="4441">
+<p data-start="4378" data-end="4441"><strong data-start="4378" data-end="4407">Botões, zíperes e velcros</strong>: seguros, sem partes pontiagudas;</p>
+</li>
+<li data-start="4442" data-end="4489">
+<p data-start="4444" data-end="4489"><strong data-start="4444" data-end="4464">Elásticos macios</strong>: para cinturas e punhos.</p>
+</li>
+</ul>
+<hr data-start="4491" data-end="4494">
+<h2 data-start="4496" data-end="4582">Passo a passo para criar peças personalizadas para bebês com sua máquina de costura</h2>
+<h3 data-start="4584" data-end="4612">1. Planejamento e design</h3>
+<p data-start="4614" data-end="4810">Antes de começar a costurar, defina que tipo de peça deseja criar. Você pode buscar inspirações em revistas, lojas infantis ou redes sociais. Faça um desenho ou molde para guiar o corte do tecido.</p>
+<h3 data-start="4812" data-end="4844">2. Escolha do tecido e corte</h3>
+<ul data-start="4846" data-end="5010">
+<li data-start="4846" data-end="4910">
+<p data-start="4848" data-end="4910">Lave o tecido antes de cortar para evitar encolhimento futuro;</p>
+</li>
+<li data-start="4911" data-end="4956">
+<p data-start="4913" data-end="4956">Use moldes em papel para facilitar o corte;</p>
+</li>
+<li data-start="4957" data-end="5010">
+<p data-start="4959" data-end="5010">Corte com tesoura adequada, com precisão e cuidado.</p>
+</li>
+</ul>
+<h3 data-start="5012" data-end="5051">3. Preparação da máquina de costura</h3>
+<ul data-start="5053" data-end="5287">
+<li data-start="5053" data-end="5147">
+<p data-start="5055" data-end="5147">Escolha a linha e agulha adequadas ao tecido (agulhas específicas para malha, algodão, etc);</p>
+</li>
+<li data-start="5148" data-end="5216">
+<p data-start="5150" data-end="5216">Ajuste a tensão da linha e o tipo de ponto conforme a necessidade;</p>
+</li>
+<li data-start="5217" data-end="5287">
+<p data-start="5219" data-end="5287">Faça testes em retalhos para garantir que a costura ficará perfeita.</p>
+</li>
+</ul>
+<h3 data-start="5289" data-end="5303">4. Costura</h3>
+<ul data-start="5305" data-end="5532">
+<li data-start="5305" data-end="5373">
+<p data-start="5307" data-end="5373">Comece pelas partes principais da peça, unindo as partes cortadas;</p>
+</li>
+<li data-start="5374" data-end="5453">
+<p data-start="5376" data-end="5453">Use pontos firmes e, quando necessário, pontos elásticos para maior conforto;</p>
+</li>
+<li data-start="5454" data-end="5532">
+<p data-start="5456" data-end="5532">Finalize com acabamentos, como ponto zig-zag nas bordas para evitar desfiar.</p>
+</li>
+</ul>
+<h3 data-start="5534" data-end="5555">5. Personalização</h3>
+<p data-start="5557" data-end="5721">Aqui entra a criatividade: você pode bordar o nome do bebê, colocar aplicações de tecido, fazer patchwork ou usar tintas para tecido para criar estampas exclusivas.</p>
+<hr data-start="5723" data-end="5726">
+<h2 data-start="5728" data-end="5793">Dicas para garantir qualidade e segurança nas peças para bebês</h2>
+<h3 data-start="5795" data-end="5831">Use materiais testados e seguros</h3>
+<p data-start="5833" data-end="5937">Evite tecidos que contenham substâncias tóxicas, corantes agressivos ou fibras sintéticas muito pesadas.</p>
+<h3 data-start="5939" data-end="5974">Acabamento perfeito é essencial</h3>
+<p data-start="5976" data-end="6120">Costuras mal feitas podem incomodar o bebê ou até machucar. Tenha cuidado especial nos acabamentos, reforçando pontos e evitando bordas ásperas.</p>
+<h3 data-start="6122" data-end="6166">Evite peças com pequenos detalhes soltos</h3>
+<p data-start="6168" data-end="6289">Botões ou enfeites que podem se soltar são perigosos para bebês. Prefira bordados ou costuras firmes para personalização.</p>
+<h3 data-start="6291" data-end="6334">Lave as peças antes da primeira entrega</h3>
+<p data-start="6336" data-end="6431">Isso ajuda a eliminar resíduos de produção e amaciar o tecido, deixando a peça pronta para uso.</p>
+<hr data-start="6433" data-end="6436">
+<h2 data-start="6438" data-end="6497">Como ganhar dinheiro com peças personalizadas para bebês</h2>
+<p data-start="6499" data-end="6594">Se você deseja transformar a criação de peças infantis em um negócio, veja algumas estratégias:</p>
+<h3 data-start="6596" data-end="6612">Venda online</h3>
+<p data-start="6614" data-end="6763">Plataformas como Instagram, Facebook, Etsy e marketplaces brasileiros são ótimos canais para alcançar clientes que valorizam produtos personalizados.</p>
+<h3 data-start="6765" data-end="6795">Parcerias com lojas locais</h3>
+<p data-start="6797" data-end="6900">Considere fornecer peças exclusivas para lojas de bebê ou boutiques que desejam produtos diferenciados.</p>
+<h3 data-start="6902" data-end="6934">Personalização sob encomenda</h3>
+<p data-start="6936" data-end="7046">Ofereça a opção de criar peças com o nome do bebê, escolha de cores e modelos personalizados, agregando valor.</p>
+<h3 data-start="7048" data-end="7068">Feiras e eventos</h3>
+<p data-start="7070" data-end="7192">Participar de feiras infantis e eventos de artesanato é uma ótima forma de apresentar seu trabalho diretamente ao público.</p>
+<hr data-start="7194" data-end="7197">
+<h2 data-start="7199" data-end="7211">Conclusão</h2>
+<p data-start="7213" data-end="7494">Usar uma máquina de costura para criar peças personalizadas para bebês é uma forma maravilhosa de unir criatividade, empreendedorismo e cuidado com os pequenos. Além de garantir qualidade e conforto, você tem a oportunidade de entregar produtos exclusivos que encantam pais e mães.</p>
+<p data-start="7496" data-end="7775">Com as dicas e informações deste artigo, você está pronto para investir na máquina ideal, escolher os melhores materiais e começar a transformar tecidos em peças incríveis e seguras para bebês. Aproveite para explorar o mercado e conquistar seu espaço com muito amor e dedicação.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

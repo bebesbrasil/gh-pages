@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela de tamanhos - Bebês Brasil</title>
+    <meta name="description" content="
+
+
+
+
+Tabela de Medidas de Bebês
+
+
+Tamanho
+Veste Bebês da Idade
+Altura do Bebê
+Peso do Bebê
+
+
+P
+de 1 a 3 meses
+De 55 cm a 61 cm
+De 3,6 kg a 5,7 kg
+
+
+M
+de 3 a 6 m">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/bebes/" style="color:#ffffff;">Bebês</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Tabela de tamanhos</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">
+
+
+
+
+Tabela de Medidas de Bebês
+
+
+Tamanho
+Veste Bebês da Idade
+Altura do Bebê
+Peso do Bebê
+
+
+P
+de 1 a 3 meses
+De 55 cm a 61 cm
+De 3,6 kg a 5,7 kg
+
+
+M
+de 3 a 6 m</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2024-03-22" style="color: var(--text-muted);">
+                        22/03/2024 03:01
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/Tabela-de-tamanhos.jpg" alt="Tabela de tamanhos">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p><!-- wp:table --></p>
+<figure class="wp-block-table">
+<table>
+<tbody>
+<tr>
+<td colspan="4">Tabela de Medidas de Bebês</td>
+</tr>
+<tr>
+<td><strong>Tamanho</strong></td>
+<td><strong>Veste Bebês da Idade</strong></td>
+<td><strong>Altura do Bebê</strong></td>
+<td><strong>Peso do Bebê</strong></td>
+</tr>
+<tr>
+<td>P</td>
+<td>de 1 a 3 meses</td>
+<td>De 55 cm a 61 cm</td>
+<td>De 3,6 kg a 5,7 kg</td>
+</tr>
+<tr>
+<td>M</td>
+<td>de 3 a 6 meses</td>
+<td>De 61 cm a 66 cm</td>
+<td>De 5,7 kg a 7,5 kg</td>
+</tr>
+<tr>
+<td>G</td>
+<td>de 6 a 9 meses</td>
+<td>De 66 cm a 70 cm</td>
+<td>De 7,5 kg a 8,9 kg</td>
+</tr>
+<tr>
+<td>GG</td>
+<td>de 9 a 12 meses</td>
+<td>De 70 cm a 73 cm</td>
+<td>De 8,9 kg a 10 kg</td>
+</tr>
+<tr>
+<td>1</td>
+<td>de 12 a 18 meses</td>
+<td>De 73 cm a 79 cm</td>
+<td>De 10 kg a 11,5 kg</td>
+</tr>
+<tr>
+<td>2</td>
+<td>de 18 a 24 meses</td>
+<td>De 79 cm a 87 cm</td>
+<td>De 11,5 kg a 13,0 kg</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>
+<!-- /wp:table --></p>
+<p><!-- wp:table --></p>
+<figure class="wp-block-table">
+<table>
+<tbody>
+<tr>
+<td colspan="4">Tabela de Medidas de Crianças</td>
+</tr>
+<tr>
+<td><strong>Tamanho</strong></td>
+<td><strong>Veste Crianças da Idade</strong></td>
+<td><strong>Altura da Criança</strong></td>
+<td><strong>Peso da Criança</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>de 18 meses a 2 anos</td>
+<td>De 79 cm a 87 cm</td>
+<td>De 11,5 kg a 13,0 kg</td>
+</tr>
+<tr>
+<td>4</td>
+<td>de 3 a 4 anos</td>
+<td>De 87 cm a 103 cm</td>
+<td>De 13,0 kg a 16,8 kg</td>
+</tr>
+<tr>
+<td>6</td>
+<td>de 5 a 6 anos</td>
+<td>De 103 cm a 114 cm</td>
+<td>De 16,8 kg a 21 kg</td>
+</tr>
+<tr>
+<td>8</td>
+<td>de 7 a 8 anos</td>
+<td>De 114 cm a 126 cm</td>
+<td>De 21 kg a 26 kg</td>
+</tr>
+<tr>
+<td>10</td>
+<td>de 9 a 10 anos</td>
+<td>De 126 cm a 137 cm</td>
+<td>De 26 kg a 31 kg</td>
+</tr>
+<tr>
+<td>12</td>
+<td>de 11 a 12 anos</td>
+<td>De 137 cm a 146 cm</td>
+<td>De 31 kg a 40 kg</td>
+</tr>
+<tr>
+<td>14</td>
+<td>de 13 a 14 anos</td>
+<td>De 146 cm a 156 cm</td>
+<td>De 40 kg a 49 kg</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>
+<!-- /wp:table --></p>
+<p><!-- wp:table --></p>
+<figure class="wp-block-table">
+<table>
+<tbody>
+<tr>
+<td colspan="6">Tabela de Medidas de Mulheres</td>
+</tr>
+<tr>
+<td colspan="3"><strong>Tamanho</strong></td>
+<td><strong>Busto</strong></td>
+<td><strong>Quadril</strong></td>
+<td><strong>Cintura</strong></td>
+</tr>
+<tr>
+<td>34</td>
+<td>PP</td>
+<td>XS</td>
+<td>De 75 a 78 cm</td>
+<td>De 81 a 84 cm</td>
+<td>De 59 a 62 cm</td>
+</tr>
+<tr>
+<td>36</td>
+<td>P</td>
+<td>S</td>
+<td>De 79 a 82 cm</td>
+<td>De 85 a 88 cm</td>
+<td>De 63 a 66 cm</td>
+</tr>
+<tr>
+<td>38</td>
+<td>P</td>
+<td>S</td>
+<td>De 83 a 86 cm</td>
+<td>De 89 a 92 cm</td>
+<td>De 67 a 70 cm</td>
+</tr>
+<tr>
+<td>40</td>
+<td>M</td>
+<td>M</td>
+<td>De 87 a 90 cm</td>
+<td>De 93 a 96 cm</td>
+<td>De 71 a 74 cm</td>
+</tr>
+<tr>
+<td>42</td>
+<td>M</td>
+<td>M</td>
+<td>De 91 a 94 cm</td>
+<td>De 97 a 100 cm</td>
+<td>De 75 a 78 cm</td>
+</tr>
+<tr>
+<td>44</td>
+<td>G</td>
+<td>L</td>
+<td>De 95 a 98 cm</td>
+<td>De 101 a 104 cm</td>
+<td>De 79 a 82 cm</td>
+</tr>
+<tr>
+<td>46</td>
+<td>G</td>
+<td>L</td>
+<td>De 99 a 102 cm</td>
+<td>De 105 a 108 cm</td>
+<td>De 83 a 86 cm</td>
+</tr>
+<tr>
+<td>48</td>
+<td>GG</td>
+<td>XL</td>
+<td>De 103 a 106 cm</td>
+<td>De 109 a 112 cm</td>
+<td>De 87 a 90 cm</td>
+</tr>
+<tr>
+<td>50</td>
+<td>GG</td>
+<td>XL</td>
+<td>De 107 a 110 cm</td>
+<td>De 113 a 116 cm</td>
+<td>De 91 a 94 cm</td>
+</tr>
+<tr>
+<td>52</td>
+<td>2EG</td>
+<td>XXL</td>
+<td>De 111 a 114 cm</td>
+<td>De 117 a 120 cm</td>
+<td>De 95 a 98 cm</td>
+</tr>
+<tr>
+<td>54</td>
+<td>3EG</td>
+<td>XXL</td>
+<td>De 115 a 118 cm</td>
+<td>De 121 a 124 cm</td>
+<td>De 99 a 102 cm</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>
+<!-- /wp:table --></p>
+<p><!-- wp:table --></p>
+<figure class="wp-block-table">
+<table>
+<tbody>
+<tr>
+<td colspan="6">Tabela de Medidas de Homens</td>
+</tr>
+<tr>
+<td colspan="3"><strong>Tamanho</strong></td>
+<td><strong>Tórax</strong></td>
+<td><strong>Cintura</strong></td>
+<td><strong>Quadril</strong></td>
+</tr>
+<tr>
+<td>36</td>
+<td>PP</td>
+<td>XS</td>
+<td>De 79 a 83 cm</td>
+<td>De 70 a 74 cm</td>
+<td>De 78 a 82 cm</td>
+</tr>
+<tr>
+<td>38</td>
+<td>P</td>
+<td>S</td>
+<td>De 87 a 91 cm</td>
+<td>De 78 a 82 cm</td>
+<td>De 86 a 90 cm</td>
+</tr>
+<tr>
+<td>40</td>
+<td>M</td>
+<td>M</td>
+<td>De 92 a 95 cm</td>
+<td>De 83 a 86 cm</td>
+<td>De 91 a 94 cm</td>
+</tr>
+<tr>
+<td>42</td>
+<td>M</td>
+<td>M</td>
+<td>De 96 a 99 cm</td>
+<td>De 87 a 90 cm</td>
+<td>De 95 a 98 cm</td>
+</tr>
+<tr>
+<td>44</td>
+<td>G</td>
+<td>L</td>
+<td>De 100 a 103 cm</td>
+<td>De 91 a 94 cm</td>
+<td>De 99 a 102 cm</td>
+</tr>
+<tr>
+<td>46</td>
+<td>G</td>
+<td>L</td>
+<td>De 104 a 107 cm</td>
+<td>De 95 a 98 cm</td>
+<td>De 103 a 106 cm</td>
+</tr>
+<tr>
+<td>48</td>
+<td>GG</td>
+<td>XL</td>
+<td>De 111 a 115 cm</td>
+<td>De 102 a 108 cm</td>
+<td>De 110 a 114 cm</td>
+</tr>
+<tr>
+<td>50</td>
+<td>GG</td>
+<td>XL</td>
+<td>De 119 a 123 cm</td>
+<td>De 110 a 114 cm</td>
+<td>De 118 a 122 cm</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>
+<!-- /wp:table --></p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

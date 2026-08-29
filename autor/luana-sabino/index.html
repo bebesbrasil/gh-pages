@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bebês Brasil</title>
+    <meta name="description" content="">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <span>Bebês Brasil</span>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container">
+    <header style="margin-bottom: 3rem; text-align: center;">
+        
+            <i class="bi bi-person-circle" style="font-size: 5rem; color: var(--text-muted);"></i>
+        
+        <h1 class="page-title" style="border: none; padding: 0;">Luana Sabino</h1>
+        
+    </header>
+
+    <div class="gs-grid">
+        
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/entendendo-as-razoes-de-um-bebe-chorando-muito-durante-a-noite/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/entendendo-as-razoes-de-um-bebe-chorando-muito-durante-a-noite.jpg" alt="Entendendo as razões de um bebê chorando muito durante a noite" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Entendendo as razões de um bebê chorando muito durante a noite</h3>
+                    <div class="gs-card__meta">
+                        21/08/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/como-criar-um-convite-digital-inesquecivel-para-festa-de-15-anos/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/como-criar-um-convite-digital-inesquecivel-para-festa-de-15-anos.jpg" alt="Como criar um convite digital inesquecível para festa de 15 anos" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Como criar um convite digital inesquecível para festa de 15 anos</h3>
+                    <div class="gs-card__meta">
+                        03/08/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/onde-encontrar-roupas-elegantes-para-padrinhos-na-regiao-paulista/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/onde-encontrar-roupas-elegantes-para-padrinhos-na-regiao-paulista.jpg" alt="Onde encontrar roupas elegantes para padrinhos na região paulista" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Onde encontrar roupas elegantes para padrinhos na região paulista</h3>
+                    <div class="gs-card__meta">
+                        27/07/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/onde-encontrar-brinquedos-para-festas-infantis-na-zona-leste/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/onde-encontrar-brinquedos-para-festas-infantis-na-zona-leste.jpg" alt="Onde encontrar brinquedos para festas infantis na Zona Leste?" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Onde encontrar brinquedos para festas infantis na Zona Leste?</h3>
+                    <div class="gs-card__meta">
+                        14/07/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/top-4-veiculos-de-transporte-em-miniatura-para-o-quarto-das-criancas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/top-4-veiculos-de-transporte-em-miniatura-para-o-quarto-das-criancas.jpg" alt="Top 4 veículos de transporte em miniatura para o quarto das crianças" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Top 4 veículos de transporte em miniatura para o quarto das crianças</h3>
+                    <div class="gs-card__meta">
+                        12/07/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/onde-achar-promocoes-exclusivas-para-itens-de-bebe-e-crianca/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/onde-achar-promocoes-exclusivas-para-itens-de-bebe-e-crianca.jpg" alt="Onde achar promoções exclusivas para itens de bebê e criança" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Onde achar promoções exclusivas para itens de bebê e criança</h3>
+                    <div class="gs-card__meta">
+                        30/06/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/como-acelerar-o-progresso-em-jogos-digitais-para-criancas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/como-acelerar-o-progresso-em-jogos-digitais-para-criancas.jpg" alt="Como acelerar o progresso em jogos digitais para crianças" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Como acelerar o progresso em jogos digitais para crianças</h3>
+                    <div class="gs-card__meta">
+                        10/06/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/top-4-opcoes-de-uniformes-para-creches-na-regiao-de-curitiba/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/top-4-opcoes-de-uniformes-para-creches-na-regiao-de-curitiba.jpg" alt="Top 4 opções de uniformes para creches na região de Curitiba" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Top 4 opções de uniformes para creches na região de Curitiba</h3>
+                    <div class="gs-card__meta">
+                        02/06/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/dicas-para-aproveitar-veneza-com-criancas-diversao-garantida/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/dicas-para-aproveitar-veneza-com-criancas-diversao-garantida.jpg" alt="Dicas para aproveitar Veneza com crianças: diversão garantida" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Dicas para aproveitar Veneza com crianças: diversão garantida</h3>
+                    <div class="gs-card__meta">
+                        02/06/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/top-4-opcoes-de-recreacao-inflavel-para-aniversarios-infantis/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/top-4-opcoes-de-recreacao-inflavel-para-aniversarios-infantis.jpg" alt="Top 4 opções de recreação inflável para aniversários infantis" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Top 4 opções de recreação inflável para aniversários infantis</h3>
+                    <div class="gs-card__meta">
+                        21/05/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/10-produtos-que-despertam-a-imaginacao-e-criatividade-das-criancas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/10-produtos-que-despertam-a-imaginacao-e-criatividade-das-criancas.jpg" alt="10 Produtos que despertam a imaginação e criatividade das crianças" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">10 Produtos que despertam a imaginação e criatividade das crianças</h3>
+                    <div class="gs-card__meta">
+                        20/05/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/cheiros-estranhos-no-tapete-do-quarto-das-criancas-solucoes-faceis/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/cheiros-estranhos-no-tapete-do-quarto-das-criancas-solucoes-faceis.jpg" alt="Cheiros estranhos no tapete do quarto das crianças? Soluções fáceis" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Cheiros estranhos no tapete do quarto das crianças? Soluções fáceis</h3>
+                    <div class="gs-card__meta">
+                        19/05/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/5-formas-seguras-de-manter-o-ambiente-do-bebe-sempre-aquecido/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/5-formas-seguras-de-manter-o-ambiente-do-bebe-sempre-aquecido.jpg" alt="5 formas seguras de manter o ambiente do bebê sempre aquecido" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">5 formas seguras de manter o ambiente do bebê sempre aquecido</h3>
+                    <div class="gs-card__meta">
+                        17/05/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/quando-o-andador-pode-ser-seguro-para-o-desenvolvimento-do-bebe/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/quando-o-andador-pode-ser-seguro-para-o-desenvolvimento-do-bebe.jpg" alt="Quando o andador pode ser seguro para o desenvolvimento do bebê" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Quando o andador pode ser seguro para o desenvolvimento do bebê</h3>
+                    <div class="gs-card__meta">
+                        11/05/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/dicas-praticas-para-jovens-aprenderem-tecnicas-de-vendas-desde-cedo/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/dicas-praticas-para-jovens-aprenderem-tecnicas-de-vendas-desde-cedo.jpg" alt="Dicas práticas para jovens aprenderem técnicas de vendas desde cedo" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Dicas práticas para jovens aprenderem técnicas de vendas desde cedo</h3>
+                    <div class="gs-card__meta">
+                        08/05/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/como-escolher-carrinhos-multifuncionais-para-seu-pequeno/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/como-escolher-carrinhos-multifuncionais-para-seu-pequeno.jpg" alt="Como escolher carrinhos multifuncionais para seu pequeno?" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Como escolher carrinhos multifuncionais para seu pequeno?</h3>
+                    <div class="gs-card__meta">
+                        07/05/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/como-identificar-o-profissional-ideal-para-o-cuidado-infantil/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/como-identificar-o-profissional-ideal-para-o-cuidado-infantil.jpg" alt="Como identificar o profissional ideal para o cuidado infantil" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Como identificar o profissional ideal para o cuidado infantil</h3>
+                    <div class="gs-card__meta">
+                        02/05/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/ideias-de-brindes-personalizados-para-criancas-em-festas-e-eventos/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Brindes-Personalizados-para-Criancas.jpg" alt="Ideias de Brindes Personalizados para Crianças em Festas e Eventos" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Ideias de Brindes Personalizados para Crianças em Festas e Eventos</h3>
+                    <div class="gs-card__meta">
+                        16/04/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/quais-acomodacoes-em-universal-garantem-acesso-expresso-para-criancas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/quais-acomodacoes-em-universal-garantem-acesso-expresso-para-criancas.jpg" alt="Quais acomodações em Universal garantem acesso expresso para crianças?" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Quais acomodações em Universal garantem acesso expresso para crianças?</h3>
+                    <div class="gs-card__meta">
+                        16/04/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/7-dicas-para-usar-fragrancias-naturais-na-decoracao-do-quarto-infantil/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/7-dicas-para-usar-fragrancias-naturais-na-decoracao-do-quarto-infantil.jpg" alt="7 Dicas para usar fragrâncias naturais na decoração do quarto infantil" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">7 Dicas para usar fragrâncias naturais na decoração do quarto infantil</h3>
+                    <div class="gs-card__meta">
+                        16/04/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/5-dicas-para-regularizar-saida-de-criancas-do-pais-atrasada/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/5-dicas-para-regularizar-saida-de-criancas-do-pais-atrasada.jpg" alt="5 dicas para regularizar saída de crianças do país atrasada" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">5 dicas para regularizar saída de crianças do país atrasada</h3>
+                    <div class="gs-card__meta">
+                        07/04/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/5-dicas-para-criar-sites-educativos-atraentes-para-criancas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/5-dicas-para-criar-sites-educativos-atraentes-para-criancas.jpg" alt="5 dicas para criar sites educativos atraentes para crianças" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">5 dicas para criar sites educativos atraentes para crianças</h3>
+                    <div class="gs-card__meta">
+                        30/03/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/como-ajudar-seu-filho-com-apoio-psicologico-especializado/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/como-ajudar-seu-filho-com-apoio-psicologico-especializado.jpg" alt="Como Ajudar Seu Filho com Apoio Psicológico Especializado" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Como Ajudar Seu Filho com Apoio Psicológico Especializado</h3>
+                    <div class="gs-card__meta">
+                        26/03/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/como-escolher-pecas-delicadas-em-ouro-para-criancas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/como-escolher-pecas-delicadas-em-ouro-para-criancas.jpg" alt="Como escolher peças delicadas em ouro para crianças" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Como escolher peças delicadas em ouro para crianças</h3>
+                    <div class="gs-card__meta">
+                        24/03/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/direitos-da-crianca-no-sus-acesso-a-tratamentos-caros-e-especializados/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/saude-crianca.jpg" alt="Direitos da Criança no SUS: Acesso a Tratamentos Caros e Especializados" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Direitos da Criança no SUS: Acesso a Tratamentos Caros e Especializados</h3>
+                    <div class="gs-card__meta">
+                        20/03/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/problemas-orais-que-acontece-nas-maes-depois-que-seus-bebes-nascem/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/problemas-orais-que-acontece-nas-maes-depois-que-seus-bebes-nascem.jpg" alt="Problemas Orais que Acontece nas Mães depois que seus Bebês Nascem" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Problemas Orais que Acontece nas Mães depois que seus Bebês Nascem</h3>
+                    <div class="gs-card__meta">
+                        16/03/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/organizacao-do-fim-de-tarde-com-criancas-atividades-que-estimulam-a-autonomia-e-a-calmaria/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/organizacao-do-fim-de-tarde-com-criancas-atividades-que-estimulam-a-autonomia-e-a-calmaria.jpg" alt="Organização do Fim de Tarde com Crianças: Atividades que Estimulam a Autonomia e a Calmaria" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Organização do Fim de Tarde com Crianças: Atividades que Estimulam a Autonomia e a Calmaria</h3>
+                    <div class="gs-card__meta">
+                        19/02/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/investindo-no-futuro-dos-seus-filhos-o-guia-da-imobiliaria-em-dois-irmaos-para-encontrar-a-casa-nova-perfeita/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/investindo-no-futuro-dos-seus-filhos-o-guia-da-imobiliaria-em-dois-irmaos-para-encontrar-a-casa-nova-perfeita.jpg" alt="Investindo no Futuro dos seus Filhos: O Guia da Imobiliária em Dois Irmãos para Encontrar a Casa Nova Perfeita" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Investindo no Futuro dos seus Filhos: O Guia da Imobiliária em Dois Irmãos para Encontrar a Casa Nova Perfeita</h3>
+                    <div class="gs-card__meta">
+                        14/02/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/4-beneficios-essenciais-de-um-convenio-infantil-confiavel/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/4-beneficios-essenciais-de-um-convenio-infantil-confiavel.jpg" alt="4 benefícios essenciais de um convênio infantil confiável" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">4 benefícios essenciais de um convênio infantil confiável</h3>
+                    <div class="gs-card__meta">
+                        07/02/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/pequenos-gestos-grandes-afetos-a-caneca-personalizada-como-simbolo-do-cuidado-diario-na-maternidade/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/pequenos-gestos-grandes-afetos-a-caneca-personalizada-como-simbolo-do-cuidado-diario-na-maternidade.jpg" alt="Pequenos Gestos, Grandes Afetos: A Caneca Personalizada como Símbolo do Cuidado Diário na Maternidade" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Pequenos Gestos, Grandes Afetos: A Caneca Personalizada como Símbolo do Cuidado Diário na Maternidade</h3>
+                    <div class="gs-card__meta">
+                        27/01/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/colchao-livre-de-acaros-como-garantir-um-sono-seguro-para-o-bebe/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/limpeza-colchao.jpg" alt="Colchão Livre de Ácaros: Como Garantir um Sono Seguro Para o Bebê" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Colchão Livre de Ácaros: Como Garantir um Sono Seguro Para o Bebê</h3>
+                    <div class="gs-card__meta">
+                        18/01/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/como-evitar-vazamentos-dicas-para-usar-fraldas-corretamente/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/fraldas.jpg" alt="Como Evitar Vazamentos: Dicas para Usar Fraldas Corretamente" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Como Evitar Vazamentos: Dicas para Usar Fraldas Corretamente</h3>
+                    <div class="gs-card__meta">
+                        17/01/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/glicose-alta-na-gravidez-impactos-no-desenvolvimento-infantil/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/glicose-alta-na-gravidez-impactos-no-desenvolvimento-infantil.jpg" alt="Glicose alta na gravidez: impactos no desenvolvimento infantil" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Glicose alta na gravidez: impactos no desenvolvimento infantil</h3>
+                    <div class="gs-card__meta">
+                        11/01/2026
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/maquina-de-costura-como-criar-pecas-personalizadas-para-bebes-com-qualidade/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/costurar-roupa.jpg" alt="Máquina de Costura: Como Criar Peças Personalizadas para Bebês com Qualidade" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Máquina de Costura: Como Criar Peças Personalizadas para Bebês com Qualidade</h3>
+                    <div class="gs-card__meta">
+                        14/12/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/quais-procedimentos-esteticos-permitidos-para-mulheres-gravidas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/quais-procedimentos-esteticos-permitidos-para-mulheres-gravidas.jpg" alt="Quais procedimentos estéticos permitidos para mulheres grávidas" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Quais procedimentos estéticos permitidos para mulheres grávidas</h3>
+                    <div class="gs-card__meta">
+                        04/12/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/procedimento-para-evitar-estrias-apos-gravidez/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/procedimento-para-evitar-estrias-apos-gravidez.jpg" alt="Procedimento para evitar estrias após Gravidez" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Procedimento para evitar estrias após Gravidez</h3>
+                    <div class="gs-card__meta">
+                        02/12/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/5-atividades-estimulantes-para-o-crescimento-dos-pequenos-na-fase-inicial/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/5-atividades-estimulantes-para-o-crescimento-dos-pequenos-na-fase-inicial.jpg" alt="5 atividades estimulantes para o crescimento dos pequenos na fase inicial" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">5 atividades estimulantes para o crescimento dos pequenos na fase inicial</h3>
+                    <div class="gs-card__meta">
+                        28/11/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/como-avaliar-fralda-para-recem-nascidos/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/melhores-fraldas.jpg" alt="Como Avaliar Fralda para Recém-Nascidos" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Como Avaliar Fralda para Recém-Nascidos</h3>
+                    <div class="gs-card__meta">
+                        16/10/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/por-que-pais-procuram-mais-transporte-escolar-online-hoje/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/por-que-pais-procuram-mais-transporte-escolar-online-hoje.jpg" alt="Por que pais procuram mais transporte escolar online hoje?" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Por que pais procuram mais transporte escolar online hoje?</h3>
+                    <div class="gs-card__meta">
+                        23/09/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/onde-estudar-ti/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/onde-estudar-ti.jpg" alt="onde estudar ti ?" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">onde estudar ti ?</h3>
+                    <div class="gs-card__meta">
+                        17/09/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/onde-estudar-ti-2/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/onde-estudar-ti.jpg" alt="onde estudar ti ?" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">onde estudar ti ?</h3>
+                    <div class="gs-card__meta">
+                        17/09/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/robo-aspirador-ropo-smart-laser-praticidade-para-familias-com-criancas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Robo-Aspirador-Ropo-Smart-Laser.webp" alt="Robô Aspirador Ropo Smart Laser: praticidade para famílias com crianças" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Robô Aspirador Ropo Smart Laser: praticidade para famílias com crianças</h3>
+                    <div class="gs-card__meta">
+                        16/09/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/plano-de-saude-e-bebes/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Plano-de-Saude-e-Bebes.jpg" alt="Plano de Saúde e Bebês: Segurança e Cuidados Desde os Primeiros Dias" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Plano de Saúde e Bebês: Segurança e Cuidados Desde os Primeiros Dias</h3>
+                    <div class="gs-card__meta">
+                        10/08/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/quantos-meses-pode-colocar-o-bebe-na-cadeirinha-de-alimentacao/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/pais-dando-comida-para-bebe-na-cadeirinha.jpg" alt="Quantos Meses Pode Colocar o Bebê na Cadeirinha de Alimentação?" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Quantos Meses Pode Colocar o Bebê na Cadeirinha de Alimentação?</h3>
+                    <div class="gs-card__meta">
+                        05/08/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/opcoes-de-brinquedos-com-seguranca-para-os-pequenos/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/OIP.webp" alt="Brinquedos Inteligentes e Seguros: Escolhas Certeiras para os Primeiros Anos de Vida" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Brinquedos Inteligentes e Seguros: Escolhas Certeiras para os Primeiros Anos de Vida</h3>
+                    <div class="gs-card__meta">
+                        25/07/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/maquina-de-fazer-pao-maos-na-massa-criando-momentos-deliciosos-com-as-criancas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/images1.jpg" alt="Máquina de Fazer Pão - Mãos na Massa: Criando Momentos Deliciosos Com as Crianças" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Máquina de Fazer Pão - Mãos na Massa: Criando Momentos Deliciosos Com as Crianças</h3>
+                    <div class="gs-card__meta">
+                        13/06/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/quando-comecar-a-usar-a-cadeira-de-alimentacao-idade-ideal-e-sinais-de-prontidao/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/cadeira-de-bebe.jpg" alt="Quando Começar a Usar a Cadeira de Alimentação? Idade Ideal e Sinais de Prontidão" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Quando Começar a Usar a Cadeira de Alimentação? Idade Ideal e Sinais de Prontidão</h3>
+                    <div class="gs-card__meta">
+                        11/06/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/guia-taubate-os-melhores-lugares-e-atividades-para-criancas-na-cidade/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Guia-Taubate.jpg" alt="Guia Taubaté: Os Melhores Lugares e Atividades Para Crianças na Cidade" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Guia Taubaté: Os Melhores Lugares e Atividades Para Crianças na Cidade</h3>
+                    <div class="gs-card__meta">
+                        29/05/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/informacoes-para-viagens-com-bebes-e-menores-de-idade/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/bebe-no-aviao.jpg" alt="Informações para viagens com bebês e menores de idade" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Informações para viagens com bebês e menores de idade</h3>
+                    <div class="gs-card__meta">
+                        24/05/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/guia-de-campo-grande-para-criancas-aventuras-e-diversao/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/aventuras-e-Diversao.jpg" alt="Guia de Campo Grande para Crianças: Aventuras e Diversão" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Guia de Campo Grande para Crianças: Aventuras e Diversão</h3>
+                    <div class="gs-card__meta">
+                        23/05/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/robo-aspirador-de-po-karcher-rcv-3-limpeza-eficiente-mais-tempo-para-maes-aproveitarem-com-seus-filhos/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Robo-Aspirador-De-Po-Karcher-RCV-3-1.jpg" alt="Robô Aspirador De Pó Karcher RCV 3: Limpeza Eficiente, Mais Tempo para Mães Aproveitarem com Seus Filhos" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Robô Aspirador De Pó Karcher RCV 3: Limpeza Eficiente, Mais Tempo para Mães Aproveitarem com Seus Filhos</h3>
+                    <div class="gs-card__meta">
+                        08/05/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/lista-de-enxoval-de-bebe-menina-itens-essenciais-para-a-chegada-do-seu-amor/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Lista-de-Enxoval-de-Bebe-Menina.jpg" alt="Lista de Enxoval de Bebê Menina: Itens Essenciais para a Chegada do Seu Amor" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Lista de Enxoval de Bebê Menina: Itens Essenciais para a Chegada do Seu Amor</h3>
+                    <div class="gs-card__meta">
+                        03/04/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/marketing-olfativo-em-escola-de-educacao-infantil/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/escolinha-bebes.jpg" alt="Marketing Olfativo em Escola de Educação Infantil: Como Criar Experiências Memoráveis Através do Olfato" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Marketing Olfativo em Escola de Educação Infantil: Como Criar Experiências Memoráveis Através do Olfato</h3>
+                    <div class="gs-card__meta">
+                        15/03/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/dicas-de-como-ensinar-ingles-para-bebes/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/ingles-para-bebe.jpeg" alt="Dicas de Como Ensinar Inglês para Bebês" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Dicas de Como Ensinar Inglês para Bebês</h3>
+                    <div class="gs-card__meta">
+                        13/03/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/presentes-para-geeks-ideias-criativas-para-criancas-nerds/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Presentes-para-Geeks.jpg" alt="Presentes para Geeks: Ideias Criativas para Crianças Nerds" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Presentes para Geeks: Ideias Criativas para Crianças Nerds</h3>
+                    <div class="gs-card__meta">
+                        11/03/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/dicas-para-longas-viagens-com-bebes-de-onibus/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Dicas-para-Longas-Viagens-com-Bebes-de-Onibus.jpg" alt="Dicas para Longas Viagens com Bebês de Ônibus" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Dicas para Longas Viagens com Bebês de Ônibus</h3>
+                    <div class="gs-card__meta">
+                        23/02/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/a-importancia-dos-jogos-pedagogicos-na-alfabetizacao-infantil/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/jogos-pedagogicos.jpg" alt="A Importância dos Jogos Pedagógicos na Alfabetização Infantil" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">A Importância dos Jogos Pedagógicos na Alfabetização Infantil</h3>
+                    <div class="gs-card__meta">
+                        10/02/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/shampoo-de-bebe-o-que-levar-em-conta-na-hora-de-escolher/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Shampoo-De-Bebe-1.jpg" alt="Shampoo De Bebê: O Que Levar Em Conta Na Hora De Escolher" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Shampoo De Bebê: O Que Levar Em Conta Na Hora De Escolher</h3>
+                    <div class="gs-card__meta">
+                        09/02/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/importancia-da-higiene-bucal-na-educacao-infantil/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/criancas-escovando-dentes.jpg" alt="Importância da higiene bucal na educação infantil" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Importância da higiene bucal na educação infantil</h3>
+                    <div class="gs-card__meta">
+                        07/01/2025
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/sonhar-com-viagem-desvendando-os-misterios-dos-sonhos/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/freedom-1681696_12801.jpg" alt="Sonhar com Viagem: Desvendando os Mistérios dos Sonhos" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Sonhar com Viagem: Desvendando os Mistérios dos Sonhos</h3>
+                    <div class="gs-card__meta">
+                        08/10/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/7-motivos-para-alugar-brinquedos-em-vez-de-comprar/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/lugar-Brinquedos-em-Vez-de-Comprar.jpeg" alt="7 Motivos para Alugar Brinquedos em Vez de Comprar" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">7 Motivos para Alugar Brinquedos em Vez de Comprar</h3>
+                    <div class="gs-card__meta">
+                        26/09/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/guia-encontra-santa-catarina-para-criancas-aventuras-e-descobertas-no-estado/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Guia-Encontra-Santa-Catarina-1.jpg" alt="Guia Encontra Santa Catarina para Crianças: Aventuras e Descobertas no Estado" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Guia Encontra Santa Catarina para Crianças: Aventuras e Descobertas no Estado</h3>
+                    <div class="gs-card__meta">
+                        11/09/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/vestido-de-batizado-tradicoes-e-significados-por-tras-das-roupas-para-este-momento-especial/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/roupa-batizado.jpg" alt="Vestido de Batizado: Tradições e Significados por Trás das Roupas para Este Momento Especial" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Vestido de Batizado: Tradições e Significados por Trás das Roupas para Este Momento Especial</h3>
+                    <div class="gs-card__meta">
+                        29/08/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/dicas-para-aumentar-as-avaliacoes-no-google-para-produtos-infantis/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Dicas-para-Aumentar-as-Avaliacoes-no-Google-para-Produtos-Infantis.jpg" alt="Dicas para Aumentar as Avaliações no Google para Produtos Infantis" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Dicas para Aumentar as Avaliações no Google para Produtos Infantis</h3>
+                    <div class="gs-card__meta">
+                        22/08/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/mensagem-de-9-meses-de-aniversario/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <div style="width: 100%; height: 100%; background: #333;"></div>
+                        
+                    </div>
+                    <h3 class="gs-card__title">Mensagem de 9 meses de Aniversário </h3>
+                    <div class="gs-card__meta">
+                        05/08/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/mensagem-de-aniversario-de-8-meses/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <div style="width: 100%; height: 100%; background: #333;"></div>
+                        
+                    </div>
+                    <h3 class="gs-card__title">Mensagem de Aniversário  de 8 Meses</h3>
+                    <div class="gs-card__meta">
+                        05/08/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/mensagem-de-aniversario-de-6-meses/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <div style="width: 100%; height: 100%; background: #333;"></div>
+                        
+                    </div>
+                    <h3 class="gs-card__title">Mensagem de Aniversário de 6 Meses</h3>
+                    <div class="gs-card__meta">
+                        05/08/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/mensagem-de-aniversario-3-meses/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <div style="width: 100%; height: 100%; background: #333;"></div>
+                        
+                    </div>
+                    <h3 class="gs-card__title">Mensagem de Aniversário 3 Meses</h3>
+                    <div class="gs-card__meta">
+                        05/08/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/tema-mensal-mickey/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <div style="width: 100%; height: 100%; background: #333;"></div>
+                        
+                    </div>
+                    <h3 class="gs-card__title">Tema Mensal Mickey</h3>
+                    <div class="gs-card__meta">
+                        04/08/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/safari-multiverso-tapete/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <div style="width: 100%; height: 100%; background: #333;"></div>
+                        
+                    </div>
+                    <h3 class="gs-card__title">Safari Multiverso Tapete</h3>
+                    <div class="gs-card__meta">
+                        22/07/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/tema-de-aniversario-do-urso/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/festa-ursinho-baloeiro-inspire-sua-festa-19.webp" alt="Tema de Aniversário do Urso" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Tema de Aniversário do Urso</h3>
+                    <div class="gs-card__meta">
+                        22/07/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/tema-de-aniversario-na-pequena-quinta/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/festa-infantil-quinta-da-boa-vista-rj-2549.jpg" alt="Tema de Aniversário na Pequena Quinta" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Tema de Aniversário na Pequena Quinta</h3>
+                    <div class="gs-card__meta">
+                        22/07/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/tema-de-aniversario-da-sereia/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/festa-pequena-sereia.webp" alt="Tema de Aniversário da Sereia" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Tema de Aniversário da Sereia</h3>
+                    <div class="gs-card__meta">
+                        22/07/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/tema-de-aniversario-de-borboleta/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/decoracao-jardim-borboletas-decoracao-jardim.jpg" alt="Tema de Aniversário de Borboleta" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Tema de Aniversário de Borboleta</h3>
+                    <div class="gs-card__meta">
+                        22/07/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/temas-de-aniversario-para-meninos/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <div style="width: 100%; height: 100%; background: #333;"></div>
+                        
+                    </div>
+                    <h3 class="gs-card__title">Temas de Aniversário para Meninos</h3>
+                    <div class="gs-card__meta">
+                        22/07/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/tema-do-aniversario-das-princesas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Tema-do-Aniversario-das-Princesas.webp" alt="Tema do Aniversário das Princesas" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Tema do Aniversário das Princesas</h3>
+                    <div class="gs-card__meta">
+                        22/07/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/tema-festa-de-aniversario-do-batman/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/festa-do-batman-luxo.jpg" alt="Tema Festa de Aniversário do Batman" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Tema Festa de Aniversário do Batman</h3>
+                    <div class="gs-card__meta">
+                        22/07/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/tema-para-um-aniversario-masculino/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Tema-para-um-aniversario-masculino.webp" alt="Tema para um Aniversário masculino" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Tema para um Aniversário masculino</h3>
+                    <div class="gs-card__meta">
+                        22/07/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/fotos-criativas-de-marcos-mensais-do-bebe-menino/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Fotos-Criativas-de-Marcos-Mensais-do-Bebe-Menino.jpg" alt="Fotos Criativas de Marcos Mensais do Bebê Menino" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Fotos Criativas de Marcos Mensais do Bebê Menino</h3>
+                    <div class="gs-card__meta">
+                        22/07/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/aniversario-dos-dinossauros/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Aniversario-dos-Dinossauros.jpg" alt="Aniversário dos Dinossauros" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Aniversário dos Dinossauros</h3>
+                    <div class="gs-card__meta">
+                        22/07/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/ideias-para-uma-festa-de-aniversario-de-menina/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Ideias-para-uma-Festa-de-Aniversario-de-Menina.webp" alt="Ideias para uma Festa de Aniversário de Menina" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Ideias para uma Festa de Aniversário de Menina</h3>
+                    <div class="gs-card__meta">
+                        22/07/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/tags-para-brincos-a-chave-para-organizacao-visibilidade-e-venda/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/etiquetas-redondas-pretas-de-sexta-feira-negra_23-21477122061.jpg" alt="Tags para Brincos: A Chave para Organização, Visibilidade e Venda" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Tags para Brincos: A Chave para Organização, Visibilidade e Venda</h3>
+                    <div class="gs-card__meta">
+                        28/06/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/os-beneficios-do-planejamento-pessoal/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/autoconhecimento-45.jpg" alt="Os Benefícios do Planejamento Pessoal" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Os Benefícios do Planejamento Pessoal</h3>
+                    <div class="gs-card__meta">
+                        18/06/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/remini-crie-fotos-de-bebes-e-gestacao-com-ia-que-viralizam-nas-redes-sociais/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/IA-CRIA-FOTO-DO-SEU-FILHO-3.jpeg" alt="Remini: Crie Fotos de Bebês e Gestação com IA que Viralizam nas Redes Sociais" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Remini: Crie Fotos de Bebês e Gestação com IA que Viralizam nas Redes Sociais</h3>
+                    <div class="gs-card__meta">
+                        16/06/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/visitacao-de-criancas-em-lar-e-casas-de-repouso-de-idosos/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/crianca-idosos.jpg" alt="Visitação de Crianças em Lar e Casas de Repouso de Idosos" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Visitação de Crianças em Lar e Casas de Repouso de Idosos</h3>
+                    <div class="gs-card__meta">
+                        12/05/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/7-dicas-para-se-tornar-um-excelente-contador-de-historias-para-criancas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/ler-crianca.jpg" alt="7 Dicas para se Tornar um Excelente Contador de Histórias para Crianças" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">7 Dicas para se Tornar um Excelente Contador de Histórias para Crianças</h3>
+                    <div class="gs-card__meta">
+                        07/05/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/a-importancia-da-leitura-para-criancas-desde-muito-pequenas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/leitura-para-Criancas.jpg" alt="A Importância da Leitura para Crianças desde Muito Pequenas" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">A Importância da Leitura para Crianças desde Muito Pequenas</h3>
+                    <div class="gs-card__meta">
+                        26/04/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/como-educar-o-bebe-de-1-ano/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/educar-bebe.jpg" alt="Como educar o bebê de 1 ano" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Como educar o bebê de 1 ano</h3>
+                    <div class="gs-card__meta">
+                        17/04/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/brinquedos-montessori-o-que-sao-e-quais-seus-beneficios-para-as-criancas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Brinquedos-Montessori-criancas.jpg" alt="Brinquedos Montessori: O Que São e Quais Seus Benefícios Para as Crianças" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Brinquedos Montessori: O Que São e Quais Seus Benefícios Para as Crianças</h3>
+                    <div class="gs-card__meta">
+                        17/04/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/como-escolher-os-brinquedos-para-seu-filho-de-acordo-com-a-idade/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Brinquedos-para-seu-Filho.jpg" alt="Como Escolher os Brinquedos para seu Filho de Acordo com a Idade" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Como Escolher os Brinquedos para seu Filho de Acordo com a Idade</h3>
+                    <div class="gs-card__meta">
+                        08/04/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/como-limpar-brinquedos-guia-completo-para-garantir-a-seguranca-e-saude-das-criancas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Limpar-Brinquedos.jpg" alt="Como Limpar Brinquedos: Guia Completo para Garantir a Segurança e Saúde das Crianças" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Como Limpar Brinquedos: Guia Completo para Garantir a Segurança e Saúde das Crianças</h3>
+                    <div class="gs-card__meta">
+                        08/04/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/diferencas-entre-cadeirinha-bebe-conforto-e-assento-de-elevacao/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Diferencas-entre-cadeirinha-bebe-conforto-e-assento-de-elevacao.jpg" alt="Diferenças entre cadeirinha, bebê conforto e assento de elevação" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Diferenças entre cadeirinha, bebê conforto e assento de elevação</h3>
+                    <div class="gs-card__meta">
+                        07/04/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/entenda-a-importancia-dos-brinquedos-educativos-para-as-criancas/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Entenda-a-importancia-dos-brinquedos-educativos-para-as-criancas.jpg" alt="Entenda a importância dos brinquedos educativos para as crianças" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Entenda a importância dos brinquedos educativos para as crianças</h3>
+                    <div class="gs-card__meta">
+                        31/03/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/quem-amamenta-pode-fazer-tatuagem/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/amamenta-tatuagem.jpg" alt="Quem amamenta pode fazer tatuagem" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Quem amamenta pode fazer tatuagem</h3>
+                    <div class="gs-card__meta">
+                        23/03/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/brinquedos-feitos-em-casa-diversao-do-comeco-ao-fim/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Brinquedos-feitos-em-casa.jpg" alt="Brinquedos feitos em casa: diversão do começo ao fim!" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Brinquedos feitos em casa: diversão do começo ao fim!</h3>
+                    <div class="gs-card__meta">
+                        23/03/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/quarto-montessoriano-o-que-e-este-modelo/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Quarto-Montessoriano.jpg" alt="Quarto Montessoriano, o que é este modelo?" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Quarto Montessoriano, o que é este modelo?</h3>
+                    <div class="gs-card__meta">
+                        23/03/2024
+                    </div>
+                </a>
+            </article>
+            
+            <article class="gs-card" style="grid-column: span 12; @media(min-width: 768px){ grid-column: span 4; }">
+                <a href="/tabela-de-tamanhos/">
+                    <div class="gs-card__img-wrapper">
+                        
+                            <img src="/static/uploads/Tabela-de-tamanhos.jpg" alt="Tabela de tamanhos" loading="lazy">
+                        
+                    </div>
+                    <h3 class="gs-card__title">Tabela de tamanhos</h3>
+                    <div class="gs-card__meta">
+                        22/03/2024
+                    </div>
+                </a>
+            </article>
+            
+        
+    </div>
+
+    
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

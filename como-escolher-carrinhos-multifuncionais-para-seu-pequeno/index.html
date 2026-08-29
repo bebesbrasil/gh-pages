@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como escolher carrinhos multifuncionais para seu pequeno? - Bebês Brasil</title>
+    <meta name="description" content="Descubra dicas práticas para escolher carrinhos multifuncionais ideais para seu pequeno, unindo segurança, conforto e praticidade no dia a dia.">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/uncategorized/" style="color:#ffffff;">Outros</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Como escolher carrinhos multifuncionais para seu pequeno?</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Descubra dicas práticas para escolher carrinhos multifuncionais ideais para seu pequeno, unindo segurança, conforto e praticidade no dia a dia.</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2026-05-07" style="color: var(--text-muted);">
+                        07/05/2026 00:00
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/como-escolher-carrinhos-multifuncionais-para-seu-pequeno.jpg" alt="Como escolher carrinhos multifuncionais para seu pequeno?">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>A chegada de um beb&ecirc; traz uma s&eacute;rie de decis&otilde;es importantes para os pais, e a escolha do carrinho ideal &eacute; uma delas. Um <strong>carrinho multifuncional</strong> pode ser um grande aliado no dia a dia, proporcionando praticidade, conforto e seguran&ccedil;a para o seu pequeno durante passeios, viagens e atividades di&aacute;rias. No entanto, a variedade de modelos dispon&iacute;veis no mercado pode tornar essa decis&atilde;o um pouco desafiadora.</p>
+<p>Este guia foi desenvolvido para ajudar voc&ecirc; a escolher o melhor carrinho multifuncional, levando em considera&ccedil;&atilde;o aspectos fundamentais para garantir a satisfa&ccedil;&atilde;o e o bem-estar do seu filho, al&eacute;m da sua comodidade.</p>
+<h2>O Que &Eacute; Um Carrinho Multifuncional?</h2>
+<p>Antes de tudo, &eacute; importante entender o conceito de <strong>carrinho multifuncional</strong>. Diferente dos carrinhos tradicionais, esses modelos oferecem m&uacute;ltiplas fun&ccedil;&otilde;es em um &uacute;nico produto, podendo ser usados desde o nascimento at&eacute; os primeiros anos de vida da crian&ccedil;a. Muitas vezes, eles v&ecirc;m acompanhados de acess&oacute;rios como beb&ecirc; conforto, mois&eacute;s e base para carro, o que aumenta a versatilidade.</p>
+<p>A principal vantagem de um carrinho multifuncional &eacute; a possibilidade de adapta&ccedil;&atilde;o conforme o crescimento do beb&ecirc;, evitando a necessidade de comprar v&aacute;rios equipamentos diferentes.</p>
+<h2>Benef&iacute;cios De Escolher Um Carrinho Multifuncional</h2>
+<p>Optar por um carrinho multifuncional vai muito al&eacute;m da praticidade. Veja alguns benef&iacute;cios que justificam essa escolha:</p>
+<p>- <strong>Economia financeira</strong>: ao adquirir um produto 3 em 1, voc&ecirc; economiza dinheiro, pois n&atilde;o ser&aacute; necess&aacute;rio comprar um carrinho, um beb&ecirc; conforto e um mois&eacute;s separadamente.</p>
+<p>- <strong>Praticidade para os pais</strong>: a facilidade de transi&ccedil;&atilde;o entre fun&ccedil;&otilde;es torna o cotidiano mais simples, principalmente em viagens e passeios r&aacute;pidos.</p>
+<p>- <strong>Conforto para o beb&ecirc;</strong>: muitos modelos oferecem ajustes ergon&ocirc;micos que acompanham o crescimento da crian&ccedil;a, garantindo conforto em todas as fases.</p>
+<p>- <strong>Seguran&ccedil;a garantida</strong>: os carrinhos multifuncionais passam por rigorosos testes de seguran&ccedil;a e contam com sistemas de trava, cintos de seguran&ccedil;a e amortecedores.</p>
+<p>- <strong>Facilidade de transporte e armazenamento</strong>: geralmente s&atilde;o mais compactos e f&aacute;ceis de dobrar, o que facilita o transporte no carro e o armazenamento em casa.</p>
+<h2>Principais Tipos De Carrinhos Multifuncionais</h2>
+<p>Existem diferentes configura&ccedil;&otilde;es e estilos de carrinhos multifuncionais. Conhecer cada um deles ajuda a identificar qual &eacute; o que melhor atende &agrave;s suas necessidades.</p>
+<h3>Travel System</h3>
+<p>O <strong>travel system</strong> &eacute; um dos modelos mais completos e populares entre os pais. Ele consiste em um carrinho que pode ser acoplado a um beb&ecirc; conforto, permitindo que o beb&ecirc; seja transportado do carro para o carrinho sem precisar ser retirado do assento.</p>
+<p>Essa funcionalidade &eacute; extremamente &uacute;til para evitar que o beb&ecirc; seja incomodado ao ser transferido, al&eacute;m de garantir seguran&ccedil;a no transporte de carro.</p>
+<h3>Carrinho com mois&eacute;s</h3>
+<p>Ideal para rec&eacute;m-nascidos, o carrinho com mois&eacute;s permite que o beb&ecirc; viaje em posi&ccedil;&atilde;o totalmente deitada, o que &eacute; recomendado nos primeiros meses de vida. O mois&eacute;s pode ser destacado e usado separadamente, facilitando o transporte do beb&ecirc;.</p>
+<h3>Carrinho revers&iacute;vel</h3>
+<p>O carrinho revers&iacute;vel permite que o assento seja colocado tanto de frente para os pais quanto para o ambiente externo. Isso &eacute; importante para que o beb&ecirc; possa observar o mundo ao seu redor ou ficar mais pr&oacute;ximo dos pais, proporcionando seguran&ccedil;a emocional.</p>
+<h2>Onde Encontrar Os Melhores Carrinhos Multifuncionais</h2>
+<p>Lojas especializadas em artigos para beb&ecirc;s, grandes varejistas e e-commerces s&atilde;o bons lugares para buscar op&ccedil;&otilde;es. &Eacute; importante avaliar o atendimento, a variedade de produtos e a possibilidade de testar o carrinho antes da compra.</p>
+<p>Vale lembrar que <a href="https://osmelhorescarrinhosdebebe.com/melhor-carrinho-travel-system/" target="_blank" rel="noopener">os melhores carrinhos travel system</a> costumam estar dispon&iacute;veis em lojas que oferecem uma ampla linha de produtos para beb&ecirc;s, com garantia e suporte especializado.</p>
+<h2>Como Escolher O Carrinho Multifuncional Ideal Para Seu Pequeno</h2>
+<p>Ao buscar o carrinho multifuncional perfeito, diversos fatores precisam ser levados em considera&ccedil;&atilde;o para garantir que o produto atenda &agrave;s suas expectativas e &agrave;s necessidades do beb&ecirc;.</p>
+<h3>Seguran&ccedil;a em primeiro lugar</h3>
+<p>A seguran&ccedil;a &eacute; o aspecto mais importante. Certifique-se de que o carrinho tenha:</p>
+<p>- <strong>Cintos de seguran&ccedil;a de 3 ou 5 pontos</strong>, que mant&ecirc;m o beb&ecirc; bem preso.</p>
+<p>- <strong>Freios eficazes</strong> e f&aacute;ceis de acionar.</p>
+<p>- <strong>Estrutura robusta</strong> e materiais resistentes.</p>
+<p>- <strong>Certifica&ccedil;&atilde;o do INMETRO</strong>, que garante que o produto foi testado e aprovado conforme as normas brasileiras.</p>
+<h3>Conforto para o beb&ecirc;</h3>
+<p>O carrinho deve proporcionar conforto em todos os momentos. Avalie:</p>
+<p>- <strong>Assento acolchoado e reclin&aacute;vel</strong>, que permita v&aacute;rias posi&ccedil;&otilde;es, inclusive a deitada.</p>
+<p>- <strong>Suspens&atilde;o nas rodas</strong>, para absorver impactos e garantir passeios suaves.</p>
+<p>- <strong>Capota ampla e regul&aacute;vel</strong>, para proteger o beb&ecirc; do sol, vento e chuva.</p>
+<p>- <strong>Tecido respir&aacute;vel e f&aacute;cil de limpar</strong>, que evite o superaquecimento e facilite a manuten&ccedil;&atilde;o.</p>
+<h3>Facilidade de manuseio</h3>
+<p>Para os pais, o carrinho deve ser pr&aacute;tico. Considere:</p>
+<p>- <strong>Peso e facilidade de dobrar</strong>: modelos leves e que possam ser dobrados com uma m&atilde;o s&atilde;o ideais.</p>
+<p>- <strong>Tamanho compacto</strong>: para facilitar o transporte em carros e o armazenamento em casa.</p>
+<p>- <strong>Rodas girat&oacute;rias e bloque&aacute;veis</strong>, que proporcionam melhor direcionamento e estabilidade.</p>
+<p>- <strong>Cesto para armazenamento</strong>, que permita levar itens essenciais do beb&ecirc;.</p>
+<h3>Versatilidade e acess&oacute;rios</h3>
+<p>Optar por um carrinho multifuncional que ofere&ccedil;a acess&oacute;rios adicionais pode tornar a experi&ecirc;ncia ainda melhor. Verifique se o modelo inclui:</p>
+<p>- Base para o carro, para fixar o beb&ecirc; conforto com seguran&ccedil;a.</p>
+<p>- Adaptadores para diferentes fun&ccedil;&otilde;es e acess&oacute;rios.</p>
+<p>- Bolsos e compartimentos extras para guardar objetos pessoais e do beb&ecirc;.</p>
+<p>- Capas de chuva e protetores de sol.</p>
+<h3>Durabilidade e garantia</h3>
+<p>Investir em um carrinho de qualidade faz toda a diferen&ccedil;a. Priorize marcas reconhecidas no mercado, que ofere&ccedil;am garantia e assist&ecirc;ncia t&eacute;cnica. Isso garante que o carrinho acompanhar&aacute; o crescimento do seu filho e resistir&aacute; ao uso di&aacute;rio.</p>
+<h2>Dicas Para Comprar Carrinhos Multifuncionais Online</h2>
+<p>Comprar carrinhos pela internet &eacute; uma pr&aacute;tica comum, mas exige aten&ccedil;&atilde;o para evitar surpresas desagrad&aacute;veis.</p>
+<p>- Leia atentamente as avalia&ccedil;&otilde;es e coment&aacute;rios de outros consumidores.</p>
+<p>- Verifique a pol&iacute;tica de troca e devolu&ccedil;&atilde;o.</p>
+<p>- Confira se o site &eacute; confi&aacute;vel e possui certificado de seguran&ccedil;a.</p>
+<p>- Compare pre&ccedil;os e promo&ccedil;&otilde;es, mas desconfie de valores muito abaixo da m&eacute;dia.</p>
+<p>- Observe as especifica&ccedil;&otilde;es t&eacute;cnicas detalhadas.</p>
+<h2>Tend&ecirc;ncias E Inova&ccedil;&otilde;es Em Carrinhos Multifuncionais</h2>
+<p>O mercado de puericultura tem investido em tecnologias que trazem mais conforto e seguran&ccedil;a, al&eacute;m de design moderno e funcionalidade inteligente.</p>
+<h3>Carrinhos compactos e ultraleves</h3>
+<p>Ideal para fam&iacute;lias que vivem em ambientes urbanos e precisam de praticidade no transporte p&uacute;blico ou no carro.</p>
+<h3>Carrinhos com suspens&atilde;o avan&ccedil;ada</h3>
+<p>Oferecem conforto superior em terrenos irregulares, evitando que o beb&ecirc; sofra com solavancos.</p>
+<h3>Materiais sustent&aacute;veis</h3>
+<p>Algumas marcas t&ecirc;m apostado em tecidos ecol&oacute;gicos e materiais recicl&aacute;veis, atendendo &agrave; demanda por produtos mais sustent&aacute;veis.</p>
+<h3>Itens conectados</h3>
+<p>Modelos com sensores de temperatura, alarmes de seguran&ccedil;a e at&eacute; conex&atilde;o com aplicativos no celular s&atilde;o uma inova&ccedil;&atilde;o que promete facilitar a vida dos pais.</p>
+<h2>Manuten&ccedil;&atilde;o E Cuidados Com O Carrinho Multifuncional</h2>
+<p>Para garantir a durabilidade do carrinho, &eacute; importante seguir algumas recomenda&ccedil;&otilde;es:</p>
+<p>- Limpe regularmente o tecido com produtos adequados.</p>
+<p>- Lubrifique as rodas para evitar ru&iacute;dos e facilitar o movimento.</p>
+<p>- Guarde o carrinho em local protegido da umidade e do sol excessivo.</p>
+<p>- Verifique periodicamente os cintos e travas para garantir que est&atilde;o funcionando corretamente.</p>
+<p>&nbsp;</p>
+<h2>Conclus&atilde;o</h2>
+<p>Escolher um carrinho multifuncional &eacute; uma decis&atilde;o que impacta diretamente no conforto, seguran&ccedil;a e praticidade durante os primeiros anos do seu filho. Priorizar modelos que unam qualidade, versatilidade e facilidade de uso faz toda a diferen&ccedil;a no dia a dia dos pais e do beb&ecirc;.</p>
+<p>Analisar cuidadosamente aspectos como seguran&ccedil;a, conforto, facilidade de manuseio e acess&oacute;rios ajuda a garantir uma compra acertada. Al&eacute;m disso, considerar as tend&ecirc;ncias do mercado e cuidar bem do carrinho ao longo do tempo amplia a vida &uacute;til do produto.</p>
+<p>Com as informa&ccedil;&otilde;es adequadas, &eacute; poss&iacute;vel encontrar o carrinho multifuncional ideal, que acompanhe seu pequeno em cada etapa do crescimento, tornando os passeios momentos especiais e tranquilos para toda a fam&iacute;lia.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

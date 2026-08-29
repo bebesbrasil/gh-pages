@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 4 veículos de transporte em miniatura para o quarto das crianças - Bebês Brasil</title>
+    <meta name="description" content="Descubra os 4 melhores veículos em miniatura para decorar o quarto das crianças com estilo, diversão e segurança. Confira as opções imperdíveis!">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/brinquedos/" style="color:#ffffff;">Brinquedos</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Top 4 veículos de transporte em miniatura para o quarto das crianças</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Descubra os 4 melhores veículos em miniatura para decorar o quarto das crianças com estilo, diversão e segurança. Confira as opções imperdíveis!</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2026-07-12" style="color: var(--text-muted);">
+                        12/07/2026 00:00
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/top-4-veiculos-de-transporte-em-miniatura-para-o-quarto-das-criancas.jpg" alt="Top 4 veículos de transporte em miniatura para o quarto das crianças">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Transformar o quarto das crian&ccedil;as em um ambiente l&uacute;dico e educativo pode ser uma tarefa divertida e cheia de possibilidades. Uma das maneiras mais eficazes de estimular a imagina&ccedil;&atilde;o e o aprendizado &eacute; atrav&eacute;s de <strong>ve&iacute;culos de transporte em miniatura</strong>. Esses brinquedos n&atilde;o apenas decoram o ambiente, mas tamb&eacute;m ajudam no desenvolvimento cognitivo, motor e social das crian&ccedil;as. Com tantas op&ccedil;&otilde;es dispon&iacute;veis no mercado, selecionar os melhores modelos pode ser um desafio. Por isso, reunimos os <strong>top 4 ve&iacute;culos de transporte em miniatura</strong> que v&atilde;o encantar os pequenos e transformar o quarto em um verdadeiro universo de aventuras.</p>
+<h2>Por Que Escolher Ve&iacute;culos De Transporte Em Miniatura Para O Quarto?</h2>
+<p>Os <strong>ve&iacute;culos de transporte em miniatura</strong> s&atilde;o mais que simples brinquedos. Eles proporcionam uma s&eacute;rie de benef&iacute;cios para as crian&ccedil;as, tais como:</p>
+<p>- <strong>Estimula&ccedil;&atilde;o da criatividade</strong>: As crian&ccedil;as criam hist&oacute;rias e cen&aacute;rios ao brincar com os ve&iacute;culos.</p>
+<p>- <strong>Desenvolvimento da coordena&ccedil;&atilde;o motora</strong>: Manipular os brinquedos ajuda no controle dos movimentos finos das m&atilde;os.</p>
+<p>- <strong>Aprendizado sobre o mundo real</strong>: Conhecer diferentes tipos de transporte auxilia no entendimento de como as cidades funcionam.</p>
+<p>- <strong>Estimula&ccedil;&atilde;o sensorial</strong>: Os diversos materiais, cores e formatos despertam os sentidos das crian&ccedil;as.</p>
+<p>Al&eacute;m disso, esses mini ve&iacute;culos s&atilde;o perfeitos para decorar o quarto, criando um ambiente tem&aacute;tico que incentiva o interesse por transporte e mobilidade urbana.</p>
+<h2>1. Carrinhos Cl&aacute;ssicos Em Miniatura</h2>
+<h3>Caracter&iacute;sticas e vantagens</h3>
+<p>Os <strong>carrinhos cl&aacute;ssicos em miniatura</strong> s&atilde;o um dos brinquedos mais populares e vers&aacute;teis para crian&ccedil;as de v&aacute;rias idades. Eles geralmente apresentam design simples, mas com detalhes realistas que atraem os pequenos colecionadores e entusiastas por carros.</p>
+<p>- <strong>Material</strong>: Podem ser feitos de metal, pl&aacute;stico resistente ou madeira, garantindo durabilidade.</p>
+<p>- <strong>Tamanho</strong>: Pequenos o suficiente para serem manuseados com facilidade, mas grandes o bastante para n&atilde;o serem engolidos.</p>
+<p>- <strong>Modelos</strong>: Desde carros esportivos at&eacute; cl&aacute;ssicos antigos, h&aacute; uma grande variedade para escolher.</p>
+<h3>Benef&iacute;cios para o quarto das crian&ccedil;as</h3>
+<p>Al&eacute;m de divertidos, esses carrinhos ajudam na organiza&ccedil;&atilde;o do quarto, pois podem ser guardados em caixas tem&aacute;ticas ou exibidos em prateleiras, deixando o espa&ccedil;o com um ar mais personalizado e din&acirc;mico.</p>
+<h3>Sugest&atilde;o de uso educativo</h3>
+<p>Incentive as crian&ccedil;as a criarem pistas e circuitos no ch&atilde;o, estimulando o racioc&iacute;nio l&oacute;gico e a coordena&ccedil;&atilde;o motora. Tamb&eacute;m &eacute; poss&iacute;vel introduzir conceitos b&aacute;sicos de f&iacute;sica, como velocidade e movimento.</p>
+<h2>2. Trens El&eacute;tricos Em Miniatura</h2>
+<h3>Caracter&iacute;sticas e vantagens</h3>
+<p>Os <strong>trens el&eacute;tricos em miniatura</strong> s&atilde;o uma verdadeira paix&atilde;o para muitos pequenos, especialmente aqueles fascinados por ferrovias e viagens. Eles reproduzem com detalhes incr&iacute;veis os trens reais e funcionam com energia el&eacute;trica, o que torna a brincadeira ainda mais interativa.</p>
+<p>- <strong>Sistema el&eacute;trico</strong>: Permite que o trem se mova sozinho, deslizando pelos trilhos.</p>
+<p>- <strong>Trilhos modulares</strong>: Podem ser montados em diferentes formas, estimulando a criatividade.</p>
+<p>- <strong>Realismo</strong>: V&aacute;rios modelos trazem luzes, sons e at&eacute; fuma&ccedil;a artificial.</p>
+<h3>Benef&iacute;cios para o quarto das crian&ccedil;as</h3>
+<p>Montar a ferrovia no quarto cria um cen&aacute;rio imersivo e educativo, onde a crian&ccedil;a aprende sobre trajetos, planejamento e at&eacute; conceitos b&aacute;sicos de eletricidade.</p>
+<h3>Sugest&atilde;o de uso educativo</h3>
+<p>Promova atividades que envolvam a constru&ccedil;&atilde;o do percurso, ajudando a desenvolver habilidades espaciais e o pensamento cr&iacute;tico. Tamb&eacute;m pode ser uma oportunidade para as crian&ccedil;as entenderem como o transporte ferrovi&aacute;rio contribui para o desenvolvimento das cidades.</p>
+<h3>3. Miniatura De &Ocirc;nibus Urbano</h3>
+<p>Entre os ve&iacute;culos mais fascinantes para as crian&ccedil;as est&aacute; a <a href="https://sambabusminiaturas.com.br/miniatura-de-onibus-urbano/" target="_blank" rel="noopener">Miniatura De &Ocirc;nibus Urbano</a>. Este modelo &eacute; perfeito para estimular a compreens&atilde;o sobre transporte coletivo e mobilidade sustent&aacute;vel.</p>
+<h3>Caracter&iacute;sticas e vantagens</h3>
+<p>Difere dos demais ve&iacute;culos por sua fun&ccedil;&atilde;o social e import&acirc;ncia no cotidiano das cidades. Esses &ocirc;nibus em miniatura geralmente apresentam:</p>
+<p>- <strong>Detalhes realistas</strong>: Portas que abrem, bancos internos e janelas transparentes.</p>
+<p>- <strong>Tamanho adequado</strong>: Para que as crian&ccedil;as possam segurar e manipular facilmente.</p>
+<p>- <strong>Cores vibrantes</strong>: Que chamam a aten&ccedil;&atilde;o e tornam a brincadeira mais envolvente.</p>
+<h3>Benef&iacute;cios para o quarto das crian&ccedil;as</h3>
+<p>Al&eacute;m de ser um &oacute;timo elemento decorativo, a miniatura de &ocirc;nibus urbano permite que a crian&ccedil;a compreenda a import&acirc;ncia do transporte coletivo e a intera&ccedil;&atilde;o entre as pessoas na cidade.</p>
+<h3>Sugest&atilde;o de uso educativo</h3>
+<p>Use o brinquedo para contar hist&oacute;rias sobre a rotina das cidades, o trajeto dos &ocirc;nibus e a import&acirc;ncia do respeito &agrave;s regras de tr&acirc;nsito e aos passageiros. Isso ajuda a desenvolver a consci&ecirc;ncia social desde cedo.</p>
+<h2>4. Aeronaves Em Miniatura</h2>
+<h3>Caracter&iacute;sticas e vantagens</h3>
+<p>As aeronaves em miniatura despertam a curiosidade das crian&ccedil;as sobre o mundo da avia&ccedil;&atilde;o e viagens internacionais. Elas s&atilde;o detalhes precisos de avi&otilde;es comerciais, jatos ou at&eacute; mesmo avi&otilde;es militares.</p>
+<p>- <strong>Design detalhado</strong>: Com marcas e cores reais.</p>
+<p>- <strong>Material leve</strong>: Muitas vezes pl&aacute;stico ou metal leve, ideal para crian&ccedil;as.</p>
+<p>- <strong>Variedade de modelos</strong>: Desde avi&otilde;es antigos at&eacute; modernos.</p>
+<h3>Benef&iacute;cios para o quarto das crian&ccedil;as</h3>
+<p>Al&eacute;m de serem visualmente atraentes, essas aeronaves ajudam a ampliar os horizontes das crian&ccedil;as, incentivando o interesse por geografia, culturas diferentes e ci&ecirc;ncia.</p>
+<h3>Sugest&atilde;o de uso educativo</h3>
+<p>Promova brincadeiras que envolvam mapas e hist&oacute;rias sobre os destinos dos voos. Isso incentiva o aprendizado sobre diferentes partes do mundo e a import&acirc;ncia da avia&ccedil;&atilde;o na conex&atilde;o global.</p>
+<h2>Como Escolher O Melhor Ve&iacute;culo De Transporte Em Miniatura Para O Quarto</h2>
+<p>Ao escolher entre os modelos de <strong>ve&iacute;culos de transporte em miniatura</strong>, &eacute; importante considerar alguns aspectos para garantir que o brinquedo seja seguro, educativo e adequado &agrave; idade da crian&ccedil;a:</p>
+<h3>Seguran&ccedil;a em primeiro lugar</h3>
+<p>Verifique sempre se o brinquedo possui certificado de seguran&ccedil;a e n&atilde;o cont&eacute;m partes pequenas que possam ser engolidas.</p>
+<h3>Material e durabilidade</h3>
+<p>Prefira ve&iacute;culos feitos de materiais resistentes, como pl&aacute;stico refor&ccedil;ado, metal ou madeira at&oacute;xica, que suportem o uso constante.</p>
+<h3>Idade recomendada</h3>
+<p>Respeite a faixa et&aacute;ria indicada pelo fabricante para que o brinquedo seja apropriado e contribua para o desenvolvimento correto da crian&ccedil;a.</p>
+<h3>Potencial educativo</h3>
+<p>Opte por modelos que incentivem a criatividade, o aprendizado e o desenvolvimento de habilidades motoras e cognitivas.</p>
+<h3>Est&eacute;tica e tamanho</h3>
+<p>Escolha ve&iacute;culos que combinem com a decora&ccedil;&atilde;o do quarto e que tenham o tamanho ideal para que a crian&ccedil;a possa brincar confortavelmente.</p>
+<h2>Dicas Para Organizar Os Ve&iacute;culos De Transporte Em Miniatura No Quarto</h2>
+<p>Manter os ve&iacute;culos organizados &eacute; fundamental para incentivar o uso frequente e preservar os brinquedos. Algumas dicas pr&aacute;ticas incluem:</p>
+<p>- <strong>Prateleiras tem&aacute;ticas</strong>: Exponha os ve&iacute;culos em prateleiras espec&iacute;ficas, agrupando por tipo ou fun&ccedil;&atilde;o.</p>
+<p>- <strong>Caixas organizadoras</strong>: Use caixas com divis&oacute;rias para guardar os ve&iacute;culos e facilitar o acesso.</p>
+<p>- <strong>Tapetes com pistas</strong>: Invista em tapetes tem&aacute;ticos que simulam ruas, ferrovias ou aeroportos, tornando a organiza&ccedil;&atilde;o parte da brincadeira.</p>
+<p>- <strong>Exposi&ccedil;&otilde;es rotativas</strong>: Alterne os ve&iacute;culos expostos para renovar o interesse e evitar a monotonia.</p>
+<h2>Conclus&atilde;o</h2>
+<p>Os <strong>ve&iacute;culos de transporte em miniatura</strong> s&atilde;o uma excelente adi&ccedil;&atilde;o ao quarto das crian&ccedil;as, combinando divers&atilde;o, aprendizado e decora&ccedil;&atilde;o. Os quatro modelos destacados &mdash; carrinhos cl&aacute;ssicos, trens el&eacute;tricos, Miniatura de &Ocirc;nibus Urbano e aeronaves &mdash; oferecem diferentes possibilidades de brincadeira e conhecimento, atendendo a gostos variados e estimulando m&uacute;ltiplas habilidades.</p>
+<p>Investir nesses brinquedos significa proporcionar um ambiente que incentiva a curiosidade, a criatividade e o desenvolvimento integral das crian&ccedil;as, tornando o quarto um espa&ccedil;o verdadeiramente especial e inspirador.</p>
+<p>---</p>
+<p>Com as dicas e op&ccedil;&otilde;es apresentadas, fica muito mais f&aacute;cil transformar o quarto das crian&ccedil;as em um universo cheio de aventuras e descobertas sobre o fascinante mundo do transporte. Seja para brincar, aprender ou decorar, os ve&iacute;culos em miniatura s&atilde;o escolhas que nunca saem de moda.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

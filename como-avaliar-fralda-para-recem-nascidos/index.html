@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como Avaliar Fralda para Recém-Nascidos - Bebês Brasil</title>
+    <meta name="description" content="Descubra como escolher as melhores fraldas para seu bebê. Guia completo para avaliar conforto, absorção e qualidade das melhores fraldas.">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <span>Bebês Brasil</span>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Como Avaliar Fralda para Recém-Nascidos</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Descubra como escolher as melhores fraldas para seu bebê. Guia completo para avaliar conforto, absorção e qualidade das melhores fraldas.</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-10-16" style="color: var(--text-muted);">
+                        16/10/2025 11:26
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/melhores-fraldas.jpg" alt="Como Avaliar Fralda para Recém-Nascidos">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Escolher as <strong data-start="434" data-end="454">melhores fraldas</strong> para um recém-nascido pode parecer simples, mas quem já passou por isso sabe que é um verdadeiro desafio. Afinal, cada bebê é único, e o que funciona para um pode não ser o ideal para outro. Neste guia completo, vamos explicar como avaliar fraldas com segurança e confiança — desde a absorção até o conforto e o custo-benefício.</p>
+<h2 data-start="1501" data-end="1557"><strong data-start="1504" data-end="1557">1. Introdução: por que escolher bem faz diferença</strong></h2>
+<p data-start="1559" data-end="1879">Imagine vestir uma roupa desconfortável o dia todo — é mais ou menos assim que um bebê se sente quando a fralda não é adequada. Escolher <strong data-start="1696" data-end="1719">as <a href="https://www.achadosdamamae.com.br/melhores-fraldas-para-2025/">melhores fraldas</a></strong> não é apenas uma questão de marca, mas de bem-estar. Uma boa fralda mantém o bebê sequinho, confortável e protegido, evitando irritações e noites mal dormidas.</p>
+<hr data-start="1881" data-end="1884">
+<h2 data-start="1886" data-end="1926"><strong data-start="1889" data-end="1926">2. Entendendo os tipos de fraldas</strong></h2>
+<p data-start="1928" data-end="1995">Existem <strong data-start="1936" data-end="1972">dois principais tipos de fraldas</strong> para recém-nascidos:</p>
+<ul data-start="1996" data-end="2167">
+<li data-start="1996" data-end="2073">
+<p data-start="1998" data-end="2073"><strong data-start="1998" data-end="2023">Fraldas descartáveis:</strong> práticas e higiênicas, ideais para o dia a dia.</p>
+</li>
+<li data-start="2074" data-end="2167">
+<p data-start="2076" data-end="2167"><strong data-start="2076" data-end="2096">Fraldas de pano:</strong> ecológicas e econômicas, mas exigem mais tempo e cuidado na limpeza.</p>
+</li>
+</ul>
+<p data-start="2169" data-end="2324">Cada uma tem vantagens. Se o foco for praticidade, as descartáveis são ideais. Se a prioridade for sustentabilidade, as de pano podem ser a melhor escolha.</p>
+<hr data-start="2326" data-end="2329">
+<h2 data-start="2331" data-end="2368"><strong data-start="2334" data-end="2368">3. O que observar na embalagem</strong></h2>
+<p data-start="2370" data-end="2420">Antes de colocar o produto no carrinho, observe:</p>
+<ul data-start="2421" data-end="2607">
+<li data-start="2421" data-end="2461">
+<p data-start="2423" data-end="2461"><strong data-start="2423" data-end="2444">Indicação de peso</strong> (RN, P, etc.);</p>
+</li>
+<li data-start="2462" data-end="2526">
+<p data-start="2464" data-end="2526"><strong data-start="2464" data-end="2485">Tempo de absorção</strong> (algumas indicam até 12h de proteção);</p>
+</li>
+<li data-start="2527" data-end="2607">
+<p data-start="2529" data-end="2607"><strong data-start="2529" data-end="2543">Composição</strong> (evite fragrâncias fortes e materiais sintéticos agressivos).</p>
+</li>
+</ul>
+<p data-start="2609" data-end="2694">Essas informações ajudam a filtrar as <strong data-start="2647" data-end="2667">melhores fraldas</strong> para o perfil do seu bebê.</p>
+<hr data-start="2696" data-end="2699">
+<h2 data-start="2701" data-end="2738"><strong data-start="2704" data-end="2738">4. Absorção: o fator número um</strong></h2>
+<p data-start="2740" data-end="3073">Uma fralda eficiente precisa <strong data-start="2769" data-end="2785">absorver bem</strong> o xixi sem deixar o bebê úmido. Verifique se o modelo possui <strong data-start="2847" data-end="2880">camadas de absorção múltiplas</strong> e <strong data-start="2883" data-end="2910">barreiras antivazamento</strong>.<br data-start="2911" data-end="2914">Dica: faça um pequeno teste — despeje um pouco de água sobre a fralda e veja se o líquido é rapidamente absorvido. Se formar poças, é sinal de baixa qualidade.</p>
+<hr data-start="3075" data-end="3078">
+<h2 data-start="3080" data-end="3120"><strong data-start="3083" data-end="3120">5. Conforto e suavidade da fralda</strong></h2>
+<p data-start="3122" data-end="3363">A pele do recém-nascido é extremamente sensível. Prefira <strong data-start="3179" data-end="3206">fraldas com toque macio</strong>, <strong data-start="3208" data-end="3232">sem textura plástica</strong> e com <strong data-start="3239" data-end="3268">camada interna respirável</strong>.<br data-start="3269" data-end="3272">Lembre-se: uma fralda desconfortável pode causar irritação e até prejudicar o sono do bebê.</p>
+<hr data-start="3365" data-end="3368">
+<h2 data-start="3370" data-end="3403"><strong data-start="3373" data-end="3403">6. Ajuste ao corpo do bebê</strong></h2>
+<p data-start="3405" data-end="3462">Uma boa fralda precisa <strong data-start="3428" data-end="3446">se ajustar bem</strong>, sem apertar.</p>
+<ul data-start="3463" data-end="3647">
+<li data-start="3463" data-end="3531">
+<p data-start="3465" data-end="3531"><strong data-start="3465" data-end="3485">Elásticos suaves</strong> e <strong data-start="3488" data-end="3513">fitas reposicionáveis</strong> são essenciais.</p>
+</li>
+<li data-start="3532" data-end="3647">
+<p data-start="3534" data-end="3647">Evite modelos que deixam marcas vermelhas.<br data-start="3576" data-end="3579">Ajuste é tudo: pense na fralda como uma “roupinha” feita sob medida.</p>
+</li>
+</ul>
+<hr data-start="3649" data-end="3652">
+<h2 data-start="3654" data-end="3701"><strong data-start="3657" data-end="3701">7. Fraldas hipoalergênicas: vale a pena?</strong></h2>
+<p data-start="3703" data-end="3917">Sim, especialmente se o bebê tem <strong data-start="3736" data-end="3753">pele sensível</strong>. Essas fraldas são livres de <strong data-start="3783" data-end="3820">parabenos, fragrâncias e corantes</strong>, reduzindo o risco de alergias. Embora custem um pouco mais, o conforto e a segurança compensam.</p>
+<hr data-start="3919" data-end="3922">
+<h2 data-start="3924" data-end="3956"><strong data-start="3927" data-end="3956">8. Indicadores de umidade</strong></h2>
+<p data-start="3958" data-end="4176">As <strong data-start="3961" data-end="3990">melhores fraldas modernas</strong> trazem um <strong data-start="4001" data-end="4025">indicador de umidade</strong> — uma faixa colorida que muda quando está na hora de trocar. Esse detalhe simples facilita muito a rotina dos pais, especialmente durante a madrugada.</p>
+<hr data-start="4178" data-end="4181">
+<h2 data-start="4183" data-end="4229"><strong data-start="4186" data-end="4229">9. Custo-benefício das melhores fraldas</strong></h2>
+<p data-start="4231" data-end="4523">Nem sempre a fralda mais cara é a melhor. O ideal é buscar <strong data-start="4290" data-end="4328">equilíbrio entre qualidade e preço</strong>.<br data-start="4329" data-end="4332">Dica prática: compre <strong data-start="4353" data-end="4398">pequenas quantidades de diferentes marcas</strong> e observe qual oferece melhor desempenho para o seu bebê. Assim, você evita desperdício e descobre o que realmente funciona.</p>
+<hr data-start="4525" data-end="4528">
+<h2 data-start="4530" data-end="4574"><strong data-start="4533" data-end="4574">10. Marcas populares e o que oferecem</strong></h2>
+<p data-start="4576" data-end="4672">Entre as <strong data-start="4585" data-end="4605">melhores fraldas</strong> do mercado, algumas se destacam por características específicas:</p>
+<ul data-start="4673" data-end="4909">
+<li data-start="4673" data-end="4724">
+<p data-start="4675" data-end="4724"><strong data-start="4675" data-end="4690">Pampers RN+</strong> – ótima absorção e toque suave;</p>
+</li>
+<li data-start="4725" data-end="4793">
+<p data-start="4727" data-end="4793"><strong data-start="4727" data-end="4754">Huggies Supreme Care RN</strong> – bom ajuste e indicador de umidade;</p>
+</li>
+<li data-start="4794" data-end="4852">
+<p data-start="4796" data-end="4852"><strong data-start="4796" data-end="4819">MamyPoko Soft Touch</strong> – conforto e proteção noturna;</p>
+</li>
+<li data-start="4853" data-end="4909">
+<p data-start="4855" data-end="4909"><strong data-start="4855" data-end="4875">PomPom Protek RN</strong> – boa opção de custo-benefício.</p>
+</li>
+</ul>
+<p data-start="4911" data-end="4994">Cada marca tem sua “personalidade”. O segredo é testar e observar a reação do bebê.</p>
+<hr data-start="4996" data-end="4999">
+<h2 data-start="5001" data-end="5033"><strong data-start="5004" data-end="5033">11. Teste prático em casa</strong></h2>
+<p data-start="5035" data-end="5120">Quer descobrir a fralda ideal? Faça um <strong data-start="5074" data-end="5093">teste de 3 dias</strong> com cada marca. Observe:</p>
+<ul data-start="5121" data-end="5200">
+<li data-start="5121" data-end="5151">
+<p data-start="5123" data-end="5151">Vazamentos durante o sono;</p>
+</li>
+<li data-start="5152" data-end="5171">
+<p data-start="5154" data-end="5171">Marcas na pele;</p>
+</li>
+<li data-start="5172" data-end="5200">
+<p data-start="5174" data-end="5200">Irritações ou assaduras.</p>
+</li>
+</ul>
+<p data-start="5202" data-end="5284">Anote suas percepções — esse pequeno “experimento” ajuda a escolher com segurança.</p>
+<hr data-start="5286" data-end="5289">
+<h2 data-start="5291" data-end="5329"><strong data-start="5294" data-end="5329">12. Dicas para evitar assaduras</strong></h2>
+<p data-start="5331" data-end="5387">Mesmo as melhores fraldas não substituem bons hábitos.</p>
+<ul data-start="5388" data-end="5523">
+<li data-start="5388" data-end="5433">
+<p data-start="5390" data-end="5433">Troque a fralda sempre que estiver úmida;</p>
+</li>
+<li data-start="5434" data-end="5485">
+<p data-start="5436" data-end="5485">Deixe o bebê alguns minutos sem fralda por dia;</p>
+</li>
+<li data-start="5486" data-end="5523">
+<p data-start="5488" data-end="5523">Use pomadas protetoras adequadas.</p>
+</li>
+</ul>
+<p data-start="5525" data-end="5571">Esses cuidados simples fazem toda a diferença.</p>
+<hr data-start="5573" data-end="5576">
+<h2 data-start="5578" data-end="5626"><strong data-start="5581" data-end="5626">13. Fraldas ecológicas: opção sustentável</strong></h2>
+<p data-start="5628" data-end="5858">As <strong data-start="5631" data-end="5667">fraldas ecológicas reutilizáveis</strong> têm ganhado espaço. São feitas de tecidos laváveis e podem ser usadas por meses. Embora o investimento inicial seja maior, o custo a longo prazo é menor, além de reduzir o impacto ambiental.</p>
+<hr data-start="5860" data-end="5863">
+<h2 data-start="5865" data-end="5897"><strong data-start="5868" data-end="5897">14. Quando trocar a marca</strong></h2>
+<p data-start="5899" data-end="6108">Se o bebê apresenta <strong data-start="5919" data-end="5944">vermelhidão constante</strong>, <strong data-start="5946" data-end="5971">vazamentos frequentes</strong> ou <strong data-start="5975" data-end="5989">mau cheiro</strong>, é sinal de que a fralda atual não está funcionando bem.<br data-start="6046" data-end="6049">Não hesite em testar outra marca — a pele do bebê agradece.</p>
+<hr data-start="6110" data-end="6113">
+<h2 data-start="6115" data-end="6158"><strong data-start="6118" data-end="6158">15. Conclusão e recomendações finais</strong></h2>
+<p data-start="6160" data-end="6451">Avaliar as <strong data-start="6171" data-end="6211">melhores fraldas para recém-nascidos</strong> é um processo que envolve observação, paciência e cuidado. O segredo é encontrar o equilíbrio entre <strong data-start="6312" data-end="6348">absorção, conforto e preço justo</strong>.<br data-start="6349" data-end="6352">Pense nisso como montar uma rotina de carinho — cada troca de fralda é um gesto de amor e proteção.</p>
+<hr data-start="6453" data-end="6456">
+<h2 data-start="6458" data-end="6496"><strong data-start="6461" data-end="6496">16. Perguntas Frequentes (FAQs)</strong></h2>
+<p data-start="6498" data-end="6634"><strong data-start="6498" data-end="6550">1. Quantas fraldas um recém-nascido usa por dia?</strong><br data-start="6550" data-end="6553">Em média, de <strong data-start="6566" data-end="6592">8 a 10 fraldas por dia</strong>, dependendo do bebê e da marca utilizada.</p>
+<p data-start="6636" data-end="6767"><strong data-start="6636" data-end="6691">2. Posso usar fralda tamanho P em um recém-nascido?</strong><br data-start="6691" data-end="6694">Depende do peso do bebê. Geralmente, o tamanho <strong data-start="6741" data-end="6747">RN</strong> é ideal até 4,5 kg.</p>
+<p data-start="6769" data-end="6922"><strong data-start="6769" data-end="6819">3. Qual a melhor fralda para evitar assaduras?</strong><br data-start="6819" data-end="6822">Fraldas <strong data-start="6830" data-end="6863">respiráveis e hipoalergênicas</strong>, com boa absorção e sem fragrância, reduzem muito o risco.</p>
+<p data-start="6924" data-end="7083"><strong data-start="6924" data-end="6970">4. Fraldas mais caras são sempre melhores?</strong><br data-start="6970" data-end="6973">Nem sempre. O ideal é buscar <strong data-start="7002" data-end="7021">custo-benefício</strong> — algumas marcas intermediárias oferecem excelente qualidade.</p>
+<p data-start="7085" data-end="7258"><strong data-start="7085" data-end="7136">5. Quando devo trocar a fralda durante a noite?</strong><br data-start="7136" data-end="7139">Prefira <strong data-start="7147" data-end="7185">fraldas noturnas com alta absorção</strong>. Se o bebê dormir bem e estiver sequinho, uma troca pode ser suficiente.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

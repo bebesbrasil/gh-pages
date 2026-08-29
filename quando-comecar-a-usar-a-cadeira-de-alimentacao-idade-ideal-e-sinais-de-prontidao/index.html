@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quando Começar a Usar a Cadeira de Alimentação? Idade Ideal e Sinais de Prontidão - Bebês Brasil</title>
+    <meta name="description" content="A introdução alimentar é um marco fundamental no desenvolvimento do bebê, e a escolha da cadeira de alimentação ideal — assim como o momento certo para começar ">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/bebes/" style="color:#ffffff;">Bebês</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Quando Começar a Usar a Cadeira de Alimentação? Idade Ideal e Sinais de Prontidão</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">A introdução alimentar é um marco fundamental no desenvolvimento do bebê, e a escolha da cadeira de alimentação ideal — assim como o momento certo para começar </p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-06-11" style="color: var(--text-muted);">
+                        11/06/2025 11:21
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/cadeira-de-bebe.jpg" alt="Quando Começar a Usar a Cadeira de Alimentação? Idade Ideal e Sinais de Prontidão">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p data-start="287" data-end="677">A introdução alimentar é um marco fundamental no desenvolvimento do bebê, e a escolha da cadeira de alimentação ideal — assim como o momento certo para começar a usá-la — pode fazer toda a diferença na experiência dos pequenos à mesa. Afinal, oferecer segurança, conforto e estimular a autonomia durante as refeições é essencial para que essa fase aconteça de forma tranquila e prazerosa.</p>
+<p data-start="679" data-end="1001">Mas afinal, <strong data-start="691" data-end="742">quando começar a usar a cadeira de alimentação?</strong> Existe uma idade certa? Quais são os sinais de que o bebê está pronto? Neste artigo, vamos responder a essas perguntas, trazendo orientações práticas para pais e cuidadores, além de dicas sobre os tipos de cadeiras e sua importância na rotina da alimentação.</p>
+<hr data-start="1003" data-end="1006">
+<h2 data-start="1008" data-end="1075">Qual a idade ideal para começar a usar a cadeira de alimentação?</h2>
+<p data-start="1077" data-end="1295">A maioria dos especialistas em pediatria e desenvolvimento infantil recomenda que o uso da <a href="https://meubebechegou.com.br/cadeira-de-alimentacao-5-mais-vendidas/" target="_blank" rel="noopener noreferrer">cadeira de alimentação</a> comece por volta dos <strong data-start="1212" data-end="1232">6 meses de idade</strong>, que geralmente coincide com o início da introdução alimentar.</p>
+<p data-start="1297" data-end="1545">Essa recomendação tem como base o desenvolvimento motor da criança: com seis meses, muitos bebês já conseguem <strong data-start="1407" data-end="1442">sentar-se com apoio ou sozinhos</strong>, além de manter a cabeça firme, o que é essencial para evitar riscos de engasgos durante as refeições.</p>
+<p data-start="1547" data-end="1861">Vale destacar que <strong data-start="1565" data-end="1600">a idade é apenas uma referência</strong>, e o mais importante é observar os sinais individuais de prontidão do bebê. Alguns bebês podem estar prontos um pouco antes dos seis meses, enquanto outros podem demorar algumas semanas a mais. O acompanhamento com o pediatra é fundamental para essa avaliação.</p>
+<hr data-start="1863" data-end="1866">
+<h2 data-start="1868" data-end="1938">Sinais de que o bebê está pronto para usar a cadeira de alimentação</h2>
+<p data-start="1940" data-end="2177">Como mencionado, além da idade cronológica, é essencial prestar atenção aos <strong data-start="2016" data-end="2039">sinais de prontidão</strong>, que indicam que o bebê está apto para iniciar a introdução alimentar com segurança em uma cadeira própria. Os principais sinais incluem:</p>
+<h3 data-start="2179" data-end="2216">1. Controle da cabeça e pescoço</h3>
+<p data-start="2217" data-end="2396">O bebê deve ser capaz de <strong data-start="2242" data-end="2281">manter a cabeça erguida com firmeza</strong> e sem apoio por longos períodos. Isso garante uma postura segura durante a alimentação e evita riscos de engasgos.</p>
+<h3 data-start="2398" data-end="2440">2. Capacidade de se sentar com apoio</h3>
+<p data-start="2441" data-end="2643">É importante que o bebê consiga <strong data-start="2473" data-end="2508">ficar sentado, com apoio mínimo</strong>, de forma estável. Alguns modelos de cadeiras de alimentação contam com cintos de segurança e acolchoamento que ajudam nesse processo.</p>
+<h3 data-start="2645" data-end="2677">3. Interesse por alimentos</h3>
+<p data-start="2678" data-end="2872">Se o bebê <strong data-start="2688" data-end="2755">observa os adultos comendo, tenta pegar a comida ou abre a boca</strong> quando vê uma colher se aproximando, são sinais claros de curiosidade e prontidão para experimentar novos alimentos.</p>
+<h3 data-start="2874" data-end="2922">4. Perda do reflexo de protrusão da língua</h3>
+<p data-start="2923" data-end="3100">Esse reflexo faz com que os bebês empurrem tudo com a língua para fora da boca. Quando esse reflexo diminui, o bebê está mais preparado para aceitar e engolir alimentos sólidos.</p>
+<hr data-start="3102" data-end="3105">
+<h2 data-start="3107" data-end="3155">Por que é importante esperar o momento certo?</h2>
+<p data-start="3157" data-end="3255">Começar a usar a cadeira de alimentação antes do momento adequado pode trazer alguns riscos, como:</p>
+<ul data-start="3257" data-end="3666">
+<li data-start="3257" data-end="3389">
+<p data-start="3259" data-end="3389"><strong data-start="3259" data-end="3271">Engasgos</strong>: se o bebê ainda não sustenta bem a cabeça ou não está sentado com firmeza, as vias aéreas podem ficar comprometidas.</p>
+</li>
+<li data-start="3390" data-end="3513">
+<p data-start="3392" data-end="3513"><strong data-start="3392" data-end="3407">Desconforto</strong>: se o bebê não está pronto, a experiência de comer pode se tornar negativa e gerar aversão à alimentação.</p>
+</li>
+<li data-start="3514" data-end="3666">
+<p data-start="3516" data-end="3666"><strong data-start="3516" data-end="3546">Desenvolvimento inadequado</strong>: respeitar o tempo do bebê favorece a construção de um relacionamento saudável com os alimentos e estimula a autonomia.</p>
+</li>
+</ul>
+<p data-start="3668" data-end="3839">Portanto, esperar os sinais certos de prontidão não é apenas uma recomendação técnica, mas uma forma de promover o desenvolvimento físico, emocional e nutricional do bebê.</p>
+<hr data-start="3841" data-end="3844">
+<h2 data-start="3846" data-end="3894">Como escolher a cadeira de alimentação ideal?</h2>
+<p data-start="3896" data-end="4151">Ao perceber que o bebê está pronto para iniciar a introdução alimentar, surge a dúvida: <strong data-start="3984" data-end="4037">qual o modelo de cadeira de alimentação escolher?</strong> Existem diversas opções no mercado, cada uma com suas vantagens. O ideal é observar alguns critérios importantes:</p>
+<h3 data-start="4153" data-end="4168">Segurança</h3>
+<p data-start="4169" data-end="4311">A cadeira deve ser <strong data-start="4188" data-end="4240">estável, ter cinto de segurança de 3 ou 5 pontos</strong>, e base antiderrapante. Verifique se o produto possui selo do Inmetro.</p>
+<h3 data-start="4313" data-end="4327">Conforto</h3>
+<p data-start="4328" data-end="4486">O assento deve ser <strong data-start="4347" data-end="4373">acolchoado e anatômico</strong>, permitindo que o bebê fique sentado de forma ereta. Também é importante que o encosto ofereça suporte adequado.</p>
+<h3 data-start="4488" data-end="4515">Facilidade de limpeza</h3>
+<p data-start="4516" data-end="4635">Durante a introdução alimentar, <strong data-start="4548" data-end="4574">a sujeira é inevitável</strong>. Prefira modelos com bandeja removível e materiais laváveis.</p>
+<h3 data-start="4637" data-end="4672">Ajuste de altura e inclinação</h3>
+<p data-start="4673" data-end="4804">Algumas cadeiras permitem ajustar a altura, o encosto e até a inclinação. Isso pode ser útil para acompanhar o crescimento do bebê.</p>
+<h3 data-start="4806" data-end="4825">Versatilidade</h3>
+<p data-start="4826" data-end="4970">Existem modelos portáteis, dobráveis, que se adaptam a cadeiras comuns ou à mesa da cozinha. Pense na sua rotina e no espaço disponível em casa.</p>
+<blockquote data-start="4972" data-end="5114">
+<p data-start="4974" data-end="5114">Dica: marcas como <strong data-start="4992" data-end="5050">Galzerano, Burigotto, Cosco, Safety 1st e Fisher-Price</strong> oferecem boas opções de cadeiras com excelente custo-benefício.</p>
+</blockquote>
+<hr data-start="5116" data-end="5119">
+<h2 data-start="5121" data-end="5169">Como adaptar o bebê à cadeira de alimentação?</h2>
+<p data-start="5171" data-end="5416">Mesmo que o bebê esteja pronto, a adaptação à cadeira de alimentação pode levar alguns dias. É normal que, nos primeiros contatos, ele estranhe o novo ambiente ou fique desconfortável. Aqui vão algumas dicas para tornar esse processo mais suave:</p>
+<h3 data-start="5418" data-end="5465">Faça testes antes da introdução alimentar</h3>
+<p data-start="5466" data-end="5607">Antes de oferecer alimentos, <strong data-start="5495" data-end="5551">coloque o bebê na cadeira por alguns minutos por dia</strong>, com brinquedos, para que ele se acostume com o espaço.</p>
+<h3 data-start="5609" data-end="5639">Esteja presente e atento</h3>
+<p data-start="5640" data-end="5757">Durante as refeições, <strong data-start="5662" data-end="5701">mantenha sempre a supervisão direta</strong>. Fique ao lado do bebê, converse e demonstre segurança.</p>
+<h3 data-start="5759" data-end="5789">Respeite o tempo do bebê</h3>
+<p data-start="5790" data-end="5972">Se ele começar a chorar, se irritar ou se mostrar desconfortável, <strong data-start="5856" data-end="5909">interrompa a experiência e tente novamente depois</strong>. O objetivo é que ele associe a cadeira a um momento positivo.</p>
+<h3 data-start="5974" data-end="6002">Use acessórios lúdicos</h3>
+<p data-start="6003" data-end="6113">Brinquedos educativos, babadores coloridos ou pratos divertidos podem ajudar a tornar o momento mais atrativo.</p>
+<hr data-start="6115" data-end="6118">
+<h2 data-start="6120" data-end="6166">Benefícios do uso da cadeira de alimentação</h2>
+<p data-start="6168" data-end="6339">A cadeira de alimentação, além de oferecer segurança, <strong data-start="6222" data-end="6259">estimula bons hábitos alimentares</strong> e promove a convivência familiar à mesa. Veja alguns dos principais benefícios:</p>
+<h3 data-start="6341" data-end="6368">Incentiva a autonomia</h3>
+<p data-start="6369" data-end="6530">Ao sentar na cadeira própria, o bebê começa a <strong data-start="6415" data-end="6482">pegar alimentos sozinho, usar colher e beber em copos adaptados</strong>, desenvolvendo habilidades motoras importantes.</p>
+<h3 data-start="6532" data-end="6558">Promove socialização</h3>
+<p data-start="6559" data-end="6671">Participar das refeições com a família <strong data-start="6598" data-end="6628">estimula o vínculo afetivo</strong> e ensina, pelo exemplo, hábitos saudáveis.</p>
+<h3 data-start="6673" data-end="6696">Estabelece rotina</h3>
+<p data-start="6697" data-end="6865">Ter um espaço e um horário definido para as refeições <strong data-start="6751" data-end="6811">ajuda o bebê a entender que aquele é um momento especial</strong>, o que favorece a construção de uma rotina alimentar.</p>
+<h3 data-start="6867" data-end="6916">Facilita a alimentação BLW ou participativa</h3>
+<p data-start="6917" data-end="7088">Para quem opta pela introdução alimentar BLW (Baby-Led Weaning), a cadeira é fundamental para oferecer segurança e liberdade para o bebê explorar os alimentos com as mãos.</p>
+<hr data-start="7090" data-end="7093">
+<h2 data-start="7095" data-end="7144">Conclusão: o tempo certo é o tempo do seu bebê</h2>
+<p data-start="7146" data-end="7488">Em resumo, a idade ideal para começar a usar a cadeira de alimentação é por volta dos 6 meses, mas mais importante do que seguir uma data exata é <strong data-start="7292" data-end="7339">observar os sinais de prontidão do seu bebê</strong>. Quando ele estiver pronto, a cadeira de alimentação será uma aliada indispensável para tornar as refeições mais seguras, confortáveis e divertidas.</p>
+<p data-start="7490" data-end="7680">Lembre-se: cada criança tem seu tempo. A pressa pode atrapalhar o processo, enquanto o respeito ao desenvolvimento natural cria um ambiente positivo e acolhedor para o aprendizado alimentar.</p>
+<hr data-start="7682" data-end="7685">
+<p data-start="7687" data-end="7976">Se você está se preparando para essa nova fase, aproveite para <strong data-start="7750" data-end="7858">pesquisar modelos de cadeiras, conversar com o pediatra e montar um cantinho especial para a alimentação</strong>. Com carinho, paciência e informação, essa etapa será muito mais leve — tanto para o bebê quanto para toda a família.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

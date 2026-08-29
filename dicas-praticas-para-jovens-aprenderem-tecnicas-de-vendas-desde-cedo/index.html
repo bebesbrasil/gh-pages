@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dicas práticas para jovens aprenderem técnicas de vendas desde cedo - Bebês Brasil</title>
+    <meta name="description" content="Aprenda dicas práticas para jovens dominarem técnicas de vendas desde cedo e impulsionarem seu sucesso profissional. Comece agora!">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/bebes/" style="color:#ffffff;">Bebês</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Dicas práticas para jovens aprenderem técnicas de vendas desde cedo</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Aprenda dicas práticas para jovens dominarem técnicas de vendas desde cedo e impulsionarem seu sucesso profissional. Comece agora!</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2026-05-08" style="color: var(--text-muted);">
+                        08/05/2026 00:00
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/dicas-praticas-para-jovens-aprenderem-tecnicas-de-vendas-desde-cedo.jpg" alt="Dicas práticas para jovens aprenderem técnicas de vendas desde cedo">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Aprender <strong>t&eacute;cnicas de vendas</strong> desde cedo traz uma s&eacute;rie de benef&iacute;cios para jovens que desejam desenvolver habilidades essenciais para o mercado de trabalho e para a vida pessoal. A capacidade de vender n&atilde;o se restringe apenas &agrave; comercializa&ccedil;&atilde;o de produtos, mas tamb&eacute;m est&aacute; ligada &agrave; comunica&ccedil;&atilde;o eficaz, persuas&atilde;o e constru&ccedil;&atilde;o de relacionamentos duradouros. Desenvolver essas compet&ecirc;ncias na juventude pode abrir portas para oportunidades profissionais e empreendedoras no futuro.</p>
+<p>Este conte&uacute;do apresenta <strong>dicas pr&aacute;ticas</strong> para <strong><a href="https://marcellidelvalle360.com/" target="_blank" rel="noopener">curso de vendas</a> </strong>para jovens que querem aprimorar suas habilidades em vendas, com orienta&ccedil;&otilde;es claras e aplic&aacute;veis no dia a dia. Al&eacute;m disso, destaca a import&acirc;ncia de um aprendizado cont&iacute;nuo e a transforma&ccedil;&atilde;o dessas t&eacute;cnicas em ferramentas poderosas para o crescimento pessoal e profissional.</p>
+<p>---</p>
+<h2>A Import&acirc;ncia De Aprender T&eacute;cnicas De Vendas Desde Cedo</h2>
+<p>Dominar as <strong>t&eacute;cnicas de vendas</strong> na juventude proporciona uma s&eacute;rie de vantagens. Para come&ccedil;ar, o processo de aprendizado torna-se mais natural com a pr&aacute;tica e o tempo, permitindo que o jovem desenvolva confian&ccedil;a e seguran&ccedil;a ao interagir com outras pessoas. Al&eacute;m disso, entender como funciona o processo de venda ajuda a melhorar a capacidade de negocia&ccedil;&atilde;o, comunica&ccedil;&atilde;o e intelig&ecirc;ncia emocional, habilidades fundamentais em qualquer &aacute;rea.</p>
+<p>Outro ponto relevante &eacute; que o conhecimento em vendas ajuda a desenvolver a mentalidade empreendedora. Jovens que conhecem estrat&eacute;gias de vendas conseguem identificar oportunidades, entender o comportamento do consumidor e at&eacute; criar seus pr&oacute;prios neg&oacute;cios com mais facilidade. Isso contribui para a autonomia financeira e para o desenvolvimento da criatividade e da inova&ccedil;&atilde;o.</p>
+<p>---</p>
+<h2>Como Iniciar O Aprendizado De T&eacute;cnicas De Vendas: Passos Essenciais</h2>
+<h3>1. Compreender o que &eacute; vender</h3>
+<p>Antes de tudo, &eacute; fundamental que o jovem entenda o verdadeiro significado de <strong>vender</strong>. Vender n&atilde;o &eacute; apenas entregar um produto ou servi&ccedil;o em troca de dinheiro; &eacute; oferecer uma solu&ccedil;&atilde;o que atende &agrave;s necessidades do cliente. Essa abordagem ajuda a mudar a vis&atilde;o tradicional e a valorizar o processo de constru&ccedil;&atilde;o de valor para o consumidor.</p>
+<h3>2. Observar e aprender com exemplos reais</h3>
+<p>&Eacute; muito &uacute;til que o jovem observe vendedores experientes em a&ccedil;&atilde;o. Seja em lojas, feiras ou at&eacute; mesmo em ambientes digitais, analisar como outras pessoas conduzem a venda ajuda a assimilar t&eacute;cnicas e entender diferentes estilos de abordagem. Al&eacute;m disso, assistir a v&iacute;deos, palestras e entrevistas com especialistas pode enriquecer o repert&oacute;rio.</p>
+<h3>3. Praticar a comunica&ccedil;&atilde;o assertiva</h3>
+<p>A comunica&ccedil;&atilde;o &eacute; a base de qualquer processo de vendas. Para jovens, aprender a se expressar de forma clara, objetiva e emp&aacute;tica &eacute; essencial. Isso inclui desenvolver a escuta ativa, que consiste em prestar aten&ccedil;&atilde;o genu&iacute;na &agrave;s necessidades e d&uacute;vidas do cliente, criando um di&aacute;logo eficiente e construtivo.</p>
+<p>---</p>
+<h2>Principais T&eacute;cnicas De Vendas Para Jovens Aplicarem No Dia A Dia</h2>
+<h3>1. Conhecer o produto ou servi&ccedil;o profundamente</h3>
+<p>Um vendedor de sucesso conhece cada detalhe do que est&aacute; oferecendo. Quando o jovem domina as informa&ccedil;&otilde;es sobre o produto ou servi&ccedil;o, fica mais f&aacute;cil transmitir confian&ccedil;a e responder &agrave;s perguntas do cliente com seguran&ccedil;a.</p>
+<h3>2. Identificar o p&uacute;blico-alvo</h3>
+<p>Saber para quem se est&aacute; vendendo &eacute; crucial. Isso significa entender o perfil, os desejos e as dores do cliente. Essa etapa ajuda a personalizar a abordagem e a tornar a oferta mais atrativa e relevante.</p>
+<h3>3. Criar conex&atilde;o emocional</h3>
+<p>A empatia &eacute; uma poderosa ferramenta de vendas. Jovens que conseguem estabelecer uma conex&atilde;o emocional com o cliente facilitam o processo de decis&atilde;o, pois as pessoas tendem a comprar de quem sentem confian&ccedil;a e identifica&ccedil;&atilde;o.</p>
+<h3>4. Utilizar t&eacute;cnicas de storytelling</h3>
+<p>Contar hist&oacute;rias &eacute; uma t&eacute;cnica que ajuda a engajar o cliente e a transmitir valor de maneira mais envolvente. O jovem pode aprender a narrar situa&ccedil;&otilde;es que demonstrem como o produto ou servi&ccedil;o mudou a vida de outras pessoas ou resolveu problemas reais.</p>
+<h3>5. Saber lidar com obje&ccedil;&otilde;es</h3>
+<p>Durante o processo de venda, &eacute; comum que o cliente apresente d&uacute;vidas ou resist&ecirc;ncias. Desenvolver a habilidade de ouvir essas obje&ccedil;&otilde;es e responder de forma positiva e informativa &eacute; fundamental para converter a venda.</p>
+<h3>6. Fechar a venda com seguran&ccedil;a</h3>
+<p>Saber identificar o momento certo para fechar a venda &eacute; uma t&eacute;cnica que exige pr&aacute;tica. O jovem deve aprender a perceber sinais de interesse e a fazer perguntas que direcionem o cliente para a decis&atilde;o final.</p>
+<p>---</p>
+<h2>Ferramentas E Recursos Para Aprimorar As T&eacute;cnicas De Vendas</h2>
+<h3>Participar de cursos e workshops</h3>
+<p>A capacita&ccedil;&atilde;o formal &eacute; uma excelente forma de adquirir conhecimento estruturado e atualizado. Um <strong>curso de vendas </strong>pode oferecer fundamentos, m&eacute;todos e pr&aacute;ticas que aceleram o aprendizado e preparam o jovem para desafios reais.</p>
+<h3>Praticar com simula&ccedil;&otilde;es e role-play</h3>
+<p>Essas atividades s&atilde;o muito eficientes para colocar em pr&aacute;tica o que foi aprendido. Simular situa&ccedil;&otilde;es de venda com amigos ou mentores permite experimentar diferentes abordagens e receber feedbacks construtivos.</p>
+<h3>Utilizar a tecnologia a favor das vendas</h3>
+<p>Hoje, existem diversas ferramentas digitais que ajudam a organizar contatos, acompanhar o processo de vendas e analisar resultados. Aprender a usar essas tecnologias desde cedo pode fazer toda a diferen&ccedil;a na carreira comercial.</p>
+<p>---</p>
+<h2>Como Desenvolver A Mentalidade De Vendedor Desde Cedo</h2>
+<h3>Ter postura proativa e autoconfiante</h3>
+<p>A venda exige que o jovem tome iniciativa e acredite em sua capacidade de influenciar positivamente o outro. Trabalhar a autoconfian&ccedil;a &eacute; essencial para enfrentar desafios e superar obje&ccedil;&otilde;es.</p>
+<h3>Aprender a lidar com a rejei&ccedil;&atilde;o</h3>
+<p>Nem toda venda ser&aacute; concretizada, e isso faz parte do processo. Ensinar os jovens a encarar a rejei&ccedil;&atilde;o como um aprendizado e n&atilde;o como fracasso ajuda a manter a motiva&ccedil;&atilde;o e o foco.</p>
+<h3>Cultivar a &eacute;tica e a transpar&ecirc;ncia</h3>
+<p>Vendas bem-sucedidas s&atilde;o baseadas na confian&ccedil;a. Corrup&ccedil;&atilde;o, promessas falsas ou manipula&ccedil;&atilde;o prejudicam a reputa&ccedil;&atilde;o e comprometem relacionamentos futuros. &Eacute; importante que o jovem compreenda os valores &eacute;ticos que devem nortear sua atua&ccedil;&atilde;o.</p>
+<p>---</p>
+<h2>Aplica&ccedil;&otilde;es Pr&aacute;ticas Das T&eacute;cnicas De Vendas No Cotidiano Dos Jovens</h2>
+<h3>Vendas informais e pequenas negocia&ccedil;&otilde;es</h3>
+<p>Desde vender doces, livros usados, artesanatos ou at&eacute; mesmo organizar eventos, os jovens podem aplicar as t&eacute;cnicas de vendas para melhorar seus resultados. Essas experi&ecirc;ncias pr&aacute;ticas s&atilde;o a melhor forma de aprendizado.</p>
+<h3>Trabalho volunt&aacute;rio com foco em capta&ccedil;&atilde;o de recursos</h3>
+<p>Participar de campanhas sociais que envolvam arrecada&ccedil;&atilde;o de fundos ou doa&ccedil;&otilde;es oferece uma oportunidade real de praticar persuas&atilde;o e comunica&ccedil;&atilde;o.</p>
+<h3>Projetos escolares e apresenta&ccedil;&otilde;es</h3>
+<p>Mesmo em contextos acad&ecirc;micos, saber vender uma ideia ou projeto para professores e colegas &eacute; uma habilidade valiosa que pode ser desenvolvida com t&eacute;cnicas de vendas.</p>
+<p>---</p>
+<h2>Dicas Para Pais E Educadores Incentivarem O Aprendizado De Vendas</h2>
+<h3>Estimular a curiosidade e o interesse</h3>
+<p>Pais e educadores podem criar ambientes onde o jovem se sinta motivado a aprender e experimentar novas habilidades, inclusive as relacionadas a vendas.</p>
+<h3>Oferecer oportunidades pr&aacute;ticas</h3>
+<p>Incentivar participa&ccedil;&atilde;o em feiras, bazares ou pequenos neg&oacute;cios ajuda a desenvolver autonomia e experi&ecirc;ncia.</p>
+<h3>Apoiar o desenvolvimento emocional</h3>
+<p>Vendas envolvem lidar com emo&ccedil;&otilde;es pr&oacute;prias e alheias. Apoiar o jovem a desenvolver intelig&ecirc;ncia emocional &eacute; fundamental para o sucesso.</p>
+<p>---</p>
+<h2>Conclus&atilde;o: O Impacto Do Aprendizado Precoce De Vendas Na Vida Dos Jovens</h2>
+<p>Investir no aprendizado de <strong>t&eacute;cnicas de vendas</strong> desde cedo prepara os jovens para enfrentar o mercado de trabalho com mais seguran&ccedil;a, criatividade e flexibilidade. Al&eacute;m disso, desenvolve compet&ecirc;ncias socioemocionais, como empatia, resili&ecirc;ncia e comunica&ccedil;&atilde;o, que s&atilde;o essenciais para qualquer &aacute;rea profissional.</p>
+<p>A pr&aacute;tica constante, aliada ao estudo e &agrave; orienta&ccedil;&atilde;o adequada, transforma o jovem em um profissional mais completo e preparado para os desafios contempor&acirc;neos. Com as dicas apresentadas, &eacute; poss&iacute;vel iniciar esse processo de forma simples e eficaz, construindo uma base s&oacute;lida para o sucesso futuro.</p>
+<p>---</p>
+<p><strong>Palavras-chave importantes:</strong> t&eacute;cnicas de vendas, dicas pr&aacute;ticas, jovem, comunica&ccedil;&atilde;o assertiva, empatia, negocia&ccedil;&atilde;o, mentalidade empreendedora, curso de vendas.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

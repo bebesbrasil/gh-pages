@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como Ajudar Seu Filho com Apoio Psicológico Especializado - Bebês Brasil</title>
+    <meta name="description" content="Descubra como o apoio psicológico especializado pode transformar o desenvolvimento emocional do seu filho. Cuide do bem-estar dele hoje!">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/educacao/" style="color:#ffffff;">Educação</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Como Ajudar Seu Filho com Apoio Psicológico Especializado</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Descubra como o apoio psicológico especializado pode transformar o desenvolvimento emocional do seu filho. Cuide do bem-estar dele hoje!</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2026-03-26" style="color: var(--text-muted);">
+                        26/03/2026 21:00
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/como-ajudar-seu-filho-com-apoio-psicologico-especializado.jpg" alt="Como Ajudar Seu Filho com Apoio Psicológico Especializado">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Pais e respons&aacute;veis frequentemente enfrentam desafios ao lidar com as emo&ccedil;&otilde;es e comportamentos dos filhos. A inf&acirc;ncia &eacute; um per&iacute;odo crucial para o desenvolvimento emocional, cognitivo e social, e, por vezes, as crian&ccedil;as podem apresentar dificuldades que exigem um olhar mais atento. O <strong>apoio psicol&oacute;gico especializado</strong> pode ser uma ferramenta fundamental para promover o bem-estar infantil e garantir que as crian&ccedil;as cres&ccedil;am com sa&uacute;de emocional e mental.</p>
+<h2>Por Que O Apoio Psicol&oacute;gico &Eacute; Importante Para Crian&ccedil;as?</h2>
+<p>A sa&uacute;de mental infantil &eacute; t&atilde;o essencial quanto a sa&uacute;de f&iacute;sica. Muitas vezes, os problemas psicol&oacute;gicos em crian&ccedil;as s&atilde;o subestimados ou atribu&iacute;dos apenas a fases passageiras. Contudo, quest&otilde;es como ansiedade, depress&atilde;o, dificuldades de socializa&ccedil;&atilde;o, traumas ou transtornos de aprendizagem podem impactar significativamente o desenvolvimento.</p>
+<p>O <strong>apoio psicol&oacute;gico especializado</strong> oferece um espa&ccedil;o seguro para que a crian&ccedil;a possa expressar seus sentimentos, compreenda suas emo&ccedil;&otilde;es e desenvolva habilidades para lidar com desafios. Al&eacute;m disso, a interven&ccedil;&atilde;o precoce pode prevenir o agravamento de problemas e facilitar um desenvolvimento saud&aacute;vel.</p>
+<h2>Sinais De Que Seu Filho Pode Precisar De Apoio Psicol&oacute;gico</h2>
+<p>Identificar quando uma crian&ccedil;a precisa de ajuda nem sempre &eacute; uma tarefa simples. &Eacute; fundamental que os pais estejam atentos a mudan&ccedil;as comportamentais ou emocionais que possam indicar a necessidade de acompanhamento especializado. Alguns sinais comuns incluem:</p>
+<p>- <strong>Altera&ccedil;&otilde;es de humor intensas ou frequentes</strong>;</p>
+<p>- <strong>Dificuldade para dormir ou pesadelos recorrentes</strong>;</p>
+<p>- <strong>Problemas de concentra&ccedil;&atilde;o e rendimento escolar</strong>;</p>
+<p>- <strong>Isolamento social ou dificuldades para fazer amigos</strong>;</p>
+<p>- <strong>Medos excessivos ou fobias</strong>;</p>
+<p>- <strong>Comportamentos agressivos ou desafiadores</strong>;</p>
+<p>- <strong>Sintomas f&iacute;sicos sem causa m&eacute;dica aparente, como dores de cabe&ccedil;a ou est&ocirc;mago</strong>.</p>
+<p>Caso esses sinais estejam presentes por um per&iacute;odo prolongado ou interfiram significativamente na rotina da crian&ccedil;a, buscar ajuda profissional &eacute; essencial.</p>
+<h2>Como Escolher Um Profissional De Apoio Psicol&oacute;gico Especializado</h2>
+<p>A escolha do psic&oacute;logo infantil ou terapeuta adequado &eacute; um passo decisivo para o sucesso do acompanhamento. Alguns crit&eacute;rios para considerar na hora da escolha incluem:</p>
+<h3>Forma&ccedil;&atilde;o e Experi&ecirc;ncia</h3>
+<p>&Eacute; fundamental verificar se o profissional possui forma&ccedil;&atilde;o espec&iacute;fica em psicologia infantil ou &aacute;reas correlatas. Profissionais especializados t&ecirc;m maior conhecimento sobre o desenvolvimento infantil e t&eacute;cnicas adequadas para cada faixa et&aacute;ria.</p>
+<h3>Abordagem Terap&ecirc;utica</h3>
+<p>Existem diversas abordagens terap&ecirc;uticas, como a terapia cognitivo-comportamental, terapia psicodin&acirc;mica, terapia de jogo e outras. &Eacute; importante compreender qual m&eacute;todo o psic&oacute;logo utiliza e se ele &eacute; adequado para as necessidades do seu filho.</p>
+<h3>Ambiente e Conforto</h3>
+<p>A crian&ccedil;a deve se sentir confort&aacute;vel e segura durante as sess&otilde;es. Um ambiente acolhedor e uma postura emp&aacute;tica do profissional podem facilitar a abertura e o progresso no tratamento.</p>
+<h3>Reputa&ccedil;&atilde;o e Indica&ccedil;&otilde;es</h3>
+<p>Buscar recomenda&ccedil;&otilde;es de outros pais, professores ou profissionais de sa&uacute;de pode ajudar a encontrar um psic&oacute;logo confi&aacute;vel. Avalia&ccedil;&otilde;es e depoimentos tamb&eacute;m s&atilde;o &uacute;teis para tomar uma decis&atilde;o informada.</p>
+<h2>Como Preparar Seu Filho Para O Atendimento Psicol&oacute;gico</h2>
+<p>Muitas crian&ccedil;as podem sentir inseguran&ccedil;a ou medo ao come&ccedil;ar o acompanhamento psicol&oacute;gico. &Eacute; importante que os pais ajudem na prepara&ccedil;&atilde;o para que o processo seja mais tranquilo.</p>
+<h3>Conversar Abertamente</h3>
+<p>Explique para seu filho que o psic&oacute;logo &eacute; um amigo que vai ajudar a entender melhor os sentimentos e a resolver problemas. Use uma linguagem simples e adequada &agrave; idade.</p>
+<h3>Normalizar o Processo</h3>
+<p>Diga que todos, em algum momento, precisam de ajuda para lidar com emo&ccedil;&otilde;es dif&iacute;ceis. Isso ajuda a reduzir o estigma e o medo relacionado &agrave; terapia.</p>
+<h3>Incentivar a Express&atilde;o de Sentimentos</h3>
+<p>Estimule seu filho a falar sobre suas emo&ccedil;&otilde;es e d&uacute;vidas. Esse h&aacute;bito facilita a comunica&ccedil;&atilde;o durante as sess&otilde;es.</p>
+<h2>O Papel Dos Pais Durante O Apoio Psicol&oacute;gico</h2>
+<p>O acompanhamento psicol&oacute;gico n&atilde;o &eacute; um processo isolado. A participa&ccedil;&atilde;o dos pais &eacute; fundamental para que os resultados sejam eficazes e duradouros.</p>
+<h3>Manter Di&aacute;logo com o Profissional</h3>
+<p>Os pais devem estar em contato frequente com o psic&oacute;logo para entender o progresso, receber orienta&ccedil;&otilde;es e colaborar no processo terap&ecirc;utico.</p>
+<h3>Oferecer Apoio Emocional</h3>
+<p>Demonstrar carinho, compreens&atilde;o e paci&ecirc;ncia ajuda a crian&ccedil;a a se sentir segura e valorizada.</p>
+<h3>Estabelecer Rotinas e Limites</h3>
+<p>Um ambiente estruturado, com rotinas claras e limites definidos, contribui para o equil&iacute;brio emocional.</p>
+<h3>Incentivar Atividades Positivas</h3>
+<p>Estimule pr&aacute;ticas que promovam o bem-estar, como esportes, artes, brincadeiras e momentos em fam&iacute;lia.</p>
+<h2>Benef&iacute;cios Do Apoio Psicol&oacute;gico Para O Desenvolvimento Infantil</h2>
+<p>Os impactos positivos do acompanhamento psicol&oacute;gico v&atilde;o muito al&eacute;m da resolu&ccedil;&atilde;o de problemas imediatos. Alguns dos principais benef&iacute;cios incluem:</p>
+<p>- <strong>Melhora da autoestima e autoconfian&ccedil;a</strong>;</p>
+<p>- <strong>Desenvolvimento de habilidades sociais e emocionais</strong>;</p>
+<p>- <strong>Redu&ccedil;&atilde;o do estresse e ansiedade</strong>;</p>
+<p>- <strong>Aprimoramento do desempenho escolar</strong>;</p>
+<p>- <strong>Melhor compreens&atilde;o de si mesmo e do mundo ao redor</strong>;</p>
+<p>- <strong>Promo&ccedil;&atilde;o de rela&ccedil;&otilde;es familiares mais saud&aacute;veis</strong>.</p>
+<h3>Quando A Terapia Infantil &Eacute; Indispens&aacute;vel</h3>
+<p>Em situa&ccedil;&otilde;es mais complexas, como traumas, perdas significativas, transtornos de ansiedade severa, depress&atilde;o ou comportamentos autodestrutivos, a interven&ccedil;&atilde;o profissional torna-se indispens&aacute;vel. A <a href="https://clinicahertz.com.br/" target="_blank" rel="noopener">Terapia Infantil</a>&nbsp;pode proporcionar um espa&ccedil;o estruturado para que a crian&ccedil;a enfrente essas dificuldades com suporte adequado.</p>
+<h2>Dicas Para Potencializar O Sucesso Do Apoio Psicol&oacute;gico</h2>
+<p>Al&eacute;m da escolha do profissional e do envolvimento familiar, algumas atitudes ajudam a maximizar os benef&iacute;cios do acompanhamento psicol&oacute;gico.</p>
+<h3>Incentive a Regularidade nas Sess&otilde;es</h3>
+<p>A frequ&ecirc;ncia regular das consultas &eacute; essencial para a continuidade e efic&aacute;cia do tratamento.</p>
+<h3>Respeite o Tempo da Crian&ccedil;a</h3>
+<p>Cada crian&ccedil;a tem seu ritmo para se abrir e avan&ccedil;ar no processo terap&ecirc;utico. Tenha paci&ecirc;ncia e evite press&otilde;es.</p>
+<h3>Promova um Ambiente Positivo em Casa</h3>
+<p>Um lar acolhedor, com di&aacute;logo aberto e respeito m&uacute;tuo, refor&ccedil;a o trabalho realizado nas sess&otilde;es.</p>
+<h3>Esteja Atento &agrave;s Mudan&ccedil;as</h3>
+<p>Observe as transforma&ccedil;&otilde;es no comportamento e nas emo&ccedil;&otilde;es do seu filho e compartilhe essas informa&ccedil;&otilde;es com o psic&oacute;logo.</p>
+<h2>Mitos E Verdades Sobre O Apoio Psicol&oacute;gico Infantil</h2>
+<p>Muitas vezes, o preconceito e o desconhecimento dificultam a busca por ajuda psicol&oacute;gica. Desmistificar conceitos &eacute; fundamental para que mais fam&iacute;lias possam se beneficiar.</p>
+<h3>Mito: Apenas "crian&ccedil;as com problemas graves" precisam de psic&oacute;logo</h3>
+<p><strong>Verdade:</strong> A psicologia infantil &eacute; indicada para diversas situa&ccedil;&otilde;es, desde dificuldades emocionais at&eacute; o desenvolvimento de habilidades sociais e resolu&ccedil;&atilde;o de conflitos cotidianos.</p>
+<h3>Mito: Psic&oacute;logo &eacute; para "corrigir" a crian&ccedil;a</h3>
+<p><strong>Verdade:</strong> O objetivo &eacute; ajudar a crian&ccedil;a a compreender seus sentimentos, melhorar seu bem-estar e desenvolver recursos internos, n&atilde;o impor mudan&ccedil;as for&ccedil;adas.</p>
+<h3>Mito: A terapia infantil &eacute; demorada e ineficaz</h3>
+<p><strong>Verdade:</strong> Muitas crian&ccedil;as apresentam avan&ccedil;os significativos em poucos meses, principalmente quando h&aacute; envolvimento familiar e escolha adequada do profissional.</p>
+<h2>Como Integrar O Apoio Psicol&oacute;gico Com Outras &Aacute;reas Da Vida Da Crian&ccedil;a</h2>
+<p>Para garantir um suporte completo, o acompanhamento psicol&oacute;gico deve dialogar com outras dimens&otilde;es da vida infantil.</p>
+<h3>Comunica&ccedil;&atilde;o com a Escola</h3>
+<p>Professores e coordenadores podem fornecer informa&ccedil;&otilde;es importantes sobre o comportamento e rendimento escolar. Essa colabora&ccedil;&atilde;o ajuda a criar estrat&eacute;gias integradas.</p>
+<h3>Atividades Extracurriculares</h3>
+<p>Esportes, artes e outras atividades podem complementar o desenvolvimento emocional e social.</p>
+<h3>Sa&uacute;de F&iacute;sica</h3>
+<p>Alimenta&ccedil;&atilde;o equilibrada, sono adequado e pr&aacute;tica de exerc&iacute;cios s&atilde;o aliados do equil&iacute;brio psicol&oacute;gico.</p>
+<h2>Conclus&atilde;o</h2>
+<p>Oferecer <strong>apoio psicol&oacute;gico especializado</strong> ao seu filho &eacute; um investimento no seu futuro e bem-estar. Com aten&ccedil;&atilde;o aos sinais, escolha cuidadosa do profissional e envolvimento ativo dos pais, &eacute; poss&iacute;vel proporcionar uma inf&acirc;ncia mais saud&aacute;vel e feliz. A sa&uacute;de emocional &eacute; a base para que a crian&ccedil;a cres&ccedil;a confiante, resiliente e preparada para os desafios da vida. Valorizar e cuidar desse aspecto desde cedo contribui para uma vida adulta mais equilibrada e plena.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

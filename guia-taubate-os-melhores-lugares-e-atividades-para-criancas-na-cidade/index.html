@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Taubaté: Os Melhores Lugares e Atividades Para Crianças na Cidade - Bebês Brasil</title>
+    <meta name="description" content="Introdução
+Você já se perguntou onde levar as crianças para se divertirem em Taubaté? Se sim, você está no lugar certo! Preparamos este Guia Taubaté especialmen">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <span>Bebês Brasil</span>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Guia Taubaté: Os Melhores Lugares e Atividades Para Crianças na Cidade</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Introdução
+Você já se perguntou onde levar as crianças para se divertirem em Taubaté? Se sim, você está no lugar certo! Preparamos este Guia Taubaté especialmen</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-05-29" style="color: var(--text-muted);">
+                        29/05/2025 14:49
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/Guia-Taubate.jpg" alt="Guia Taubaté: Os Melhores Lugares e Atividades Para Crianças na Cidade">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <h2 data-start="441" data-end="460"><strong data-start="444" data-end="458">Introdução</strong></h2>
+<p data-start="462" data-end="776">Você já se perguntou onde levar as crianças para se divertirem em Taubaté? Se sim, você está no lugar certo! Preparamos este <strong data-start="587" data-end="603"><a href="https://taubate.net.br/">Guia Taubaté</a></strong> especialmente para famílias que buscam lazer, aprendizado e muita diversão para os pequenos. Afinal, nada melhor do que ver um sorriso no rosto das crianças, não é mesmo?</p>
+<p data-start="778" data-end="898">Neste guia, você vai encontrar desde parques e museus até atividades educativas e espaços de recreação. Bora conferir?</p>
+<h2 data-start="1907" data-end="1946"><strong data-start="1910" data-end="1944">1. Parques e Áreas ao Ar Livre</strong></h2>
+<p data-start="1948" data-end="2083"><strong data-start="1948" data-end="1967">Parque do Itaim</strong>, <strong data-start="1969" data-end="1988">Horto Municipal</strong> e outros espaços são perfeitos para gastar energia, andar de bicicleta e brincar livremente.</p>
+<h2 data-start="2085" data-end="2123"><strong data-start="2088" data-end="2121">2. Museus e Espaços Culturais</strong></h2>
+<p data-start="2125" data-end="2274">O famoso <strong data-start="2134" data-end="2153">Museu Mazzaropi</strong> encanta crianças e adultos, além do <strong data-start="2190" data-end="2218">Sítio do Picapau Amarelo</strong>, que traz a magia dos personagens de Monteiro Lobato.</p>
+<h2 data-start="2276" data-end="2317"><strong data-start="2279" data-end="2315">3. Clubes e Centros de Recreação</strong></h2>
+<p data-start="2319" data-end="2411">Diversos clubes oferecem piscinas, quadras e recreação infantil com monitores capacitados.</p>
+<h2 data-start="2413" data-end="2451"><strong data-start="2416" data-end="2449">4. Praças com Espaço Infantil</strong></h2>
+<p data-start="2453" data-end="2566">Praças como a <strong data-start="2467" data-end="2492">Praça Santa Terezinha</strong> possuem brinquedos, pistas de skate e espaços seguros para as crianças.</p>
+<h2 data-start="2568" data-end="2612"><strong data-start="2571" data-end="2610">5. Atividades Educativas e Oficinas</strong></h2>
+<p data-start="2614" data-end="2726">Centros culturais, bibliotecas e ateliês oferecem oficinas de arte, música, teatro e leitura para os pequenos.</p>
+<h2 data-start="2728" data-end="2777"><strong data-start="2731" data-end="2775">6. Parques de Diversões e Brinquedotecas</strong></h2>
+<p data-start="2779" data-end="2905">Shopping centers e espaços especializados contam com brinquedotecas e parques de diversão indoor, ideais para dias de chuva.</p>
+<h2 data-start="2907" data-end="2945"><strong data-start="2910" data-end="2943">7. Cinemas e Sessões Infantis</strong></h2>
+<p data-start="2947" data-end="3072">Os cinemas da cidade frequentemente oferecem sessões especiais para crianças, com filmes dublados e em horários acessíveis.</p>
+<h2 data-start="3074" data-end="3112"><strong data-start="3077" data-end="3110">8. Restaurantes Kids-Friendly</strong></h2>
+<p data-start="3114" data-end="3253">Há ótimas opções de restaurantes com espaço kids, cardápio infantil e até monitores para entreter enquanto os pais aproveitam a refeição.</p>
+<h2 data-start="3255" data-end="3294"><strong data-start="3258" data-end="3292">9. Eventos Infantis em Taubaté</strong></h2>
+<p data-start="3296" data-end="3438">Acompanhar a agenda cultural da cidade é essencial para não perder peças teatrais, contações de histórias e eventos temáticos para crianças.</p>
+<h2 data-start="3440" data-end="3488"><strong data-start="3443" data-end="3486">10. Atividades Esportivas Para Crianças</strong></h2>
+<p data-start="3490" data-end="3608">Escolas de futebol, balé, natação, judô e outras modalidades ajudam no desenvolvimento físico e social das crianças.</p>
+<h2 data-start="3610" data-end="3654"><strong data-start="3613" data-end="3652">11. Passeios em Família na Natureza</strong></h2>
+<p data-start="3656" data-end="3772">Próximo a Taubaté há trilhas leves, sítios e fazendas que proporcionam contato direto com a natureza e os animais.</p>
+<h2 data-start="3774" data-end="3824"><strong data-start="3777" data-end="3822">12. Shopping Centers com Espaços Infantis</strong></h2>
+<p data-start="3826" data-end="3964">O <strong data-start="3828" data-end="3848">Taubaté Shopping</strong> e outros centros comerciais oferecem espaços com brinquedos, além de programação especial em datas comemorativas.</p>
+<h2 data-start="3966" data-end="4024"><strong data-start="3969" data-end="4022">13. Dicas de Segurança Para Passeios com Crianças</strong></h2>
+<p data-start="4026" data-end="4163">Leve sempre água, protetor solar, chapéu e identifique a criança com uma pulseirinha com telefone de contato. Segurança nunca é demais!</p>
+<h2 data-start="4165" data-end="4221"><strong data-start="4168" data-end="4219">14. Melhores Épocas Para Atividades ao Ar Livre</strong></h2>
+<p data-start="4223" data-end="4351">Evite períodos de muita chuva. Outono e inverno são ideais, com clima seco e temperaturas agradáveis para atividades externas.</p>
+<h2 data-start="4353" data-end="4401"><strong data-start="4356" data-end="4399">15. Considerações Finais e Dicas Extras</strong></h2>
+<p data-start="4403" data-end="4670">O <strong data-start="4405" data-end="4421">Guia Taubaté</strong> é seu parceiro para proporcionar momentos incríveis para sua família. A cidade oferece uma ampla variedade de opções para todas as idades e gostos. O mais importante é estar junto, criando memórias que ficarão para sempre no coração das crianças.</p>
+<hr data-start="4672" data-end="4675">
+<h2 data-start="4677" data-end="4711"><strong data-start="4680" data-end="4711">FAQs - Perguntas Frequentes</strong></h2>
+<p data-start="4713" data-end="4873"><strong data-start="4713" data-end="4781">1. O Sítio do Picapau Amarelo é adequado para crianças pequenas?</strong><br data-start="4781" data-end="4784">Sim! O espaço conta com atividades lúdicas, seguras e interativas para todas as idades.</p>
+<p data-start="4875" data-end="5038"><strong data-start="4875" data-end="4936">2. Existem atividades gratuitas para crianças em Taubaté?</strong><br data-start="4936" data-end="4939">Sim, praças, parques públicos e eventos culturais gratuitos fazem parte da programação da cidade.</p>
+<p data-start="5040" data-end="5190"><strong data-start="5040" data-end="5082">3. O Taubaté Shopping tem espaço kids?</strong><br data-start="5082" data-end="5085">Tem, sim! Além de brinquedotecas, o shopping oferece eventos sazonais voltados para o público infantil.</p>
+<p data-start="5192" data-end="5357"><strong data-start="5192" data-end="5259">4. Quais são os melhores restaurantes com espaço para crianças?</strong><br data-start="5259" data-end="5262">Vários restaurantes na cidade oferecem área kids, como pizzarias, hamburguerias e cafeterias.</p>
+<p data-start="5359" data-end="5517"><strong data-start="5359" data-end="5422">5. Taubaté tem opções de passeios ecológicos para crianças?</strong><br data-start="5422" data-end="5425">Com certeza! Trilhas, hortas pedagógicas e visitas a fazendas são ótimas opções na região.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

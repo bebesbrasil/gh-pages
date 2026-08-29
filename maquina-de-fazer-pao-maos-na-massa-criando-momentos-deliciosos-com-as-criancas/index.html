@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máquina de Fazer Pão - Mãos na Massa: Criando Momentos Deliciosos Com as Crianças - Bebês Brasil</title>
+    <meta name="description" content="
+Intro
+
+
+Quando você pensa em tempo em família, assar juntos pode transformar um dia comum em algo especial, e uma máquina de fazer pão torna tudo ainda mais fá">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/uncategorized/" style="color:#ffffff;">Outros</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Máquina de Fazer Pão - Mãos na Massa: Criando Momentos Deliciosos Com as Crianças</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">
+Intro
+
+
+Quando você pensa em tempo em família, assar juntos pode transformar um dia comum em algo especial, e uma máquina de fazer pão torna tudo ainda mais fá</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-06-13" style="color: var(--text-muted);">
+                        13/06/2025 13:49
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/images1.jpg" alt="Máquina de Fazer Pão - Mãos na Massa: Criando Momentos Deliciosos Com as Crianças">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p><!-- wp:heading {"level":1} --></p>
+<h1 class="wp-block-heading">Intro</h1>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Quando você pensa em <strong>tempo em família</strong>, <strong>assar juntos</strong> pode transformar um dia comum em algo especial, e uma máquina de fazer pão torna tudo ainda mais fácil. Você descobrirá que medir, misturar e amassar a massa com seus filhos não apenas ensina habilidades essenciais, mas também cria uma <strong>experiência de união única</strong>. Ao investigar o processo, você pode descobrir que cada pão oferece mais do que apenas um lanche delicioso; ele pode despertar curiosidade e criatividade de maneiras inesperadas. Então, quais são as <strong>melhores práticas</strong> para garantir que sua aventura na cozinha seja tanto divertida quanto bem-sucedida?</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Benefícios de Assar Juntos</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Assar juntos é muitas vezes uma maneira deliciosa de <strong>se conectar com seus filhos</strong> enquanto os ensina habilidades valiosas. Quando você se reúne na cozinha, não está apenas misturando ingredientes; você está criando <strong>memórias duradouras</strong>. Essa experiência compartilhada promove <strong>trabalho em equipe</strong>, à medida que seus filhos aprendem a seguir instruções e trabalhar colaborativamente.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Além disso, assar os apresenta a <strong>técnicas culinárias essenciais</strong>, mas também incentiva <strong>habilidades matemáticas</strong> por meio da medição de ingredientes. Ao pesar a farinha ou contar pacotes de fermento, eles estão praticando lições valiosas sem perceber. Além disso, eles ganham um <strong>sentido de realização</strong> quando veem o produto final, aumentando sua confiança.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Assar também oferece <strong>oportunidades para a criatividade</strong>. Você pode experimentar sabores ou decorar pães, permitindo que seus filhos se expressem. Essa saída criativa pode despertar seu interesse em cozinhar, levando a hábitos alimentares mais saudáveis no futuro.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Além disso, passar tempo na cozinha juntos pode <strong>fortalecer a comunicação</strong> e construir confiança. Você descobrirá que compartilhar histórias ou conversar enquanto amassa a massa cria uma atmosfera relaxada, perfeita para nutrir seu relacionamento. Portanto, reúna seus ingredientes, arregaçe as mangas e desfrute dos benefícios de <strong>assar juntos</strong>—é um investimento em habilidades e memórias.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Escolhendo a Máquina de Pão Certa</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Quando se trata de <strong>selecionar a máquina de pão certa</strong> para sua família, considere suas necessidades e preferências. Primeiro, pense sobre o <strong>tamanho da sua família</strong>. Se você está assando para um pequeno lar, uma <strong>máquina compacta</strong> com capacidade de 1 quilo pode ser ideal. Para famílias maiores ou encontros, opte por um modelo que possa produzir 2 quilos ou mais.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Em seguida, verifique os recursos. Você quer uma máquina que ofereça <strong>várias configurações</strong> para diferentes tipos de pão, como integral ou sem glúten? Procure um modelo com <strong>configurações personalizáveis</strong> que permitam ajustar a cor da crosta e o tamanho do pão. Um <strong>recurso de timer</strong> também pode ser útil, permitindo que você programe a máquina para ter pão fresco pronto quando acordar ou voltar para casa.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>A facilidade de uso é outro fator importante. Escolha uma máquina com um display claro e controles simples. Por fim, considere a <strong>reputação da marca</strong> e as avaliações de clientes. Uma máquina confiável pode tornar sua experiência de assar agradável e sem estresse. Ao levar esses fatores em conta, você encontrará a máquina de pão perfeita que se encaixa no estilo de vida e nas aspirações de assar da sua família. Boa assadura!</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Ingredientes Essenciais para o Sucesso</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Para criar um pão delicioso com sua máquina, você geralmente vai querer focar nos ingredientes fundamentais que garantem o sucesso. Primeiro, <strong>farinha de alta qualidade</strong> é crítica—opte por farinha de pão com um maior <strong>teor de proteína</strong> para melhor formação de glúten. Em seguida, o fermento é o melhor amigo do seu pão. Usar <strong>fermento seco ativo fresco</strong> ou fermento instantâneo garante uma boa fermentação. Não se esqueça do sal; ele <strong>realça o sabor</strong> e fortalece o glúten, mas tenha cuidado para não adicionar demais, pois pode inibir a atividade do fermento.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>A água é outro ingrediente chave. Use <strong>água morna</strong> para ajudar a ativar o fermento de forma eficaz. Se você estiver se sentindo aventureiro, considere adicionar um toque de açúcar ou mel para <strong>alimentar o fermento</strong> e melhorar a coloração. Para uma <strong>textura mais macia</strong>, você pode querer incorporar gorduras como manteiga ou óleo, que também adicionam riqueza.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Por último, considere qualquer <strong>ingrediente opcional</strong> como sementes, ervas ou especiarias para elevar seu pão. Com esses fundamentos em mente, você estará estabelecendo a base para uma experiência de panificação bem-sucedida. Lembre-se de que medir com precisão e misturar bem é essencial, então envolva as crianças no processo para torná-lo uma atividade divertida e educativa!</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Receitas Divertidas para Experimentar</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Com os ingredientes certos prontos, é hora de investigar algumas receitas divertidas que farão todos se envolverem no processo de fazer pão. Comece com um <strong>pão branco clássico</strong>—é simples e perfeito para iniciantes. Misture farinha, fermento, açúcar, sal e água morna em sua máquina de pão, e deixe ela fazer sua mágica.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Em seguida, experimente um delicioso <strong>pão de canela</strong>. Após preparar a massa, abra-a, <strong>polvilhe açúcar e canela</strong>, e enrole-a novamente. Corte em pedaços antes de assar e veja os redemoinhos se formarem enquanto cresce!</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Se você está se sentindo aventureiro, experimente um <strong>pão salgado de ervas e queijo</strong>. Misture suas ervas favoritas e queijo ralado na massa para uma <strong>virada saborosa</strong> que combina bem com sopas ou saladas.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Finalmente, não se esqueça dos <strong>mini pãezinhos</strong>! Modele pequenas bolas de massa e deixe todos criarem seus próprios. Eles podem polvilhar coberturas como sementes de gergelim ou sementes de papoula, tornando isso uma experiência divertida e <strong>personalizada</strong>.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Essas receitas não apenas produzem pães deliciosos, mas também criam memórias. Então reúna seus ingredientes e comece—sua cozinha está prestes a cheirar incrível!</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Envolvendo as Crianças no Processo</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Envolver as crianças no <strong>processo de fazer pão</strong> com <strong><a href="https://www.cafeteiratech.com.br/post/maquina-para-fazer-pao-melhores">Máquina para Fazer Pão</a></strong>, não só torna tudo mais divertido, mas também as ensina <strong>habilidades valiosas</strong>. Quando você as deixa <strong>medir os ingredientes</strong>, elas estão aprendendo matemática básica e entendendo proporções. Incentive-as a misturar a massa; é uma ótima maneira de <strong>desenvolver habilidades motoras</strong> enquanto têm uma experiência prática.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>À medida que elas sovam a massa, converse sobre a <strong>ciência por trás do funcionamento do fermento</strong>. As crianças adoram aprender sobre como ingredientes simples se transformam em algo delicioso. Dê a elas a responsabilidade de modelar o pão; elas se sentirão orgulhosas de suas criações. Além disso, isso fomenta a criatividade, já que podem experimentar diferentes formas ou coberturas.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Não se esqueça de deixá-las <strong>decorar o pão</strong> antes de ir ao forno. Elas vão gostar de adicionar sementes, ervas ou até coberturas coloridas. Enquanto esperam o pão assar, aproveite para discutir de onde vem o pão, os diferentes tipos de pão ao redor do mundo, ou até mesmo suas memórias favoritas sobre pão.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Dicas para um Bolo de Sucesso</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Um bake bem-sucedido começa com os <strong>ingredientes certos</strong> e equipamentos. Certifique-se de que você tem farinha fresca, fermento e outros essenciais prontos antes de começar. Consulte o <strong>manual da sua máquina de assar</strong> para medidas e configurações específicas para garantir que você está no caminho certo.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Em seguida, envolva as crianças em <strong>medir e misturar</strong>. Isso não é apenas divertido; também as ajuda a aprender sobre panificação. Incentive-as a despejar e mexer, mas lembre-as de serem gentis para evitar derramamentos.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Preste atenção na <strong>consistência da massa</strong>. Ela deve ser macia e ligeiramente pegajosa, não seca ou esfarelada. Se parecer errada, ajuste com pequenas quantidades de água ou farinha até acertar.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Não se esqueça de <strong>pré-aquecer sua máquina de assar</strong>, se necessário. O tempo é vital, então fique de olho no relógio e siga os <strong>tempos de assar</strong> de perto.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Por fim, <strong>deixe o pão esfriar</strong> antes de fatiá-lo; isso ajuda a manter sua textura. Celebre seus esforços juntos provando os deliciosos resultados! Com essas dicas, você e seus filhos criarão momentos de panificação memoráveis e guloseimas saborosas. Boa panificação!</p>
+<p><!-- /wp:paragraph --></p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

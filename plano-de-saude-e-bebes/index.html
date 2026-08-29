@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano de Saúde e Bebês: Segurança e Cuidados Desde os Primeiros Dias - Bebês Brasil</title>
+    <meta name="description" content="Cuidar da saúde de um bebê exige atenção, amor e estrutura adequada desde os primeiros momentos de vida — ou até antes disso, durante a gestação. Ter um plano d">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/bebes/" style="color:#ffffff;">Bebês</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Plano de Saúde e Bebês: Segurança e Cuidados Desde os Primeiros Dias</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Cuidar da saúde de um bebê exige atenção, amor e estrutura adequada desde os primeiros momentos de vida — ou até antes disso, durante a gestação. Ter um plano d</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-08-10" style="color: var(--text-muted);">
+                        10/08/2025 21:13
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/Plano-de-Saude-e-Bebes.jpg" alt="Plano de Saúde e Bebês: Segurança e Cuidados Desde os Primeiros Dias">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p data-start="349" data-end="642">Cuidar da saúde de um bebê exige atenção, amor e estrutura adequada desde os primeiros momentos de vida — ou até antes disso, durante a gestação. Ter um <strong data-start="502" data-end="532">plano de saúde para o bebê</strong> não é apenas uma escolha inteligente, mas um investimento na tranquilidade e no bem-estar da família inteira.</p>
+<p data-start="644" data-end="924">A saúde infantil envolve uma série de acompanhamentos médicos, exames de rotina, consultas frequentes e vacinas. A contratação de um bom plano de saúde ajuda a garantir atendimento rápido, com pediatras qualificados, e evita imprevistos com gastos altos em situações emergenciais.</p>
+<p data-start="926" data-end="1145">Neste artigo, você entenderá a importância do plano de saúde para bebês, como funciona a inclusão do recém-nascido, os tipos de planos disponíveis, principais coberturas, e como escolher a melhor opção para sua família.</p>
+<hr data-start="1147" data-end="1150">
+<h2 data-start="1152" data-end="1203">A importância do plano de saúde desde a gestação</h2>
+<p data-start="1205" data-end="1397">O cuidado com a saúde do bebê começa antes mesmo do nascimento. Um plano de saúde que ofereça cobertura para o <strong data-start="1316" data-end="1365">pré-natal, o parto e o atendimento pediátrico</strong> nos primeiros anos é essencial.</p>
+<p data-start="1399" data-end="1582">Durante a gestação, a futura mãe precisa de acompanhamento constante com obstetra, ultrassonografias, exames de sangue e outros procedimentos de rotina. Ter um plano de saúde permite:</p>
+<ul data-start="1584" data-end="1763">
+<li data-start="1584" data-end="1626">
+<p data-start="1586" data-end="1626">Agilidade no agendamento de consultas.</p>
+</li>
+<li data-start="1627" data-end="1673">
+<p data-start="1629" data-end="1673">Acesso à rede credenciada de maternidades.</p>
+</li>
+<li data-start="1674" data-end="1715">
+<p data-start="1676" data-end="1715">Atendimento de urgência e emergência.</p>
+</li>
+<li data-start="1716" data-end="1763">
+<p data-start="1718" data-end="1763">Exames com qualidade e menor tempo de espera.</p>
+</li>
+</ul>
+<p data-start="1765" data-end="1955">Além disso, muitas operadoras oferecem <strong data-start="1804" data-end="1847">programas de acompanhamento gestacional</strong>, orientando a gestante sobre alimentação, sintomas, preparação para o parto e cuidados com o recém-nascido.</p>
+<hr data-start="1957" data-end="1960">
+<h2 data-start="1962" data-end="2012">Quando e como incluir o bebê no plano de saúde?</h2>
+<p data-start="2014" data-end="2286">De acordo com a Agência Nacional de Saúde Suplementar (ANS), o <strong data-start="2077" data-end="2188">bebê tem direito à inclusão automática no plano de saúde da mãe ou do pai por até 30 dias após o nascimento</strong>. Durante esse período, ele será coberto com os mesmos direitos do titular do plano, sem carência.</p>
+<p data-start="2288" data-end="2362">Para que o bebê tenha <strong data-start="2310" data-end="2343">direito à isenção de carência</strong>, é importante que:</p>
+<ul data-start="2364" data-end="2535">
+<li data-start="2364" data-end="2420">
+<p data-start="2366" data-end="2420">A inclusão seja feita até 30 dias após o nascimento.</p>
+</li>
+<li data-start="2421" data-end="2475">
+<p data-start="2423" data-end="2475">O plano dos pais esteja ativo há mais de 180 dias.</p>
+</li>
+<li data-start="2476" data-end="2535">
+<p data-start="2478" data-end="2535">Seja um plano familiar ou com cobertura para dependentes.</p>
+</li>
+</ul>
+<p data-start="2537" data-end="2772">Após esse período, o bebê pode ser incluído, mas estará sujeito aos prazos de carência da operadora. Por isso, é altamente recomendável que a inclusão seja feita <strong data-start="2699" data-end="2717">o quanto antes</strong>, garantindo cobertura desde os primeiros dias de vida.</p>
+<hr data-start="2774" data-end="2777">
+<h2 data-start="2779" data-end="2835">Principais coberturas de um plano de saúde para bebês</h2>
+<p data-start="2837" data-end="3030">Um plano de saúde voltado ao público infantil deve oferecer cobertura ampla e compatível com as necessidades da primeira infância. Veja alguns dos principais serviços que devem estar incluídos:</p>
+<h3 data-start="3032" data-end="3060">1. Consultas pediátricas</h3>
+<p data-start="3062" data-end="3287">Nos primeiros anos, o bebê precisa de consultas frequentes com o pediatra. O acompanhamento serve para avaliar o desenvolvimento físico e neurológico, peso, alimentação, introdução de alimentos sólidos, entre outros aspectos.</p>
+<h3 data-start="3289" data-end="3312">2. Exames de rotina</h3>
+<p data-start="3314" data-end="3493">Exames de sangue, urina, fezes, audiometria, entre outros, são importantes para monitorar a saúde do bebê. Um bom plano de saúde cobre todos os exames previstos no <strong data-start="3478" data-end="3492">Rol da ANS</strong>.</p>
+<h3 data-start="3495" data-end="3509">3. Vacinas</h3>
+<p data-start="3511" data-end="3744">Apesar do <strong data-start="3521" data-end="3553">Sistema Único de Saúde (SUS)</strong> oferecer vacinas gratuitamente, muitos pais preferem aplicá-las em clínicas privadas. Alguns planos cobrem parte ou todas as vacinas, incluindo as que não fazem parte do calendário nacional.</p>
+<h3 data-start="3746" data-end="3789">4. Atendimento de urgência e emergência</h3>
+<p data-start="3791" data-end="3956">Bebês estão mais suscetíveis a infecções e complicações respiratórias. Ter acesso rápido a <strong data-start="3882" data-end="3906">atendimento 24 horas</strong> pode fazer toda a diferença em momentos críticos.</p>
+<h3 data-start="3958" data-end="3978">5. Especialistas</h3>
+<p data-start="3980" data-end="4148">Além do pediatra, o plano pode incluir acesso a <strong data-start="4028" data-end="4147">neurologistas infantis, alergistas, nutricionistas, otorrinos, fonoaudiólogos e outros profissionais especializados</strong>.</p>
+<hr data-start="4150" data-end="4153">
+<h2 data-start="4155" data-end="4194">Tipos de planos indicados para bebês</h2>
+<p data-start="4196" data-end="4389">Existem diversas modalidades de planos de saúde disponíveis. Para escolher o mais adequado, é importante analisar o perfil da família, localização e expectativa de uso. Os principais tipos são:</p>
+<h3 data-start="4391" data-end="4412">1. Plano familiar</h3>
+<p data-start="4414" data-end="4637">Ideal para incluir pais, filhos e cônjuges no mesmo contrato. É uma opção econômica e prática, com cobertura para todos os membros da família. Muitas operadoras permitem incluir o recém-nascido como dependente nesse modelo.</p>
+<p data-start="745" data-end="1054">Algumas operadoras se destacam nesse segmento, como o <a href="https://descontoplanodesaude.com.br/cidade/plano-hapvida-recife/" target="_blank" rel="noopener noreferrer">plano de saúde Hapvida familiar</a>, que oferece ampla rede credenciada, cobertura pediátrica, atendimento humanizado e valores acessíveis, sendo uma escolha recorrente para famílias que buscam segurança desde a gestação até os primeiros anos da infância.</p>
+<h3 data-start="4639" data-end="4674">2. Plano individual ou infantil</h3>
+<p data-start="4676" data-end="4891">Voltado apenas para o bebê. Pode ser mais caro proporcionalmente, mas oferece liberdade de escolha e pode ser vantajoso caso os pais já tenham plano de saúde empresarial ou não possam incluir o filho no plano atual.</p>
+<h3 data-start="4893" data-end="4917">3. Plano empresarial</h3>
+<p data-start="4919" data-end="5090">Se um dos pais possui plano de saúde fornecido pela empresa, é comum que exista a opção de incluir o bebê como dependente com isenção de carência e preços mais acessíveis.</p>
+<hr data-start="5092" data-end="5095">
+<h2 data-start="5097" data-end="5153">Benefícios de contratar um plano de saúde para o bebê</h2>
+<h3 data-start="5155" data-end="5187">Tranquilidade para a família</h3>
+<p data-start="5189" data-end="5356">Saber que o bebê terá atendimento rápido e de qualidade em qualquer situação gera uma tranquilidade imensurável para os pais, especialmente para os de primeira viagem.</p>
+<h3 data-start="5358" data-end="5370">Economia</h3>
+<p data-start="5372" data-end="5511">Os custos com consultas, exames e internações podem ser altos. Ter um plano evita desembolsos inesperados e facilita o controle financeiro.</p>
+<h3 data-start="5513" data-end="5543">Prevenção e acompanhamento</h3>
+<p data-start="5545" data-end="5710">Um plano permite o acompanhamento constante com pediatras e especialistas, garantindo que qualquer problema seja identificado precocemente e tratado de forma eficaz.</p>
+<h3 data-start="5712" data-end="5747">Rede credenciada e maternidades</h3>
+<p data-start="5749" data-end="5898">Os planos mais completos oferecem acesso a maternidades e hospitais de referência, além de suporte para partos humanizados e acompanhamento neonatal.</p>
+<hr data-start="5900" data-end="5903">
+<h2 data-start="5905" data-end="5948">Como escolher o plano ideal para o bebê?</h2>
+<p data-start="5950" data-end="6046">Na hora de contratar um plano, alguns critérios são fundamentais para garantir a melhor escolha:</p>
+<ul data-start="6048" data-end="6422">
+<li data-start="6048" data-end="6131">
+<p data-start="6050" data-end="6131"><strong data-start="6050" data-end="6064">Cobertura:</strong> Verifique se inclui pediatria, vacinas, exames e especialidades.</p>
+</li>
+<li data-start="6132" data-end="6205">
+<p data-start="6134" data-end="6205"><strong data-start="6134" data-end="6155">Rede credenciada:</strong> Avalie os hospitais e maternidades disponíveis.</p>
+</li>
+<li data-start="6206" data-end="6268">
+<p data-start="6208" data-end="6268"><strong data-start="6208" data-end="6221">Carência:</strong> Verifique se há isenção ou prazos reduzidos.</p>
+</li>
+<li data-start="6269" data-end="6331">
+<p data-start="6271" data-end="6331"><strong data-start="6271" data-end="6291">Atendimento 24h:</strong> Fundamental para urgências com bebês.</p>
+</li>
+<li data-start="6332" data-end="6422">
+<p data-start="6334" data-end="6422"><strong data-start="6334" data-end="6362">Avaliações da operadora:</strong> Consulte o índice de reclamações e a reputação junto à ANS.</p>
+</li>
+</ul>
+<hr data-start="6424" data-end="6427">
+<h2 data-start="6429" data-end="6482">Um exemplo de operadora com boa cobertura infantil</h2>
+<p data-start="6484" data-end="6797">Algumas operadoras se destacam por oferecer planos acessíveis e cobertura completa para o público infantil. O <strong data-start="6594" data-end="6628">plano de saúde Hapvida criança</strong>, por exemplo, é reconhecido pela sua atuação no Nordeste do Brasil e pelas condições acessíveis que oferece para recém-nascidos e crianças de diferentes faixas etárias.</p>
+<p data-start="6799" data-end="6971">A rede Hapvida conta com maternidades próprias, pronto atendimentos pediátricos e atendimento digital com pediatras via aplicativo, o que facilita o acesso e gera economia.</p>
+<hr data-start="6973" data-end="6976">
+<h2 data-start="6978" data-end="6990">Conclusão</h2>
+<p data-start="6992" data-end="7289">A saúde do bebê é um dos pilares fundamentais para seu crescimento saudável e seguro. Contratar um plano de saúde adequado desde os primeiros dias de vida é uma forma de garantir não apenas proteção contra emergências, mas também suporte contínuo para o desenvolvimento físico e mental da criança.</p>
+<p data-start="7291" data-end="7683">Os primeiros anos da infância são repletos de desafios e descobertas — e contar com uma estrutura médica de confiança faz toda a diferença. Portanto, ao planejar a chegada de um bebê ou nos primeiros dias após o nascimento, considere a inclusão imediata dele no plano de saúde, avaliando bem as opções disponíveis no mercado e optando por aquela que melhor se adapta ao perfil da sua família.</p>
+<p data-start="7685" data-end="7770">A saúde é um presente que se constrói desde cedo — e começa com escolhas conscientes.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

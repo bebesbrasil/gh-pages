@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Enxoval de Bebê Menina: Itens Essenciais para a Chegada do Seu Amor - Bebês Brasil</title>
+    <meta name="description" content="Confira a Lista de Enxoval de Bebê Menina com itens essenciais para a chegada do seu amor. Veja dicas para economizar e escolher os melhores produtos.">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <span>Bebês Brasil</span>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Lista de Enxoval de Bebê Menina: Itens Essenciais para a Chegada do Seu Amor</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Confira a Lista de Enxoval de Bebê Menina com itens essenciais para a chegada do seu amor. Veja dicas para economizar e escolher os melhores produtos.</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-04-03" style="color: var(--text-muted);">
+                        03/04/2025 12:50
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/Lista-de-Enxoval-de-Bebe-Menina.jpg" alt="Lista de Enxoval de Bebê Menina: Itens Essenciais para a Chegada do Seu Amor">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <h2 data-pm-slice="1 1 []"><strong>Introdução</strong></h2>
+<p>A espera por um bebê é um momento mágico e cheio de expectativas. Para garantir que tudo esteja pronto para a chegada da sua pequena, preparar uma <strong><a href="https://meubebechegou.com.br/lista-de-enxoval-de-bebe-menina/">Lista de Enxoval de Bebê Menina</a></strong> é essencial. Mas, com tantos produtos disponíveis, como saber o que realmente é necessário? Neste artigo, vamos te ajudar a montar um enxoval completo, funcional e sem exageros. Vamos lá?</p>
+<h2><strong>Tabela de Conteúdo</strong></h2>
+<table>
+<tbody>
+<tr>
+<th>Sr#</th>
+<th>Headings</th>
+</tr>
+<tr>
+<td>1</td>
+<td>Roupinhas indispensáveis para o dia a dia</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Itens essenciais para o banho e higiene</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Fraldas: como escolher e quantas comprar?</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Acessórios para amamentação e alimentação</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Móveis e itens do quarto do bebê</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Itens para o carrinho e passeio</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Produtos de farmácia indispensáveis</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Brinquedos e estímulo sensorial</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Como organizar o enxoval de forma prática?</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Dicas para economizar no enxoval</td>
+</tr>
+<tr>
+<td>11</td>
+<td>O que evitar comprar em excesso?</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Perguntas Frequentes</td>
+</tr>
+</tbody>
+</table>
+<div><hr></div>
+<h2><strong>1. Roupinhas indispensáveis para o dia a dia</strong></h2>
+<p>Os bebês crescem rápido, então compre apenas o essencial nos primeiros meses:</p>
+<ul data-spread="false">
+<li>
+<p>6 a 8 <strong>bodies</strong> de manga curta e longa</p>
+</li>
+<li>
+<p>6 a 8 <strong>mijõezinhos</strong> ou culotes</p>
+</li>
+<li>
+<p>6 <strong>macacões</strong> para frio e calor</p>
+</li>
+<li>
+<p>4 pares de <strong>meias</strong></p>
+</li>
+<li>
+<p>2 a 3 <strong>touquinhas</strong></p>
+</li>
+<li>
+<p>2 mantas ou cobertores</p>
+</li>
+</ul>
+<div class="gallery" contenteditable="false" data-is-empty="false" data-translation="Adicione imagens" data-columns="3">
+<figure class="gallery__item"><a href="#DOMAIN_NAME#gallery/Lista-de-Enxoval-de-Bebe-Menina..jpg" data-size="1224x1224"><img src="/static/uploads/Lista-de-Enxoval-de-Bebe-Menina.-thumbnail.jpg" alt="" width="768" height="768"></a></figure>
+</div>
+<h2><strong>2. Itens essenciais para o banho e higiene</strong></h2>
+<p>O momento do banho deve ser seguro e confortável para o bebê. Itens indispensáveis:</p>
+<ul data-spread="false">
+<li>
+<p>Banheira com suporte</p>
+</li>
+<li>
+<p>Termômetro para banho</p>
+</li>
+<li>
+<p>Sabonete líquido neutro</p>
+</li>
+<li>
+<p>Toalhas com capuz (2 a 3 unidades)</p>
+</li>
+<li>
+<p>Kit de escova e pente</p>
+</li>
+<li>
+<p>Cortador de unhas</p>
+</li>
+<li>
+<p>Algodão e hastes flexíveis</p>
+</li>
+</ul>
+<h2><strong>3. Fraldas: como escolher e quantas comprar?</strong></h2>
+<p>Uma das maiores dúvidas dos pais é a quantidade de fraldas. Aqui vai uma média:</p>
+<ul data-spread="false">
+<li>
+<p>RN (Recém-nascido): 2 pacotes (não compre muitas, pois o bebê cresce rápido!)</p>
+</li>
+<li>
+<p>P: 5 a 6 pacotes</p>
+</li>
+<li>
+<p>M: 6 a 8 pacotes</p>
+</li>
+<li>
+<p>G: 8 a 10 pacotes</p>
+</li>
+</ul>
+<h2><strong>4. Acessórios para amamentação e alimentação</strong></h2>
+<p>A amamentação pode ser desafiadora, então alguns itens podem ajudar:</p>
+<ul data-spread="false">
+<li>
+<p>Almofada de amamentação</p>
+</li>
+<li>
+<p>Bombinha de leite</p>
+</li>
+<li>
+<p>4 babadores</p>
+</li>
+<li>
+<p>Mamadeiras (caso necessário)</p>
+</li>
+<li>
+<p>Esterilizador de mamadeiras</p>
+</li>
+</ul>
+<h2><strong>5. Móveis e itens do quarto do bebê</strong></h2>
+<p>O cantinho do bebê precisa ser aconchegante e funcional. Itens básicos:</p>
+<ul data-spread="false">
+<li>
+<p>Berço e colchão adequado</p>
+</li>
+<li>
+<p>Cômoda ou trocador</p>
+</li>
+<li>
+<p>Kit de berço (com cuidado para evitar sufocamento)</p>
+</li>
+<li>
+<p>Luminária suave para a noite</p>
+</li>
+<li>
+<p>Poltrona de amamentação (opcional, mas muito útil)</p>
+</li>
+</ul>
+<h2><strong>6. Itens para o carrinho e passeio</strong></h2>
+<p>Para sair de casa com tranquilidade, você vai precisar de:</p>
+<ul data-spread="false">
+<li>
+<p>Carrinho de bebê</p>
+</li>
+<li>
+<p>Cadeirinha para carro (obrigatório para transporte seguro)</p>
+</li>
+<li>
+<p>Bolsa maternidade</p>
+</li>
+<li>
+<p>Sling ou canguru</p>
+</li>
+</ul>
+<h2><strong>7. Produtos de farmácia indispensáveis</strong></h2>
+<p>Sempre tenha à mão produtos básicos para cuidar do bebê:</p>
+<ul data-spread="false">
+<li>
+<p>Termômetro</p>
+</li>
+<li>
+<p>Aspirador nasal</p>
+</li>
+<li>
+<p>Pomada para assaduras</p>
+</li>
+<li>
+<p>Soro fisiológico</p>
+</li>
+<li>
+<p>Gaze e álcool 70%</p>
+</li>
+</ul>
+<h2><strong>8. Brinquedos e estímulo sensorial</strong></h2>
+<p>Nos primeiros meses, os bebês exploram o mundo pelo toque e visão:</p>
+<ul data-spread="false">
+<li>
+<p>Mordedores</p>
+</li>
+<li>
+<p>Tapete de atividades</p>
+</li>
+<li>
+<p>Livros sensoriais</p>
+</li>
+<li>
+<p>Móbile para berço</p>
+</li>
+</ul>
+<h2><strong>9. Como organizar o enxoval de forma prática?</strong></h2>
+<p>Dicas para manter tudo arrumado:</p>
+<ul data-spread="false">
+<li>
+<p>Use divisórias nas gavetas</p>
+</li>
+<li>
+<p>Separe roupas por tamanho</p>
+</li>
+<li>
+<p>Monte kits prontos para troca de fraldas</p>
+</li>
+<li>
+<p>Deixe os itens de higiene ao alcance das mãos</p>
+</li>
+</ul>
+<h2><strong>10. Dicas para economizar no enxoval</strong></h2>
+<ul data-spread="false">
+<li>
+<p>Compare preços antes de comprar</p>
+</li>
+<li>
+<p>Aceite roupinhas usadas em bom estado</p>
+</li>
+<li>
+<p>Compre aos poucos para evitar exageros</p>
+</li>
+<li>
+<p>Aproveite promoções e liquidações</p>
+</li>
+</ul>
+<h2><strong>11. O que evitar comprar em excesso?</strong></h2>
+<p>Alguns itens podem acabar sendo desnecessários:</p>
+<ul data-spread="false">
+<li>
+<p>Muitas roupas RN</p>
+</li>
+<li>
+<p>Mamadeiras em excesso (caso esteja amamentando)</p>
+</li>
+<li>
+<p>Aquecedor de mamadeira</p>
+</li>
+<li>
+<p>Muitas mantas e cobertores</p>
+</li>
+</ul>
+<h2><strong>Conclusão</strong></h2>
+<p>Preparar o enxoval da sua bebê é um momento especial, mas é importante planejar bem para não gastar além do necessário. Com essa <strong>Lista de Enxoval de Bebê Menina</strong>, você poderá garantir todos os itens essenciais sem exageros. Agora é só curtir cada momento e esperar a chegada da sua princesa! 👶💖</p>
+<h2><strong>Perguntas Frequentes (FAQs)</strong></h2>
+<p><strong>1. Quantas roupas de recém-nascido devo comprar?</strong><br>Compre poucas peças RN, pois os bebês crescem muito rápido. De 4 a 6 macacões e bodies são suficientes.</p>
+<p><strong>2. Quando devo começar a comprar o enxoval do bebê?</strong><br>O ideal é começar a partir do segundo trimestre da gravidez para aproveitar promoções e planejar melhor as compras.</p>
+<p><strong>3. O que é realmente indispensável no enxoval?</strong><br>Roupinhas básicas, fraldas, produtos de higiene, berço, carrinho e itens para alimentação são essenciais.</p>
+<p><strong>4. Como economizar na compra do enxoval?</strong><br>Aproveite promoções, compre apenas o necessário e aceite doações de itens usados em bom estado.</p>
+<p><strong>5. Vale a pena comprar kit de berço?</strong><br>Não é essencial, e alguns itens como protetores podem ser perigosos. Prefira lençóis ajustáveis e mantas leves.</p>
+<p>Agora que você já tem todas as informações, está pronta para montar o enxoval da sua bebê com muito amor e planejamento! 💕👶</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

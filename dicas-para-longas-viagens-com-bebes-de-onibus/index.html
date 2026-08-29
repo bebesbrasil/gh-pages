@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dicas para Longas Viagens com Bebês de Ônibus - Bebês Brasil</title>
+    <meta name="description" content="
+Viajar longas distâncias de ônibus com um bebê pode parecer esmagador. É crucial se preparar efetivamente para garantir que tanto você quanto seu pequeno tenha">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/bebes/" style="color:#ffffff;">Bebês</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Dicas para Longas Viagens com Bebês de Ônibus</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">
+Viajar longas distâncias de ônibus com um bebê pode parecer esmagador. É crucial se preparar efetivamente para garantir que tanto você quanto seu pequeno tenha</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2025-02-23" style="color: var(--text-muted);">
+                        23/02/2025 14:43
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/Dicas-para-Longas-Viagens-com-Bebes-de-Onibus.jpg" alt="Dicas para Longas Viagens com Bebês de Ônibus">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p><!-- wp:paragraph --></p>
+<p>Viajar longas distâncias de ônibus com um bebê pode parecer esmagador. É crucial se preparar efetivamente para garantir que tanto você quanto seu pequeno tenham uma <strong>jornada tranquila</strong>. </p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Desde <strong>embalar os itens essenciais certos</strong> até gerenciar os horários de soneca, há vários fatores a serem considerados. Saber como manter seu bebê entretido e confortável durante a viagem pode fazer uma diferença significativa. </p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Vamos trazer algumas <strong>dicas práticas</strong> que podem ajudar você a navegar por essa experiência.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Empacotando os Essenciais</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Quando você está se preparando para uma <strong>longa viagem</strong> com seu bebê, é crucial fazer uma mala de forma inteligente, para que você não fique correndo no último minuto. Mas antes procure pela <a href="https://clubedoonibus.com.br/gontijo-preco-de-passagens-promocao/" target="_blank" rel="noreferrer noopener">Gontijo passagens promocionais</a> para economizar, depois comece fazendo uma lista de <strong>itens indispensáveis</strong>, incluindo fraldas, lenços umedecidos e trocadores. Não se esqueça de <strong>roupas extras</strong>, já que acidentes acontecem, e você vai querer estar preparado. Um <strong>carrinho compacto</strong> ou um carregador de bebê pode facilitar a locomoção.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Leve lanches e mamadeiras suficientes para a jornada, além de alguns brinquedos para manter seu pequeno entretido. Uma manta leve pode proporcionar conforto e calor. Por fim, mantenha itens importantes como os registros de saúde do seu bebê e&nbsp;<strong>contatos de emergência</strong>&nbsp;facilmente acessíveis. Com uma bolsa bem organizada, você tornará a viagem com seu bebê uma experiência mais tranquila.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Escolhendo o Momento Certo para Viajar</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Encontrar o&nbsp;<strong>momento certo para viajar</strong>&nbsp;pode impactar muito sua experiência com um bebê. Considere viajar durante&nbsp;<strong>horários de menor movimento</strong>, como de manhã cedo ou no final da noite, quando o ônibus está menos cheio. Isso pode facilitar para você e seu pequeno encontrarem um lugar confortável. Preste atenção à&nbsp;<strong>rotina do seu bebê</strong>; viajar durante suas&nbsp;<strong>horas naturais de sono</strong>&nbsp;pode ajudá-lo a descansar melhor no ônibus. Além disso, verifique se há&nbsp;<strong>paradas programadas</strong>&nbsp;ao longo do trajeto, pois essas podem oferecer oportunidades essenciais para trocas de fraldas e alimentação. Por fim, fique atento ao clima—calor ou frio extremos podem aumentar o estresse da sua jornada. Escolher o momento certo pode levar a uma viagem mais tranquila e agradável para você e seu bebê.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Gerenciando os Horários de Soneca no Ônibus</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Embora&nbsp;<strong>gerenciar os horários de cochilo</strong>&nbsp;no ônibus possa ser desafiador,&nbsp;<strong>criar uma rotina</strong>&nbsp;pode facilitar significativamente o processo. Tente alinhar o horário de cochilo do seu bebê com a viagem de ônibus. Observe os sinais naturais de sono dele e procure acomodá-lo logo antes do horário do cochilo. Levar&nbsp;<strong>itens familiares</strong>&nbsp;como um cobertor ou brinquedo de pelúcia favorito pode ajudá-lo a se sentir seguro e pronto para dormir. Também é útil escolher um assento na janela, já que o&nbsp;<strong>balanço suave</strong>&nbsp;do ônibus pode acalmá-lo. Mantenha o ambiente tranquilo, minimizando o ruído e apagando as luzes, se possível. Por fim, tenha paciência; pode levar algum tempo para que seu pequeno se acostume a dormir no ônibus, mas a consistência é fundamental.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Mantendo Seu Bebê Entretenido</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Após acomodar seu bebê para uma soneca, é importante pensar em como mantê-lo entretido durante o restante da viagem. Leve alguns&nbsp;<strong>brinquedos leves</strong>&nbsp;que sejam fáceis de segurar.&nbsp;<strong>Livros macios</strong>&nbsp;com cores ou texturas brilhantes podem capturar a atenção deles e estimular seus sentidos. Considere baixar alguns&nbsp;<strong>aplicativos ou vídeos para bebês</strong>&nbsp;em seu dispositivo, mas não se esqueça dos fones de ouvido para manter o som baixo para os outros passageiros.&nbsp;<strong>Cantar cantigas de ninar</strong>&nbsp;ou brincar de jogos simples como o 'cadê' também pode ser divertido e envolvente. Se possível, deixe seu pequeno olhar pela janela;&nbsp;<strong>observar a paisagem</strong>&nbsp;pode ser hipnotizante. Mantenha a troca de atividades a cada pouco para manter o interesse deles e tornar a viagem mais agradável para vocês dois.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Alimentando Seu Bebê em Movimento</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Quando você está em movimento,&nbsp;<strong>alimentar seu bebê</strong>&nbsp;pode parecer um desafio, mas com um pouco de planejamento, pode ser administrável. Comece levando&nbsp;<strong>snacks</strong>&nbsp;e refeições fáceis de carregar que exigem pouca preparação. Se você está&nbsp;<strong>amamentando</strong>, certifique-se de que está confortável e tenha uma cobertura se preferir privacidade. Para bebês que são alimentados com mamadeira,&nbsp;<strong>preencha as mamadeiras</strong>&nbsp;com fórmula ou leite materno e mantenha-as isoladas em uma bolsa térmica. Não se esqueça de trazer um babador e lenços para facilitar a limpeza! Sincronizar as alimentações do seu bebê com as paradas também pode ajudar. Se você estiver usando alimentos sólidos, opte por sachês ou comidas fáceis de comer com as mãos. Lembre-se, um pouco de criatividade pode fazer uma grande diferença para manter&nbsp;<strong>a hora da refeição sem estresse</strong>. Aproveite a jornada juntos!</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Mantendo-se Confortável Durante a Viagem</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Quando você está em uma&nbsp;<strong>longa viagem</strong>&nbsp;com seu bebê, ficar confortável é essencial. Vestir-se em camadas pode ajudar a se ajustar às mudanças de temperatura, enquanto trazer&nbsp;<strong>itens de conforto</strong>&nbsp;pode tornar a viagem mais agradável para ambos. Vamos investigar algumas maneiras fáceis de manter todos relaxados e felizes durante sua jornada.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3 class="wp-block-heading">Vista-se em camadas</h3>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Vestir seu bebê em camadas pode fazer toda a diferença durante&nbsp;<strong>longas viagens</strong>, já que as temperaturas podem variar muito dentro de um veículo. Comece com uma&nbsp;<strong>camada base confortável</strong>, como um macacão macio, para manter seu bebê&nbsp;<strong>aconchegado</strong>. Em seguida, adicione um suéter leve ou uma camisa de manga longa que seja fácil de colocar ou tirar conforme necessário. Uma jaqueta com zíper também é uma ótima escolha para&nbsp;<strong>ajustes rápidos</strong>. Lembre-se, é crucial verificar seu bebê com frequência, pois ele pode ficar quente ou frio sem que você perceba. Ter uma manta à mão pode proporcionar&nbsp;<strong>aquecimento extra</strong>&nbsp;se necessário. Ao vestir seu pequeno em camadas, você garante que ele permaneça confortável, não importa qual seja a temperatura dentro do ônibus!</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3 class="wp-block-heading">Traga Itens de Conforto</h3>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Itens de conforto podem tornar uma longa viagem com um bebê muito mais agradável para todos os envolvidos. Pense no que acalma seu pequeno. Um&nbsp;<strong>cobertor favorito</strong>&nbsp;ou um animal de pelúcia pode proporcionar uma sensação de segurança, ajudando-o a se sentir mais à vontade durante a viagem. Não se esqueça de levar um&nbsp;<strong>chupeta ou brinquedo de mordida</strong>, que pode ser essencial quando eles estão se sentindo irritados. Se seu bebê tem uma&nbsp;<strong>rotina de sono específica</strong>, leve um&nbsp;<strong>máquina de ruído branco portátil</strong>&nbsp;ou uma playlist relaxante para replicar esse ambiente no ônibus. Manter o conforto e a felicidade deles é fundamental, então considere suas necessidades e preferências. Com os&nbsp;<strong>itens de conforto</strong>&nbsp;certos, você criará uma jornada mais agradável tanto para o seu bebê quanto para você.</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Preparando-se para pausas no banheiro</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Embora longas viagens de carro possam ser desafiadoras, preparar-se para&nbsp;<strong>paradas no banheiro</strong>&nbsp;pode tornar a experiência mais tranquila tanto para você quanto para seu bebê. Primeiro,&nbsp;<strong>planeje sua rota</strong>&nbsp;e identifique pontos de parada com antecedência. Isso ajudará a minimizar o estresse quando a natureza chamar. Em seguida, leve um&nbsp;<strong>tapete de troca portátil</strong>&nbsp;ou uma manta para higiene e conforto. Não se esqueça de fraldas extras, lenços umedecidos e sacolas plásticas para descarte fácil. Se seu bebê estiver em processo de aprendizado para usar o banheiro, leve um&nbsp;<strong>potinho portátil</strong>&nbsp;para facilitar as coisas. Sempre mantenha uma&nbsp;<strong>mudança de roupas</strong>&nbsp;por perto em caso de acidentes. Por fim, tente sincronizar suas paradas com horários de alimentação ou soneca, para que seu pequeno fique feliz e relaxado. Com um pouco de preparo, paradas no banheiro podem ser rápidas e sem complicações!</p>
+<p>
+<!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2 class="wp-block-heading">Dicas de Segurança para Viajar de Ônibus com Bebês</h2>
+<p>
+<!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Ao viajar de ônibus com seu bebê, a segurança deve estar sempre em primeiro lugar. Primeiro, certifique-se de que seu bebê está devidamente preso em uma cadeirinha que atenda aos padrões de segurança. Verifique se o ônibus possui&nbsp;<strong>áreas designadas para equipamentos de bebê</strong>&nbsp;e nunca deixe seu bebê sem supervisão. Mantenha itens essenciais, como fraldas e lenços umedecidos, ao seu alcance, para que você não precise revirar as bolsas. Durante as paradas, sempre segure seu bebê perto de você e tenha cuidado com as portas do ônibus. Se possível, escolha um ônibus que tenha banheiro para conveniência, mas sempre supervisione seu bebê durante as idas ao banheiro. Por fim, mantenha-se calmo e atento às necessidades do seu bebê, pois sua tranquilidade ajuda a mantê-lo seguro e confortável durante toda a viagem.</p>
+<p>
+<!-- /wp:paragraph --></p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

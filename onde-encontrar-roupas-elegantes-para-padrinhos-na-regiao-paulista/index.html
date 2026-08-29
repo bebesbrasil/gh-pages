@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onde encontrar roupas elegantes para padrinhos na região paulista - Bebês Brasil</title>
+    <meta name="description" content="Encontre as melhores opções de roupas elegantes para padrinhos na região paulista. Estilo, qualidade e preços que cabem no seu bolso!">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/educacao/" style="color:#ffffff;">Educação</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Onde encontrar roupas elegantes para padrinhos na região paulista</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Encontre as melhores opções de roupas elegantes para padrinhos na região paulista. Estilo, qualidade e preços que cabem no seu bolso!</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2026-07-27" style="color: var(--text-muted);">
+                        27/07/2026 00:00
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/onde-encontrar-roupas-elegantes-para-padrinhos-na-regiao-paulista.jpg" alt="Onde encontrar roupas elegantes para padrinhos na região paulista">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Escolher a roupa ideal para padrinhos de casamento &eacute; uma tarefa que exige cuidado, bom gosto e aten&ccedil;&atilde;o &agrave;s tend&ecirc;ncias da moda masculina. Afinal, esses homens ocupam um papel de destaque na cerim&ocirc;nia, colaborando para o visual harmonioso e sofisticado do evento. Na regi&atilde;o paulista, existe uma vasta oferta de lojas e ateliers que oferecem desde o cl&aacute;ssico at&eacute; o moderno, garantindo que cada padrinho esteja impec&aacute;vel e confort&aacute;vel.</p>
+<p>A busca por roupas elegantes para padrinhos n&atilde;o se limita apenas ao aluguel de ternos, mas tamb&eacute;m envolve a possibilidade de compra de pe&ccedil;as sob medida ou pr&ecirc;t-&agrave;-porter que valorizem a personalidade de cada um. Para quem deseja um visual alinhado e cheio de estilo, a diversidade do mercado paulista &eacute; um grande diferencial.</p>
+<h2>A Import&acirc;ncia De Escolher Vestu&aacute;rio Adequado Para Padrinhos</h2>
+<p>A escolha do <strong>vestu&aacute;rio para padrinhos</strong> deve considerar o estilo do casamento, o hor&aacute;rio e local da cerim&ocirc;nia, al&eacute;m do conforto e prefer&ecirc;ncia dos convidados. Muitas vezes, o casal opta por indicar um modelo padr&atilde;o para que todos os padrinhos estejam uniformes, enquanto outras situa&ccedil;&otilde;es permitem um certo grau de liberdade para que cada um exprima seu estilo.</p>
+<p>Os padrinhos s&atilde;o figuras que estar&atilde;o ao lado dos noivos durante momentos importantes, como votos e troca de alian&ccedil;as, e portanto, precisam estar &agrave; altura da ocasi&atilde;o. Isso significa que o traje deve ser elegante, bem ajustado e harmonioso com o tema do casamento. Al&eacute;m disso, detalhes como cor, tecido e acess&oacute;rios s&atilde;o decisivos para compor um visual sofisticado e coerente.</p>
+<h2>Lojas Tradicionais Em S&atilde;o Paulo Para Roupas Masculinas</h2>
+<p>S&atilde;o Paulo &eacute; um polo de moda diversificado, com estabelecimentos tradicionais que oferecem op&ccedil;&otilde;es de alta qualidade para roupas masculinas. Lojas localizadas em bairros como Jardins, Pinheiros e Itaim Bibi s&atilde;o reconhecidas pela variedade de ternos, camisas, gravatas e sapatos que atendem tanto a noivos quanto aos seus padrinhos.</p>
+<p>Entre as mais renomadas est&atilde;o as casas especializadas em alfaiataria, que proporcionam pe&ccedil;as feitas sob medida com tecidos nobres e acabamento impec&aacute;vel. Essas lojas costumam contar com consultores de estilo que ajudam a escolher o modelo ideal, levando em considera&ccedil;&atilde;o o corpo e a prefer&ecirc;ncia de cada cliente.</p>
+<p>Al&eacute;m das alfaiatarias, as multimarcas e boutiques da capital paulista oferecem cole&ccedil;&otilde;es contempor&acirc;neas que unem tradi&ccedil;&atilde;o e modernidade. Para quem busca um <a href="https://adtelierarigoroliveira.com.br/terno-para-padrinho/" target="_blank" rel="noopener">terno para padrinho S&atilde;o Paulo</a> com design mais atual, essas lojas s&atilde;o pontos estrat&eacute;gicos para encontrar pe&ccedil;as que fogem do convencional, mas que mant&ecirc;m a eleg&acirc;ncia requerida pela ocasi&atilde;o.</p>
+<h2>Ateliers De Alfaiataria Sob Medida: Exclusividade E Sofistica&ccedil;&atilde;o</h2>
+<p>A op&ccedil;&atilde;o por um traje feito sob medida &eacute; cada vez mais valorizada por homens que desejam conforto e exclusividade. Os ateliers de alfaiataria em S&atilde;o Paulo s&atilde;o reconhecidos por seu atendimento personalizado, permitindo que cada padrinho tenha um terno que se ajuste perfeitamente ao seu corpo.</p>
+<p>Esse processo envolve a escolha de tecidos finos, modelagens precisas e detalhes personalizados, como forros e bot&otilde;es exclusivos. Alfaiates experientes orientam sobre a melhor forma de real&ccedil;ar as caracter&iacute;sticas f&iacute;sicas e garantir mobilidade para que o traje seja usado com facilidade durante toda a cerim&ocirc;nia.</p>
+<p>Al&eacute;m disso, muitos ateliers oferecem consultoria completa, incluindo sugest&otilde;es de acess&oacute;rios como gravatas, len&ccedil;os de bolso e abotoaduras, que elevam o n&iacute;vel do conjunto. A visita a esses espa&ccedil;os em bairros centrais de S&atilde;o Paulo, como Bela Vista e Consola&ccedil;&atilde;o, pode ser decisiva para um visual impec&aacute;vel.</p>
+<h2>Grandes Centros Comerciais E Shoppings Com Op&ccedil;&otilde;es Variadas</h2>
+<p>Para quem prefere praticidade, os grandes shoppings da capital paulista s&atilde;o uma &oacute;tima alternativa para encontrar roupas elegantes para padrinhos. Locais como Shopping JK Iguatemi, Shopping Cidade Jardim e Shopping Iguatemi oferecem uma ampla gama de lojas com diferentes estilos e faixas de pre&ccedil;o.</p>
+<p>Nesses centros comerciais, &eacute; poss&iacute;vel encontrar desde marcas internacionais at&eacute; grifes brasileiras que apresentam cole&ccedil;&otilde;es modernas e sofisticadas. A facilidade de experimentar v&aacute;rias op&ccedil;&otilde;es em um s&oacute; lugar &eacute; um grande benef&iacute;cio, especialmente para grupos de padrinhos que buscam uniformidade.</p>
+<p>Al&eacute;m disso, muitos desses shoppings contam com lojas especializadas em aluguel de ternos, uma solu&ccedil;&atilde;o econ&ocirc;mica e pr&aacute;tica para quem n&atilde;o deseja investir em uma pe&ccedil;a para uso &uacute;nico. O atendimento costuma ser eficiente, com pacotes que incluem ajustes r&aacute;pidos para garantir o caimento perfeito.</p>
+<h2>Aluguel De Ternos: Uma Solu&ccedil;&atilde;o Pr&aacute;tica E Econ&ocirc;mica</h2>
+<p>O aluguel de ternos &eacute; uma alternativa bastante popular para padrinhos que desejam estar bem vestidos sem precisar adquirir uma pe&ccedil;a nova. Na regi&atilde;o paulista, existem diversas empresas especializadas nesse servi&ccedil;o, que oferecem modelos cl&aacute;ssicos, modernos e at&eacute; trajes tem&aacute;ticos para casamentos.</p>
+<p>Essas locadoras trabalham com uma variedade de tamanhos e estilos, facilitando a escolha e o ajuste. Muitas vezes, os pacotes incluem camisa, gravata, colete e sapatos, o que torna o processo mais completo e sem complica&ccedil;&otilde;es.</p>
+<p>Para casamentos realizados em S&atilde;o Paulo, o aluguel de ternos permite que os padrinhos tenham acesso a pe&ccedil;as de alta qualidade, com tecidos finos e cortes atualizados, sem o compromisso financeiro de uma compra. Al&eacute;m disso, o servi&ccedil;o costuma incluir provas e ajustes para garantir o conforto durante toda a cerim&ocirc;nia.</p>
+<h2>Bairros Com Maior Concentra&ccedil;&atilde;o De Lojas Para Vestu&aacute;rio Masculino</h2>
+<p>Alguns bairros paulistanos s&atilde;o conhecidos pela concentra&ccedil;&atilde;o de lojas especializadas em moda masculina, sendo pontos estrat&eacute;gicos para quem busca roupas elegantes para padrinhos. Entre eles, destacam-se:</p>
+<p>- <strong>Rua Oscar Freire (Jardins):</strong> famosa por suas boutiques de luxo e marcas internacionais, oferece op&ccedil;&otilde;es sofisticadas e pe&ccedil;as exclusivas.</p>
+<p>- <strong>Rua Augusta:</strong> conhecida pela diversidade e lojas que atendem diferentes estilos, desde o cl&aacute;ssico at&eacute; o contempor&acirc;neo.</p>
+<p>- <strong>Centro (Rua 25 de Mar&ccedil;o e arredores):</strong> ideal para quem busca pre&ccedil;os mais acess&iacute;veis e uma variedade enorme de lojas.</p>
+<p>- <strong>Vila Madalena:</strong> re&uacute;ne ateliers e lojas independentes com propostas modernas e diferenciadas.</p>
+<p>Esses locais possibilitam uma experi&ecirc;ncia de compra diversificada, onde &eacute; poss&iacute;vel encontrar desde o tradicional smoking at&eacute; ternos slim fit, ideais para casamentos com diferentes estilos e temas.</p>
+<h2>Tend&ecirc;ncias Atuais Para Roupas De Padrinhos</h2>
+<p>A moda masculina para casamentos tem evolu&iacute;do, incorporando novas tend&ecirc;ncias que valorizam o conforto e a autenticidade. Atualmente, h&aacute; uma prefer&ecirc;ncia por cortes mais ajustados, tecidos leves e combina&ccedil;&otilde;es que permitem um toque pessoal dentro do padr&atilde;o formal.</p>
+<p>Cores como azul marinho, cinza m&eacute;dio e tons terrosos t&ecirc;m ganhado espa&ccedil;o, ampliando as alternativas al&eacute;m do cl&aacute;ssico preto. Al&eacute;m disso, o uso de acess&oacute;rios como suspens&oacute;rios, gravatas borboleta e len&ccedil;os de bolso coloridos trazem personalidade ao visual dos padrinhos.</p>
+<p>A escolha do cal&ccedil;ado tamb&eacute;m &eacute; fundamental, com op&ccedil;&otilde;es que v&atilde;o desde o tradicional sapato social at&eacute; modelos mais modernos em couro e camur&ccedil;a. Esses detalhes fazem toda a diferen&ccedil;a para um conjunto elegante e atual.</p>
+<h2>Dicas Para Harmonizar O Visual Dos Padrinhos Com O Estilo Do Casamento</h2>
+<p>Para garantir harmonia entre os padrinhos e o estilo do casamento, &eacute; importante que o casal defina previamente o dress code e informe os convidados com clareza. Isso facilita a escolha do traje e evita desconfortos no dia da cerim&ocirc;nia.</p>
+<p>Se o casamento for formal, o smoking ou o terno escuro s&atilde;o escolhas certeiras. Para eventos diurnos ou ao ar livre, tecidos mais leves e cores claras s&atilde;o recomendados. Em casamentos tem&aacute;ticos ou com toque moderno, os padrinhos podem optar por cortes diferenciados e acess&oacute;rios que expressem a personalidade do grupo.</p>
+<p>A padroniza&ccedil;&atilde;o de elementos como gravatas, coletes ou at&eacute; mesmo sapatos ajuda a manter a uniformidade, tornando o conjunto visual mais agrad&aacute;vel e elegante nas fotos e v&iacute;deos do evento.</p>
+<h2>Servi&ccedil;os De Consultoria De Estilo Para Padrinhos Em S&atilde;o Paulo</h2>
+<p>Al&eacute;m das lojas e ateliers, S&atilde;o Paulo conta com profissionais especializados em consultoria de estilo masculina, que auxiliam padrinhos a escolherem o traje ideal para a ocasi&atilde;o. Esses consultores avaliam o tipo f&iacute;sico, prefer&ecirc;ncias pessoais e tend&ecirc;ncias atuais para montar looks que realcem o melhor de cada um.</p>
+<p>O servi&ccedil;o pode incluir visitas guiadas a lojas, sugest&otilde;es de combina&ccedil;&otilde;es, escolha de acess&oacute;rios e orienta&ccedil;&otilde;es sobre etiqueta. Para grupos de padrinhos, a consultoria &eacute; ainda mais valiosa, garantindo um visual alinhado e coerente com o casamento.</p>
+<p>Investir nessa consultoria proporciona mais seguran&ccedil;a e praticidade na hora de escolher o vestu&aacute;rio, al&eacute;m de garantir que todos estejam confort&aacute;veis e confiantes para o grande dia.</p>
+<h2>Conclus&atilde;o</h2>
+<p>Encontrar roupas elegantes para padrinhos na regi&atilde;o paulista &eacute; uma tarefa facilitada pela diversidade e qualidade das op&ccedil;&otilde;es dispon&iacute;veis. Desde lojas tradicionais e ateliers de alfaiataria at&eacute; grandes shoppings e servi&ccedil;os de aluguel, a capital oferece solu&ccedil;&otilde;es para todos os estilos, bolsos e prefer&ecirc;ncias.</p>
+<p>A escolha do traje certo valoriza o papel dos padrinhos, proporciona conforto e contribui para a est&eacute;tica do casamento como um todo. Ao considerar o estilo do evento, as tend&ecirc;ncias atuais e as particularidades de cada padrinho, &eacute; poss&iacute;vel montar um visual sofisticado e memor&aacute;vel que far&aacute; toda a diferen&ccedil;a na celebra&ccedil;&atilde;o.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

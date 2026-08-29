@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ideias para uma Festa de Aniversário de Menina - Bebês Brasil</title>
+    <meta name="description" content="Já considerou transformar o seu quintal em um mundo mágico para a celebração do aniversário da sua filha? Imagine um lugar onde fadas vagam livremente e princes">
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/bebes/" style="color:#ffffff;">Bebês</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Ideias para uma Festa de Aniversário de Menina</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Já considerou transformar o seu quintal em um mundo mágico para a celebração do aniversário da sua filha? Imagine um lugar onde fadas vagam livremente e princes</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2024-07-22" style="color: var(--text-muted);">
+                        22/07/2024 00:11
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/Ideias-para-uma-Festa-de-Aniversario-de-Menina.webp" alt="Ideias para uma Festa de Aniversário de Menina">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Já considerou transformar o seu quintal em um <strong>mundo mágico</strong> para a celebração do aniversário da sua filha? Imagine um lugar onde <strong>fadas vagam livremente</strong> e <strong>princesas reinam supremas</strong>. As possibilidades são infinitas quando se trata de criar uma <strong>atmosfera encantadora</strong> que deixará seus convidados maravilhados. Desde luzes de fadas brilhando nas árvores até uma caça ao tesouro real digna de uma princesa, o segredo está nos detalhes. Nesta discussão, vamos explorar ideias únicas e encantadoras que tornarão a festa de aniversário da sua menina uma experiência inesquecível para todos.</p>
+<h2>Tema da Festa da Princesa</h2>
+<p>Se você está procurando por um tema de festa de aniversário mágico e encantador, considere uma <strong>Festa de Princesa</strong> para a sua pequena. Transforme sua casa em um palácio real digno de uma princesa, incorporando elementos como <strong>tiaras</strong>, <strong>decorações brilhantes</strong> e uma paleta de cores real de rosa, dourado e prateado.</p>
+<p>Incentive os convidados a virem vestidos como sua princesa ou príncipe favorito para adicionar ao clima de conto de fadas.</p>
+<p>Para as atividades, planeje uma <strong>caça ao tesouro real</strong> onde os pequenos convidados podem procurar gemas ou tesouros escondidos pelo local da festa. Você também pode montar uma <strong>estação de decoração de coroas DIY</strong> onde as crianças podem soltar a imaginação e projetar suas próprias coroas para usar durante a festa.</p>
+<p>Outra ideia divertida é contratar uma <strong>atriz de princesa</strong> para entreter as crianças com histórias, canções e talvez até uma aula de dança real.</p>
+<p>Para finalizar, sirva um <strong>bolo de aniversário majestoso</strong> adornado com pérolas comestíveis, uma tiara ou um design de castelo. Não se esqueça de enviar os convidados para casa com sacolas de lembrancinhas repletas de guloseimas e bugigangas temáticas de princesa para agradecê-los por terem participado da mágica Festa de Princesa da sua pequena.</p>
+<h2>Decorações e Artesanato DIY</h2>
+<p>Crie um ambiente <strong>caprichoso</strong> na festa de aniversário fazendo suas próprias decorações e participando de divertidas atividades de artesanato com as crianças. Comece fazendo <strong>guirlandas de papel colorido</strong> para pendurar ao redor da área da festa. Recorte diferentes formas como corações, estrelas e flores em papel colorido, depois as una com barbante para criar uma guirlanda festiva que vai alegrar o ambiente.</p>
+<p>Para as decorações das mesas, considere fazer <strong>cartões de nome personalizados</strong> para cada convidado. Pegue papel cartão e decore com glitter, adesivos ou marcadores. Esse toque simples fará com que cada criança se sinta especial e adicionará um toque pessoal à festa.</p>
+<p>Outra ideia divertida é montar uma <strong>estação de artesanato DIY</strong> onde as crianças possam fazer seus próprios <strong>chapéus de festa</strong>. Forneça chapéus simples, adesivos, penas e marcadores para que possam deixar a <strong>criatividade fluir</strong>. Além de manter as crianças entretidas, eles terão uma lembrança para levar para casa da festa.</p>
+<p>Deixe as crianças se divertirem <strong>expressando-se</strong> através dessas atividades criativas!</p>
+<h2>Celebração de piquenique ao ar livre</h2>
+<p>Para estender a diversão festiva além das atividades internas, considere levar a celebração do aniversário para o exterior com um emocionante piquenique. Imagine um lindo dia cheio de risos, comida deliciosa e jogos sob o céu aberto.</p>
+<p>Aqui estão algumas ideias para tornar o seu piquenique ao ar livre inesquecível:</p>
+<ul>
+<li><strong>Cobertores e Almofadas de Piquenique</strong>: Coloque cobertores aconchegantes e almofadas macias para que todos possam se sentar confortavelmente enquanto desfrutam das festividades de aniversário.</li>
+<li><strong>Estações de Petiscos DIY</strong>: Monte estações de petiscos DIY com uma variedade de guloseimas como sanduíches, espetinhos de frutas e cupcakes para que todos possam criar suas próprias combinações deliciosas.</li>
+</ul>
+<p>Com essas ideias simples, mas divertidas, o seu piquenique ao ar livre será um sucesso, criando memórias duradouras para a aniversariante e todos os seus convidados.</p>
+<h2>Atividades de Mimos de Dia de Spa</h2>
+<p>Aprimore a celebração de aniversário com atividades luxuosas de relaxamento e mimos para o dia de spa definitivo. Mime a aniversariante e suas amigas com um dia de mimos com faciais caseiras, manicures e pedicures. Monte diferentes estações com máscaras faciais, esmaltes e banhos de pés para uma experiência de spa completa. Forneça roupões macios e chinelos para um toque extra de opulência.</p>
+<p>Crie uma atmosfera tranquila tocando música relaxante e acendendo velas perfumadas. Ofereça água infundida revigorante ou chá de ervas para as convidadas saborearem enquanto relaxam. Incentive todos a relaxar e aproveitar os tratamentos relaxantes.</p>
+<p>Você também pode incluir atividades divertidas como fazer esfoliantes de açúcar caseiros ou criar misturas de aromaterapia em rolos. Esses presentes personalizados tornarão a experiência ainda mais especial para cada convidada. Não se esqueça de capturar as memórias tirando fotos das meninas aproveitando o dia de spa juntas.</p>
+<p>Uma sessão de mimos de spa é uma maneira maravilhosa de fazer a aniversariante se sentir especialmente especial e criar memórias duradouras com suas amigas.</p>
+<h2>Concurso de Decoração de Cupcake</h2>
+<p>Vamos falar sobre os pontos que você precisa contemplar para o <strong>concurso de decoração de cupcakes</strong> na festa de aniversário.</p>
+<p>Pense na seleção do tema para definir o tom, estabeleça regras claras para a competição e prepare <strong>prêmios emocionantes</strong> para os vencedores.</p>
+<p>Esses pontos-chave garantirão uma atividade divertida e envolvente para todos os convidados aproveitarem.</p>
+<h3>Seleção de Tema</h3>
+<p>Considere incorporar um divertido Concurso de Decoração de Cupcakes como tema para a festa de aniversário da sua filha. Este tema envolvente manterá os jovens convidados entretidos e animados ao longo da celebração.</p>
+<p>Aqui estão algumas ideias para fazer do tema do Concurso de Decoração de Cupcakes um sucesso:</p>
+<ul>
+<li><strong>Decoração Colorida:</strong> Decore o espaço da festa com decorações vibrantes que combinem com o tema dos cupcakes. Pense em toalhas de mesa coloridas, banners coloridos e centros de mesa divertidos para definir o ambiente.</li>
+<li><strong>Estações DIY de Cupcakes:</strong> Monte estações interativas de decoração de cupcakes onde as crianças possam expressar sua criatividade. Forneça diferentes coberturas, confeitos, doces e toppings para que eles personalizem seus cupcakes.</li>
+</ul>
+<h3>Regras e Prêmios</h3>
+<p>Estabeleça diretrizes claras para o <strong>Concurso de Decoração de Cupcakes</strong> e destaque recompensas atrativas para motivar os participantes.</p>
+<p>Para garantir a justiça, defina <strong>critérios específicos de julgamento</strong>, como criatividade, organização e aderência ao tema. Deixe claro o <strong>prazo para envio das inscrições</strong> e o período para <strong>anunciar os vencedores</strong> para manter a empolgação entre os participantes.</p>
+<p>Quanto às recompensas, considere oferecer uma variedade de incentivos para atender a diferentes interesses. Um grande prêmio poderia incluir um conjunto de utensílios e ingredientes de alta qualidade para confeitaria, atraindo aspirantes a confeiteiros.</p>
+<p>Além disso, <strong>recompensas menores</strong> como cartões-presente para lojas de sobremesas populares ou suprimentos coloridos para confeitaria podem servir como incentivos para todos os participantes, incentivando uma participação generalizada.</p>
+<h2>Aventura Mágica no Jardim das Fadas</h2>
+<p>Prepare-se para transportar seus pequenos convidados para um mundo mágico com decorações encantadas de jardim.</p>
+<p>Planeje uma sequência de atividades de festa com tema de fadas que vão aguçar suas imaginações e criar memórias mágicas.</p>
+<p>Deixe a poeira de fada voar e assista à festa da aniversariante se tornar uma verdadeira aventura encantadora!</p>
+<h3>Decorações de Jardim Encantado</h3>
+<p>Transforme o seu espaço de festa numa aventura mágica de jardim de fadas com decorações encantadoras que vão cativar os seus convidados.</p>
+<p>Para criar uma atmosfera inesquecível de jardim encantado, considere as seguintes decorações:</p>
+<ul>
+<li><strong>Luzes de Fadas</strong>: Pendure luzes de fadas cintilantes ao redor de árvores, arbustos ou ao longo de cercas para adicionar um brilho mágico à sua festa no jardim.</li>
+<li><strong>Enfeites de Cogumelo</strong>: Espalhe adoráveis enfeites de cogumelo por toda a área da festa para dar-lhe um toque lúdico digno de um conto de fadas.</li>
+</ul>
+<h3>Atividades de Festa com Tema de Fadas</h3>
+<p>Aprimore a sua aventura mágica no jardim das fadas com atividades de festa temáticas de fadas que encantarão e encherão de admiração os seus convidados.</p>
+<p>Comece por organizar uma <strong>Caça ao Tesouro das Fadas</strong>, onde os mais pequenos podem procurar tesouros escondidos das fadas, como mini varinhas de fada ou pó de fada brilhante.</p>
+<p>Outra atividade encantadora é a criação de <strong>Coroas de Fadas</strong> usando flores, fitas e glitter, permitindo que cada criança se sinta como uma verdadeira princesa fada.</p>
+<p>Estimule a criatividade das crianças com uma estação de <strong>Asas de Fada DIY</strong>, onde podem decorar as suas asas com penas coloridas, lantejoulas e marcadores.</p>
+<p>Para adicionar um elemento de mistério e excitação, organize uma sessão de <strong>Contos de Fadas</strong>, onde as crianças podem mergulhar em contos mágicos de fadas, unicórnios e florestas encantadas.</p>
+<p>Para um toque de magia, considere realizar uma <strong>Festa de Dança das Fadas</strong> com música whimsical e luzes cintilantes, encorajando as crianças a dançar e rodopiar como fadas graciosa.</p>
+<p>Para concluir o dia, termine as atividades com uma sessão de <strong>Artesanato do Jardim das Fadas</strong>, onde as crianças podem projetar e decorar os seus <strong>mini jardins de fadas</strong> para levar para casa como uma lembrança encantadora da festa.</p>
+<p>Deixe a magia do mundo das fadas encantar e alegrar os seus jovens convidados!</p>
+<h2>Perguntas Frequentes</h2>
+<h3>Existem Recomendações de Código de Vestimenta para o Tema da Festa da Princesa?</h3>
+<p>Para o tema da festa das princesas, use um vestido adorável ou roupa digna da realeza. Pense em brilhos, tiaras e acessórios elegantes. Vista-se para impressionar e abrace as vibrações de princesa para uma celebração mágica!</p>
+<h3>Quais Materiais São Necessários para as Decorações e Artesanato DIY?</h3>
+<p>Para criar decorações e artesanato DIY, reúna materiais como papel colorido, cola, tesoura, fitas, adesivos e marcadores. Deixe sua criatividade fluir e personalize itens para o tema da festa de princesa. Aproveite para criar peças únicas para uma celebração mágica!</p>
+<h3>Como posso me preparar para o clima inesperado na celebração de piquenique ao ar livre?</h3>
+<p>Para se preparar para o clima inesperado na celebração do piquenique ao ar livre, faça um kit 'chuva ou sol' com protetor solar, guarda-chuvas e cobertores. Fique de olho na previsão do tempo e esteja pronto para se adaptar como um chef habilidoso ajustando o tempero.</p>
+<h3>Existem restrições de idade para as atividades de relaxamento do Spa Day?</h3>
+<p>Ficará feliz em saber que não há restrições de idade para as atividades de relaxamento do spa. Todos na celebração podem desfrutar de uma experiência relaxante e revigorante, independentemente da idade.</p>
+<h3>Como serão escolhidos os vencedores do Concurso de Decoração de Cupcakes?</h3>
+<p>Para escolher os campeões dos cupcakes, suas criações doces passarão por um tango de papilas gustativas. Os juízes vão saborear cada granulado e redemoinho, procurando o petisco mais delicioso que faz cócegas em seus paladares. Boa sorte!</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>
