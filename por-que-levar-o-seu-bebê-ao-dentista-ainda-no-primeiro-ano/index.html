@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Por que levar o seu bebê ao dentista ainda no primeiro ano? - Bebês Brasil</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="canonical" href="https://bebesbrasil.com.br/por-que-levar-o-seu-bebê-ao-dentista-ainda-no-primeiro-ano/" />
+    
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/bebes/" style="color:#ffffff;">Bebês</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Por que levar o seu bebê ao dentista ainda no primeiro ano?</h1>
+            
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2026-10-08" style="color: var(--text-muted);">
+                        08/10/2026 18:57
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/por-que-levar-o-seu-bebe-ao-dentista-ainda-no-primeiro-ano-1791485847.webp?v=1791485857" alt="Por que levar o seu bebê ao dentista ainda no primeiro ano?">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>A sa&uacute;de bucal &eacute; um aspecto fundamental do desenvolvimento infantil, e muitos pais ainda t&ecirc;m d&uacute;vidas sobre quando iniciar os cuidados dent&aacute;rios dos seus filhos. Embora os dentes de leite sejam tempor&aacute;rios, eles desempenham um papel vital na mastiga&ccedil;&atilde;o, fala e na forma&ccedil;&atilde;o da arcada dent&aacute;ria permanente. Por isso, <strong>levar o beb&ecirc; ao dentista desde cedo</strong> &eacute; essencial para garantir h&aacute;bitos saud&aacute;veis e evitar problemas futuros.</p>
+<p>O acompanhamento odontol&oacute;gico precoce ajuda a identificar poss&iacute;veis altera&ccedil;&otilde;es e prevenir doen&ccedil;as que podem afetar a sa&uacute;de geral da crian&ccedil;a. Al&eacute;m disso, a visita ao dentista cria um ambiente de familiaridade, reduzindo o medo e a ansiedade que muitas crian&ccedil;as apresentam em consult&oacute;rios odontol&oacute;gicos. Com isso, o cuidado bucal torna-se algo natural e ben&eacute;fico para toda a vida.</p>
+<h2>A Import&acirc;ncia Dos Dentes De Leite Para O Desenvolvimento Infantil</h2>
+<p>Os dentes de leite, tamb&eacute;m chamados de dentes dec&iacute;duos, s&atilde;o mais do que simples "dentes tempor&aacute;rios". Eles t&ecirc;m fun&ccedil;&otilde;es essenciais que v&atilde;o muito al&eacute;m do que muitos imaginam:</p>
+<p>- <strong>Auxiliam na mastiga&ccedil;&atilde;o e digest&atilde;o correta dos alimentos</strong>;</p>
+<p>- <strong>Contribuem para o desenvolvimento da fala, ajudando na articula&ccedil;&atilde;o dos sons</strong>;</p>
+<p>- <strong>Mant&ecirc;m o espa&ccedil;o adequado para os dentes permanentes</strong>;</p>
+<p>- <strong>Influenciam diretamente na autoestima e no bem-estar da crian&ccedil;a</strong>.</p>
+<p>Quando um dente de leite &eacute; perdido precocemente por c&aacute;rie ou trauma, pode causar desalinhamentos e complica&ccedil;&otilde;es na denti&ccedil;&atilde;o permanente, tornando os tratamentos futuros mais complexos e dispendiosos.</p>
+<h2>Quando Come&ccedil;ar O Acompanhamento Odontol&oacute;gico Do Beb&ecirc;?</h2>
+<p>Uma d&uacute;vida muito frequente entre os pais &eacute;: <a href="https://blog.draleticiafernandesodonto.com.br/com-que-idade-levar-o-bebe-ao-dentista-pela-primeira-vez/" target="_blank" rel="noopener">com que idade levar o beb&ecirc; ao dentista pela primeira vez?</a> Especialistas recomendam que essa visita ocorra ainda no primeiro ano de vida, idealmente entre 6 e 12 meses, ou assim que o primeiro dente de leite surgir. Essa medida visa promover a preven&ccedil;&atilde;o de doen&ccedil;as bucais e orientar os pais sobre os cuidados adequados.</p>
+<p>A visita precoce permite que o dentista avalie a sa&uacute;de bucal, identifique sinais iniciais de problemas como a c&aacute;rie de mamadeira e ofere&ccedil;a orienta&ccedil;&otilde;es personalizadas para a higiene di&aacute;ria. Al&eacute;m disso, essa pr&aacute;tica fortalece o v&iacute;nculo entre a crian&ccedil;a, os pais e o profissional da sa&uacute;de.</p>
+<h2>Principais Benef&iacute;cios De Levar O Beb&ecirc; Ao Dentista Antes De Completar Um Ano</h2>
+<h3>Preven&ccedil;&atilde;o de c&aacute;ries e doen&ccedil;as bucais</h3>
+<p>A c&aacute;rie dent&aacute;ria &eacute; a doen&ccedil;a cr&ocirc;nica mais comum na inf&acirc;ncia, podendo afetar os dentes de leite desde os primeiros meses. A chamada <strong>c&aacute;rie de mamadeira</strong> ocorre quando o beb&ecirc; fica exposto por longos per&iacute;odos a l&iacute;quidos a&ccedil;ucarados, como leite, sucos ou f&oacute;rmulas, especialmente durante o sono.</p>
+<p>Levar o beb&ecirc; ao dentista ainda no primeiro ano ajuda a evitar essa condi&ccedil;&atilde;o, pois o profissional poder&aacute; orientar os pais sobre a alimenta&ccedil;&atilde;o adequada, a limpeza correta dos dentes e o uso de fl&uacute;or. A preven&ccedil;&atilde;o precoce diminui drasticamente o risco de c&aacute;rie e suas consequ&ecirc;ncias, como dor, infec&ccedil;&otilde;es e perda precoce dos dentes.</p>
+<h3>Orienta&ccedil;&atilde;o sobre higiene bucal e h&aacute;bitos saud&aacute;veis</h3>
+<p>Os pais muitas vezes t&ecirc;m d&uacute;vidas sobre como realizar a higiene bucal dos beb&ecirc;s antes do surgimento dos dentes ou logo ap&oacute;s o aparecimento do primeiro dentinho. O dentista pode instruir sobre a forma correta de limpar a boca, o uso de gaze ou escova infantil e a frequ&ecirc;ncia ideal para escova&ccedil;&atilde;o.</p>
+<p>Al&eacute;m disso, o profissional orienta sobre h&aacute;bitos que devem ser evitados, como o uso prolongado da mamadeira, o consumo excessivo de doces e a introdu&ccedil;&atilde;o precoce de alimentos a&ccedil;ucarados. Essas informa&ccedil;&otilde;es ajudam a criar uma rotina saud&aacute;vel, que promover&aacute; a sa&uacute;de bucal ao longo da vida.</p>
+<h3>Detec&ccedil;&atilde;o precoce de problemas e desenvolvimento adequado</h3>
+<p>Nem sempre &eacute; f&aacute;cil para os pais perceberem sinais de problemas bucais em beb&ecirc;s, como altera&ccedil;&atilde;o na erup&ccedil;&atilde;o dos dentes, mordida cruzada ou frenectomia inadequada (quando a l&iacute;ngua est&aacute; presa). A consulta odontol&oacute;gica precoce permite que o dentista identifique essas quest&otilde;es ainda no in&iacute;cio e recomende interven&ccedil;&otilde;es que evitar&atilde;o complica&ccedil;&otilde;es futuras.</p>
+<p>Por exemplo, uma avalia&ccedil;&atilde;o cuidadosa pode detectar problemas de mand&iacute;bula ou maxilar que, se tratados a tempo, garantir&atilde;o um desenvolvimento facial harm&ocirc;nico e funcional.</p>
+<h3>Redu&ccedil;&atilde;o do medo e da ansiedade em rela&ccedil;&atilde;o ao dentista</h3>
+<p>A primeira experi&ecirc;ncia da crian&ccedil;a no consult&oacute;rio odontol&oacute;gico pode influenciar toda a sua rela&ccedil;&atilde;o com os cuidados dent&aacute;rios no futuro. Consultas realizadas ainda no primeiro ano ajudam a familiarizar o beb&ecirc; com o ambiente e os profissionais, tornando as visitas seguintes mais tranquilas.</p>
+<p>Al&eacute;m disso, o dentista pode utilizar t&eacute;cnicas espec&iacute;ficas para tornar o atendimento confort&aacute;vel e l&uacute;dico, facilitando a adapta&ccedil;&atilde;o da crian&ccedil;a e tornando o cuidado odontol&oacute;gico um momento positivo.</p>
+<h2>Cuidados Que Os Pais Devem Ter Com A Sa&uacute;de Bucal Do Beb&ecirc;</h2>
+<h3>Higiene bucal di&aacute;ria</h3>
+<p>Mesmo antes do nascimento dos dentes, &eacute; importante limpar a boca do beb&ecirc; com uma gaze ou pano &uacute;mido, removendo res&iacute;duos de leite e bact&eacute;rias. Ap&oacute;s o surgimento dos primeiros dentes, deve-se utilizar uma escova de dentes infantil com cerdas macias e uma pequena quantidade de creme dental com fl&uacute;or, adequada para a idade.</p>
+<p>A escova&ccedil;&atilde;o deve ser feita pelo menos duas vezes ao dia, com aten&ccedil;&atilde;o especial para a limpeza das superf&iacute;cies dent&aacute;rias e da gengiva. O h&aacute;bito deve ser incorporado &agrave; rotina da crian&ccedil;a desde cedo, sempre com supervis&atilde;o dos pais.</p>
+<h3>Alimenta&ccedil;&atilde;o adequada</h3>
+<p>Evitar o consumo frequente de alimentos e bebidas a&ccedil;ucaradas &eacute; fundamental para prevenir a c&aacute;rie. A introdu&ccedil;&atilde;o de alimentos s&oacute;lidos deve ser feita com cuidado, priorizando op&ccedil;&otilde;es nutritivas e evitando o uso prolongado da mamadeira, especialmente com l&iacute;quidos a&ccedil;ucarados.</p>
+<p>Tamb&eacute;m &eacute; importante n&atilde;o deixar que o beb&ecirc; durma com a mamadeira na boca, pois o contato prolongado do a&ccedil;&uacute;car com os dentes aumenta significativamente o risco de c&aacute;rie.</p>
+<h3>Evitar h&aacute;bitos prejudiciais</h3>
+<p>Chupetas, suc&ccedil;&atilde;o digital (dedo na boca) e outros h&aacute;bitos podem influenciar negativamente o desenvolvimento da arcada dent&aacute;ria e a forma&ccedil;&atilde;o da mordida. O dentista pode orientar os pais sobre o momento ideal para interromper esses comportamentos e indicar estrat&eacute;gias para facilitar a adapta&ccedil;&atilde;o da crian&ccedil;a.</p>
+<h2>O Papel Do Dentista Pedi&aacute;trico No Cuidado Com O Beb&ecirc;</h2>
+<p>O dentista pedi&aacute;trico &eacute; o profissional especializado em odontologia infantil, capacitado para lidar com as particularidades do atendimento a beb&ecirc;s e crian&ccedil;as pequenas. Esse especialista entende as necessidades espec&iacute;ficas dessa faixa et&aacute;ria, desde o desenvolvimento dos dentes at&eacute; as quest&otilde;es comportamentais.</p>
+<p>Al&eacute;m de realizar avalia&ccedil;&otilde;es cl&iacute;nicas, o dentista pedi&aacute;trico orienta os pais sobre a sa&uacute;de bucal, h&aacute;bitos alimentares, higiene e interven&ccedil;&otilde;es preventivas, sempre utilizando uma abordagem humanizada e acolhedora.</p>
+<h2>Dicas Para Preparar O Beb&ecirc; Para A Primeira Consulta Odontol&oacute;gica</h2>
+<p>- <strong>Escolha um momento em que o beb&ecirc; esteja bem disposto e alimentado</strong>, para que ele esteja mais tranquilo durante a consulta.</p>
+<p>- <strong>Leve objetos de conforto</strong>, como brinquedos ou chupetas, para ajudar a acalmar a crian&ccedil;a se necess&aacute;rio.</p>
+<p>- <strong>Converse com a crian&ccedil;a de forma simples e positiva sobre o dentista</strong>, para criar uma expectativa agrad&aacute;vel.</p>
+<p>- <strong>Esteja preparado para responder &agrave;s d&uacute;vidas do profissional e seguir suas orienta&ccedil;&otilde;es com calma e paci&ecirc;ncia</strong>.</p>
+<h2>Perguntas Frequentes Sobre O Cuidado Odontol&oacute;gico Para Beb&ecirc;s</h2>
+<h3>&Eacute; seguro aplicar fl&uacute;or em beb&ecirc;s?</h3>
+<p>Sim, a aplica&ccedil;&atilde;o de fl&uacute;or em beb&ecirc;s, quando feita pelo dentista na quantidade correta, &eacute; segura e eficaz para a preven&ccedil;&atilde;o da c&aacute;rie. O profissional avaliar&aacute; a necessidade e indicar&aacute; a melhor forma de uso.</p>
+<h3>Quando come&ccedil;ar a usar escova de dentes com creme dental?</h3>
+<p>A escova&ccedil;&atilde;o com creme dental contendo fl&uacute;or deve come&ccedil;ar assim que o primeiro dente aparecer, utilizando uma quantidade do tamanho de um gr&atilde;o de arroz. A supervis&atilde;o dos pais &eacute; fundamental para evitar a ingest&atilde;o excessiva.</p>
+<h3>&Eacute; normal o beb&ecirc; babar muito ap&oacute;s o surgimento dos dentes?</h3>
+<p>Sim, o aumento da saliva &eacute; comum durante a erup&ccedil;&atilde;o dos dentes e faz parte do processo natural. Contudo, &eacute; importante manter a &aacute;rea seca e limpa para evitar irrita&ccedil;&otilde;es na pele.</p>
+<h2>Considera&ccedil;&otilde;es Finais</h2>
+<p>A decis&atilde;o de levar o beb&ecirc; ao dentista ainda no primeiro ano &eacute; um investimento na sa&uacute;de e no bem-estar da crian&ccedil;a. As visitas precoces promovem a preven&ccedil;&atilde;o de doen&ccedil;as, orientam os pais sobre os cuidados corretos e garantem um desenvolvimento bucal saud&aacute;vel. Al&eacute;m disso, criam uma rela&ccedil;&atilde;o positiva com a odontologia, facilitando o acompanhamento durante toda a inf&acirc;ncia.</p>
+<p>Manter a higiene adequada, controlar a alimenta&ccedil;&atilde;o e evitar h&aacute;bitos prejudiciais s&atilde;o medidas complementares que, junto com o acompanhamento profissional, asseguram dentes fortes e saud&aacute;veis para toda a vida. Portanto, n&atilde;o espere o surgimento de problemas para buscar ajuda &mdash; o cuidado precoce &eacute; a melhor forma de proteger o sorriso do seu beb&ecirc; desde os primeiros meses.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>
