@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estratégias de promoção infantil: 4 abordagens que funcionam - Bebês Brasil</title>
+    <meta name="description" content="Descubra 4 estratégias eficazes para promoção infantil que garantem resultados reais. Aprenda abordagens testadas para atrair e engajar crianças!">
+    
+    
+    <link rel="canonical" href="https://bebesbrasil.com.br/estrategias-de-promocao-infantil-4-abordagens-que-funcionam/" />
+    
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/seguranca/" style="color:#ffffff;">Segurança</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Estratégias de promoção infantil: 4 abordagens que funcionam</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Descubra 4 estratégias eficazes para promoção infantil que garantem resultados reais. Aprenda abordagens testadas para atrair e engajar crianças!</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2026-10-28" style="color: var(--text-muted);">
+                        28/10/2026 21:00
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+
+        
+
+        <div class="post-content">
+            <p>A <strong>promo&ccedil;&atilde;o infantil</strong> &eacute; uma &aacute;rea estrat&eacute;gica que demanda aten&ccedil;&atilde;o especial, pois envolve um p&uacute;blico sens&iacute;vel e altamente influenci&aacute;vel. Para marcas que desejam conquistar a prefer&ecirc;ncia das crian&ccedil;as e seus respons&aacute;veis, &eacute; fundamental adotar t&eacute;cnicas eficazes, &eacute;ticas e criativas, garantindo que a comunica&ccedil;&atilde;o seja atrativa e adequada para essa faixa et&aacute;ria. Com a evolu&ccedil;&atilde;o do mercado e o aumento do consumo digital, as estrat&eacute;gias de marketing voltadas ao p&uacute;blico infantil precisam ser cada vez mais inovadoras e respons&aacute;veis.</p>
+<p>Este conte&uacute;do traz uma an&aacute;lise aprofundada sobre as <strong>estrat&eacute;gias de promo&ccedil;&atilde;o infantil</strong> que realmente funcionam, apresentando quatro abordagens essenciais para quem deseja investir nesse segmento com sucesso e seguran&ccedil;a. Acompanhe as t&aacute;ticas que j&aacute; se provaram eficazes para engajar crian&ccedil;as e seus familiares, respeitando as diretrizes legais e o desenvolvimento psicol&oacute;gico dos pequenos consumidores.</p>
+<p>---</p>
+<h2>A Import&acirc;ncia Da Promo&ccedil;&atilde;o Infantil No Mercado Atual</h2>
+<p>O p&uacute;blico infantil representa uma fatia significativa do consumo global. Al&eacute;m de serem consumidores diretos de brinquedos, roupas, alimentos e entretenimento, as crian&ccedil;as exercem grande influ&ecirc;ncia no comportamento de compra dos adultos, principalmente dos pais e respons&aacute;veis. Por isso, as empresas que investem em <strong>promo&ccedil;&atilde;o infantil</strong> precisam compreender profundamente as caracter&iacute;sticas desse p&uacute;blico e as melhores formas de comunicar seus produtos ou servi&ccedil;os.</p>
+<p>Al&eacute;m da quest&atilde;o comercial, a promo&ccedil;&atilde;o infantil carrega uma responsabilidade social. A legisla&ccedil;&atilde;o em muitos pa&iacute;ses imp&otilde;e regras espec&iacute;ficas para proteger as crian&ccedil;as de publicidade abusiva ou enganosa, tornando essencial que as estrat&eacute;gias estejam alinhadas com os princ&iacute;pios &eacute;ticos e normativos vigentes.</p>
+<p>---</p>
+<h2>1. Marketing De Conte&uacute;do Educativo E L&uacute;dico</h2>
+<h3>A combina&ccedil;&atilde;o perfeita entre aprendizado e divers&atilde;o</h3>
+<p>Uma das estrat&eacute;gias mais eficazes para conquistar a aten&ccedil;&atilde;o das crian&ccedil;as &eacute; por meio do <strong>marketing de conte&uacute;do</strong> que alia educa&ccedil;&atilde;o e divers&atilde;o. Crian&ccedil;as s&atilde;o naturalmente curiosas e aprendem melhor quando estimuladas por atividades l&uacute;dicas, que envolvem jogos, v&iacute;deos interativos e hist&oacute;rias cativantes.</p>
+<p>Criar conte&uacute;dos que despertem o interesse e, ao mesmo tempo, transmitam valores positivos, ajuda a construir uma rela&ccedil;&atilde;o de confian&ccedil;a entre a marca e o p&uacute;blico infantil. Al&eacute;m disso, os pais tendem a valorizar e compartilhar conte&uacute;dos que auxiliem no desenvolvimento intelectual e emocional dos filhos.</p>
+<h3>Exemplos pr&aacute;ticos de conte&uacute;do educativo</h3>
+<p>- <strong>V&iacute;deos animados</strong> que ensinam conceitos b&aacute;sicos de matem&aacute;tica, ci&ecirc;ncias ou idiomas.</p>
+<p>- <strong>Jogos interativos</strong> que estimulam a criatividade e o racioc&iacute;nio l&oacute;gico.</p>
+<p>- <strong>Hist&oacute;rias digitais</strong> que abordam temas como amizade, respeito e meio ambiente.</p>
+<p>Este tipo de estrat&eacute;gia n&atilde;o apenas promove o produto, mas tamb&eacute;m contribui para a forma&ccedil;&atilde;o da crian&ccedil;a, o que pode gerar um v&iacute;nculo emocional duradouro com a marca.</p>
+<p>---</p>
+<h2>2. Influenciadores Digitais Infantis E Familiares</h2>
+<h3>O poder da recomenda&ccedil;&atilde;o aut&ecirc;ntica</h3>
+<p>O crescimento das redes sociais trouxe uma nova din&acirc;mica para a promo&ccedil;&atilde;o infantil. Os <strong>influenciadores digitais</strong> t&ecirc;m um papel fundamental ao se comunicar diretamente com as crian&ccedil;as e suas fam&iacute;lias. Quando associados a uma marca, esses influenciadores podem transmitir mensagens de forma mais natural e engajadora.</p>
+<p>No entanto, &eacute; importante escolher influenciadores que estejam alinhados aos valores da marca e que tenham a confian&ccedil;a do p&uacute;blico. O conte&uacute;do deve ser sempre transparente quanto &agrave; publicidade, respeitando as normas que regulam a comunica&ccedil;&atilde;o com crian&ccedil;as.</p>
+<h3>Estrat&eacute;gias para trabalhar com influenciadores infantis</h3>
+<p>- Parcerias para cria&ccedil;&atilde;o de conte&uacute;do exclusivo com personagens queridinhos.</p>
+<p>- Participa&ccedil;&atilde;o em desafios e brincadeiras que envolvem o produto.</p>
+<p>- Lives e v&iacute;deos que mostram o uso real do produto, refor&ccedil;ando sua utilidade e divers&atilde;o.</p>
+<p>Esse tipo de intera&ccedil;&atilde;o gera identifica&ccedil;&atilde;o e aumenta a credibilidade da marca, facilitando a decis&atilde;o de compra dos pais.</p>
+<p>---</p>
+<h2>3. Promo&ccedil;&atilde;o Em Pontos De Venda Com Experi&ecirc;ncias Interativas</h2>
+<h3>Criando momentos inesquec&iacute;veis para as crian&ccedil;as</h3>
+<p>A experi&ecirc;ncia no ponto de venda &eacute; uma estrat&eacute;gia poderosa para a promo&ccedil;&atilde;o infantil. Ao transformar a compra em uma atividade divertida, &eacute; poss&iacute;vel aumentar o engajamento e a satisfa&ccedil;&atilde;o do cliente.</p>
+<p>Instalar &aacute;reas interativas em lojas, com espa&ccedil;os para brincadeiras, demonstra&ccedil;&otilde;es e oficinas, &eacute; uma maneira eficaz de atrair as crian&ccedil;as e criar um ambiente acolhedor para a fam&iacute;lia.</p>
+<h3>Vantagens das experi&ecirc;ncias interativas no varejo</h3>
+<p>- Est&iacute;mulo sensorial que favorece a memoriza&ccedil;&atilde;o da marca.</p>
+<p>- Maior tempo de perman&ecirc;ncia no estabelecimento, aumentando as chances de compra.</p>
+<p>- Possibilidade de demonstrar o diferencial do produto de forma pr&aacute;tica.</p>
+<p>Essas a&ccedil;&otilde;es, quando bem planejadas, fortalecem a conex&atilde;o emocional e fazem com que a crian&ccedil;a associe a marca a momentos positivos e divertidos.</p>
+<p>---</p>
+<h2>4. Publicidade Respons&aacute;vel E Compliance Com Legisla&ccedil;&atilde;o</h2>
+<h3>A &eacute;tica como pilar da promo&ccedil;&atilde;o infantil</h3>
+<p>A comunica&ccedil;&atilde;o dirigida ao p&uacute;blico infantil exige cuidados especiais para garantir que a publicidade seja adequada e n&atilde;o prejudicial. A legisla&ccedil;&atilde;o brasileira, por exemplo, prev&ecirc; regras espec&iacute;ficas para proteger as crian&ccedil;as contra a influ&ecirc;ncia indevida da propaganda.</p>
+<p>Respeitar essas normas n&atilde;o &eacute; apenas uma obriga&ccedil;&atilde;o legal, mas tamb&eacute;m uma forma de construir uma imagem positiva e confi&aacute;vel para a marca. Entre os cuidados essenciais est&atilde;o:</p>
+<p>- Evitar apelos que incentivem o consumo desenfreado.</p>
+<p>- N&atilde;o explorar a ingenuidade das crian&ccedil;as.</p>
+<p>- Garantir que as informa&ccedil;&otilde;es sejam claras e verdadeiras.</p>
+<h3>Como implementar a publicidade respons&aacute;vel</h3>
+<p>- Realizar revis&otilde;es jur&iacute;dicas antes de lan&ccedil;ar campanhas.</p>
+<p>- Capacitar equipes de marketing sobre as normas vigentes.</p>
+<p>- Adotar conte&uacute;dos que promovam valores educativos e sociais.</p>
+<p>Promover a marca com responsabilidade fortalece a rela&ccedil;&atilde;o de confian&ccedil;a com os pais e contribui para o desenvolvimento saud&aacute;vel das crian&ccedil;as.</p>
+<p>---</p>
+<h2>Quais S&atilde;o Os 4 Tipos De Marketing Mais Indicados Para Promo&ccedil;&atilde;o Infantil?</h2>
+<p>Para entender melhor como aplicar as estrat&eacute;gias mencionadas, &eacute; importante conhecer <strong><a href="https://seobound.com.br/quais-sao-os-4-tipos-de-marketing-que-voce-deve-conhecer/" target="_blank" rel="noopener">Quais S&atilde;o Os 4 Tipos De Marketing </a></strong>quais s&atilde;o os 4 tipos de marketing que mais se encaixam nesse contexto:</p>
+<p>1. <strong>Marketing de conte&uacute;do</strong> &ndash; Focado na cria&ccedil;&atilde;o de materiais educativos e divertidos.</p>
+<p>2. <strong>Marketing de influ&ecirc;ncia</strong> &ndash; Uso de influenciadores para engajar o p&uacute;blico infantil.</p>
+<p>3. <strong>Marketing experiencial</strong> &ndash; Promo&ccedil;&atilde;o por meio de experi&ecirc;ncias interativas e sensoriais.</p>
+<p>4. <strong>Marketing &eacute;tico ou respons&aacute;vel</strong> &ndash; Comunica&ccedil;&atilde;o pautada no respeito &agrave;s normas e &agrave; &eacute;tica.</p>
+<p>A combina&ccedil;&atilde;o dessas abordagens permite um planejamento robusto e eficiente, capaz de atingir tanto as crian&ccedil;as quanto os seus respons&aacute;veis de maneira positiva.</p>
+<p>---</p>
+<h2>Dicas Para Otimizar A Promo&ccedil;&atilde;o Infantil Nas Estrat&eacute;gias Digitais</h2>
+<h3>Uso de linguagem simples e imagens atrativas</h3>
+<p>A comunica&ccedil;&atilde;o precisa ser clara, objetiva e visualmente estimulante. Utilizar personagens, cores vivas e elementos gr&aacute;ficos que chamem a aten&ccedil;&atilde;o das crian&ccedil;as facilita o entendimento e o interesse pelo conte&uacute;do.</p>
+<h3>Adaptar o conte&uacute;do para diferentes plataformas</h3>
+<p>Cada canal digital possui caracter&iacute;sticas pr&oacute;prias. Por exemplo, v&iacute;deos curtos funcionam melhor no TikTok e Instagram, enquanto conte&uacute;dos mais elaborados podem ser publicados no YouTube ou em sites educativos.</p>
+<h3>Monitorar o engajamento e ajustar as campanhas</h3>
+<p>A an&aacute;lise constante dos resultados permite identificar o que funciona e o que pode ser melhorado, garantindo maior assertividade na promo&ccedil;&atilde;o infantil.</p>
+<p>---</p>
+<h2>Considera&ccedil;&otilde;es Finais Sobre Estrat&eacute;gias Eficazes Para O P&uacute;blico Infantil</h2>
+<p>O sucesso na <strong>promo&ccedil;&atilde;o infantil</strong> depende da combina&ccedil;&atilde;o entre criatividade, responsabilidade e conhecimento do p&uacute;blico. As quatro abordagens apresentadas &mdash; marketing de conte&uacute;do educativo, parcerias com influenciadores, experi&ecirc;ncias interativas no ponto de venda e publicidade respons&aacute;vel &mdash; formam um conjunto de ferramentas indispens&aacute;veis para marcas que desejam se destacar no segmento.</p>
+<p>Investir em estrat&eacute;gias que respeitem as necessidades e os direitos das crian&ccedil;as, ao mesmo tempo em que oferecem divers&atilde;o e aprendizado, cria uma rela&ccedil;&atilde;o s&oacute;lida e duradoura com os consumidores do futuro. A inova&ccedil;&atilde;o aliada &agrave; &eacute;tica &eacute; o caminho para o crescimento sustent&aacute;vel e positivo dentro desse nicho t&atilde;o especial.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>
