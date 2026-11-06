@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qual a idade que os adolescentes podem começar a tomar whey protein - Bebês Brasil</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="canonical" href="https://bebesbrasil.com.br/qual-a-idade-que-os-adolescentes-podem-começar-a-tomar-whey-protein/" />
+    
+    
+    
+    
+    <link rel="icon" href="/static/uploads/BEBES-BRASIL.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/static/uploads/BEBES-BRASIL.png">
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6538657171281569"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <img src="/static/uploads/BEBES-BRASIL-2.png" alt="Bebês Brasil">
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Bebês Brasil
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/bebes/" style="color:#ffffff;">Bebês</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/atividades/">Atividades</a>
+        
+            <a href="/categoria/bebes/">Bebês</a>
+        
+            <a href="/categoria/brinquedos/">Brinquedos</a>
+        
+            <a href="/categoria/criancas/">Crianças</a>
+        
+            <a href="/categoria/educacao/">Educação</a>
+        
+            <a href="/categoria/seguranca/">Segurança</a>
+        
+            <a href="/categoria/uncategorized/">Outros</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Qual a idade que os adolescentes podem começar a tomar whey protein</h1>
+            
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/luana-sabino/" style="color: var(--accent-color);">Luana Sabino</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2026-10-22" style="color: var(--text-muted);">
+                        22/10/2026 17:11
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/qual-a-idade-que-os-adolescentes-podem-comecar-a-tomar-whey-protein.webp?v=1792689089" alt="Qual a idade que os adolescentes podem começar a tomar whey protein">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>Nos &uacute;ltimos anos, a busca por uma alimenta&ccedil;&atilde;o saud&aacute;vel e o aumento da pr&aacute;tica de atividades f&iacute;sicas entre jovens t&ecirc;m levado muitos adolescentes a considerar o uso de suplementos alimentares. Entre esses, o suplemento de prote&iacute;na, especialmente em p&oacute;, tornou-se bastante popular devido ao seu potencial para auxiliar no ganho de massa muscular e na recupera&ccedil;&atilde;o p&oacute;s-treino. Por&eacute;m, uma d&uacute;vida comum que surge entre pais, educadores f&iacute;sicos e os pr&oacute;prios jovens &eacute;: <strong>qual a idade adequada para iniciar o consumo desse tipo de suplemento?</strong></p>
+<p>Entender o momento certo para introduzir esse produto na rotina dos adolescentes &eacute; fundamental para evitar poss&iacute;veis riscos &agrave; sa&uacute;de e garantir que o uso realmente traga benef&iacute;cios. Por isso, &eacute; essencial conhecer n&atilde;o apenas as recomenda&ccedil;&otilde;es m&eacute;dicas, mas tamb&eacute;m os aspectos fisiol&oacute;gicos do desenvolvimento durante a adolesc&ecirc;ncia e as necessidades nutricionais espec&iacute;ficas dessa fase.</p>
+<p>&Eacute; comum que jovens que praticam esportes ou atividades f&iacute;sicas regularmente busquem maneiras de melhorar seu desempenho e acelerar a recupera&ccedil;&atilde;o muscular. Por essa raz&atilde;o, muitos procuram suplementos proteicos para complementar sua dieta, tentando garantir a ingest&atilde;o adequada desse macronutriente. Entre as op&ccedil;&otilde;es dispon&iacute;veis, o <a href="https://leticiacallado.com.br/whey-protein-com-mounjaro-ou-ozempic-e-realmente-necessario/" target="_blank" rel="noopener">whey protein</a> &eacute; um dos mais procurados, devido &agrave; sua alta concentra&ccedil;&atilde;o de prote&iacute;nas e r&aacute;pida absor&ccedil;&atilde;o pelo organismo.</p>
+<h2>O Desenvolvimento F&iacute;sico E As Necessidades Nutricionais Na Adolesc&ecirc;ncia</h2>
+<p>A adolesc&ecirc;ncia &eacute; um per&iacute;odo marcado por mudan&ccedil;as intensas no corpo, como crescimento acelerado, desenvolvimento muscular e altera&ccedil;&otilde;es hormonais. Durante essa fase, o organismo est&aacute; em constante transforma&ccedil;&atilde;o e, por isso, demanda uma alimenta&ccedil;&atilde;o equilibrada e rica em nutrientes para suportar todas essas modifica&ccedil;&otilde;es.</p>
+<p>A base da alimenta&ccedil;&atilde;o deve ser formada por alimentos naturais e variados, que forne&ccedil;am prote&iacute;nas, carboidratos, gorduras saud&aacute;veis, vitaminas e minerais. As prote&iacute;nas s&atilde;o especialmente importantes, pois s&atilde;o os componentes essenciais para a constru&ccedil;&atilde;o e repara&ccedil;&atilde;o dos tecidos, incluindo os m&uacute;sculos.</p>
+<h2>Quando &Eacute; Indicado O Consumo Do Suplemento?</h2>
+<p>Antes de qualquer decis&atilde;o, &eacute; imprescind&iacute;vel considerar que o <strong>consumo do suplemento proteico deve ser avaliado individualmente</strong>, levando em conta a idade, o estado de sa&uacute;de e o n&iacute;vel de atividade f&iacute;sica do adolescente. Na maioria dos casos, o uso n&atilde;o &eacute; recomendado para crian&ccedil;as ou jovens muito novos, pois eles ainda est&atilde;o em fase de crescimento e podem suprir suas necessidades proteicas apenas com a alimenta&ccedil;&atilde;o regular.</p>
+<p>A recomenda&ccedil;&atilde;o geral para a introdu&ccedil;&atilde;o desse tipo de suplemento costuma ser a partir dos 16 anos, quando o corpo j&aacute; apresenta maior desenvolvimento e pode se beneficiar do aporte extra de prote&iacute;nas para a recupera&ccedil;&atilde;o muscular e ganho de massa. Entretanto, isso n&atilde;o significa que todos os adolescentes a partir dessa idade devem consumir suplementos. O acompanhamento de um profissional de sa&uacute;de, como nutricionista ou endocrinologista, &eacute; fundamental para orientar a dosagem, o tipo de produto e a adequa&ccedil;&atilde;o nutricional.</p>
+<p>Al&eacute;m disso, o consumo deve estar alinhado a uma rotina de exerc&iacute;cios f&iacute;sicos adequada e supervisionada, garantindo que o suplemento realmente complemente a dieta e n&atilde;o substitua refei&ccedil;&otilde;es importantes ou alimentos naturais.</p>
+<h2>Por Que A Alimenta&ccedil;&atilde;o Natural Ainda &Eacute; Prioridade</h2>
+<p>Apesar da popularidade dos suplementos, a alimenta&ccedil;&atilde;o natural continua sendo o pilar da nutri&ccedil;&atilde;o para adolescentes. Alimentos como carnes magras, ovos, latic&iacute;nios, leguminosas, frutas e vegetais fornecem n&atilde;o apenas prote&iacute;nas, mas tamb&eacute;m uma gama de nutrientes essenciais para o desenvolvimento saud&aacute;vel.</p>
+<p>Uma dieta equilibrada oferece todos os amino&aacute;cidos necess&aacute;rios para a s&iacute;ntese proteica e a manuten&ccedil;&atilde;o dos tecidos, al&eacute;m de outros benef&iacute;cios que os suplementos n&atilde;o conseguem proporcionar, como fibras e compostos bioativos.</p>
+<p>Outra quest&atilde;o importante &eacute; a seguran&ccedil;a: o consumo excessivo de prote&iacute;nas, especialmente de fontes concentradas, pode sobrecarregar os rins e o f&iacute;gado, &oacute;rg&atilde;os respons&aacute;veis pelo metabolismo e elimina&ccedil;&atilde;o de subst&acirc;ncias. Por isso, a suplementa&ccedil;&atilde;o deve ser feita com cautela.</p>
+<h2>O Papel Do Suplemento Na Rotina Esportiva De Adolescentes</h2>
+<p>Para adolescentes que praticam atividades f&iacute;sicas intensas, como muscula&ccedil;&atilde;o, esportes de resist&ecirc;ncia ou modalidades que exigem for&ccedil;a e explos&atilde;o muscular, a ingest&atilde;o adequada de prote&iacute;nas &eacute; ainda mais crucial. O suplemento pode ajudar a suprir as demandas aumentadas desses jovens, especialmente quando a alimenta&ccedil;&atilde;o di&aacute;ria n&atilde;o &eacute; suficiente para garantir o aporte necess&aacute;rio.</p>
+<p>Nessas situa&ccedil;&otilde;es, o suplemento atua como um aliado para otimizar a recupera&ccedil;&atilde;o p&oacute;s-treino, reduzir a fadiga muscular e favorecer o ganho de massa magra. Contudo, isso s&oacute; ocorre se o uso for consciente e orientado por profissionais qualificados.</p>
+<h2>Principais Cuidados No Consumo</h2>
+<p>Existem alguns cuidados que devem ser observados para que o consumo do suplemento n&atilde;o traga preju&iacute;zos:</p>
+<p>- <strong>Avalia&ccedil;&atilde;o m&eacute;dica e nutricional:</strong> Antes de iniciar o uso, &eacute; importante passar por uma avalia&ccedil;&atilde;o completa para identificar poss&iacute;veis contraindica&ccedil;&otilde;es.</p>
+<p>- <strong>Qualidade do produto:</strong> Optar por suplementos de marcas confi&aacute;veis, que possuam certifica&ccedil;&otilde;es e n&atilde;o contenham subst&acirc;ncias proibidas ou contaminantes.</p>
+<p>- <strong>Dosagem adequada:</strong> Respeitar as quantidades indicadas, evitando excessos que possam sobrecarregar o organismo.</p>
+<p>- <strong>Hidrata&ccedil;&atilde;o:</strong> Manter uma boa ingest&atilde;o de l&iacute;quidos para auxiliar no funcionamento renal.</p>
+<p>- <strong>Alimenta&ccedil;&atilde;o equilibrada:</strong> N&atilde;o substituir refei&ccedil;&otilde;es por suplementos e manter uma dieta rica em alimentos naturais.</p>
+<h2>Poss&iacute;veis Efeitos Colaterais E Contraindica&ccedil;&otilde;es</h2>
+<p>Embora geralmente seguros quando usados corretamente, os suplementos proteicos podem causar efeitos adversos se consumidos em excesso ou sem orienta&ccedil;&atilde;o profissional. Dentre os poss&iacute;veis efeitos, destacam-se:</p>
+<p>- Problemas gastrointestinais, como gases, incha&ccedil;o e diarreia.</p>
+<p>- Sobrecarga renal, especialmente em pessoas com predisposi&ccedil;&atilde;o a doen&ccedil;as nos rins.</p>
+<p>- Alergias ou intoler&acirc;ncias, sobretudo em produtos derivados do leite.</p>
+<p>Al&eacute;m disso, o uso indiscriminado pode levar a desequil&iacute;brios nutricionais, quando o excesso de prote&iacute;nas prejudica o consumo de outros nutrientes essenciais.</p>
+<h2>Alternativas Naturais Para Aumentar A Ingest&atilde;o De Prote&iacute;nas</h2>
+<p>Para adolescentes que ainda n&atilde;o atingiram a idade recomendada para o uso de suplementos ou que preferem evitar o consumo, existem diversas op&ccedil;&otilde;es naturais para aumentar a ingest&atilde;o de prote&iacute;nas:</p>
+<p>- Ovos: fonte completa de prote&iacute;nas e nutrientes essenciais.</p>
+<p>- Carnes magras: como frango, peixe e peru.</p>
+<p>- Leguminosas: feij&atilde;o, lentilha e gr&atilde;o-de-bico s&atilde;o &oacute;timas fontes vegetais.</p>
+<p>- Latic&iacute;nios: iogurte, queijo e leite, que tamb&eacute;m ajudam no aporte proteico.</p>
+<p>- Oleaginosas: castanhas e am&ecirc;ndoas, que fornecem prote&iacute;nas e gorduras saud&aacute;veis.</p>
+<p>Essas escolhas contribuem para um desenvolvimento saud&aacute;vel e sustent&aacute;vel, sem depender exclusivamente de suplementos.</p>
+<h2>Mitos Comuns Sobre O Consumo Em Jovens</h2>
+<p>Diversos mitos cercam o uso de suplementos em adolescentes, o que pode gerar confus&atilde;o e decis&otilde;es inadequadas. Alguns dos mais comuns incluem:</p>
+<p>- <strong>"O suplemento &eacute; obrigat&oacute;rio para ganhar m&uacute;sculos."</strong> Na verdade, o ganho muscular depende de uma combina&ccedil;&atilde;o entre treino adequado, alimenta&ccedil;&atilde;o balanceada e descanso. O suplemento &eacute; apenas um complemento.</p>
+<p>- <strong>"Pode ser consumido em qualquer idade."</strong> O uso deve respeitar a maturidade do organismo e ser orientado por profissionais.</p>
+<p>- <strong>"Quanto mais prote&iacute;na, melhor."</strong> O excesso n&atilde;o traz benef&iacute;cios adicionais e pode ser prejudicial.</p>
+<p>- <strong>"Suplementos substituem refei&ccedil;&otilde;es."</strong> Eles s&atilde;o complementos, n&atilde;o substitutos dos alimentos naturais.</p>
+<p>Esclarecer essas quest&otilde;es &eacute; fundamental para que adolescentes e seus respons&aacute;veis tomem decis&otilde;es conscientes e seguras.</p>
+<h2>Considera&ccedil;&otilde;es Finais Sobre O Consumo Consciente</h2>
+<p>A introdu&ccedil;&atilde;o do suplemento proteico na rotina dos jovens deve ser feita com responsabilidade, priorizando sempre a sa&uacute;de e o desenvolvimento adequado. Ter a orienta&ccedil;&atilde;o de profissionais especializados, manter uma alimenta&ccedil;&atilde;o equilibrada e respeitar o ritmo do corpo s&atilde;o passos essenciais para que o consumo traga resultados positivos.</p>
+<p>Lembre-se de que o foco principal deve estar no est&iacute;mulo a h&aacute;bitos saud&aacute;veis, pr&aacute;tica regular de atividades f&iacute;sicas e cuidado com a alimenta&ccedil;&atilde;o natural, que juntos garantem o melhor desempenho e bem-estar durante a adolesc&ecirc;ncia.</p>
+<p>---</p>
+<p>Ao entender que o uso desse suplemento n&atilde;o &eacute; uma decis&atilde;o trivial, mas sim algo que deve ser avaliado cuidadosamente, adolescentes e familiares podem garantir que essa escolha seja feita no momento certo, com seguran&ccedil;a, e realmente contribua para a sa&uacute;de e os objetivos f&iacute;sicos.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        <div class="gs-footer__description" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui);">
+            Um espaço sobre Crianças e Bebês
+        </div>
+        
+        
+        <div class="gs-footer__copyright">
+            bebesbrasil.com.br - Copyright 2027 © Todos os Direitos Reservados
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>
